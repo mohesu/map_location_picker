@@ -1,4 +1,9 @@
-# map_location_picker:
+# map_location_picker: ![Pub Version](https://img.shields.io/pub/v/map_location_picker?color=blue&style=plastic)
+![GitHub Repo stars](https://img.shields.io/github/stars/rvndsngwn/map_location_picker?style=social)
+![GitHub Repo forks](https://img.shields.io/github/forks/rvndsngwn/map_location_picker?style=social)
+![GitHub Repo issues](https://img.shields.io/github/issues/rvndsngwn/map_location_picker?style=social)
+![GitHub Repo contributors](https://img.shields.io/github/contributors/rvndsngwn/map_location_picker?style=social)
+
 A FLutter package for picking a location on a map
 
 Update by MG :
