@@ -4,7 +4,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_api_headers/google_api_headers.dart';
 import 'package:map_location_picker/generated/l10n.dart';
 import 'package:map_location_picker/src/map.dart';
 import 'package:map_location_picker/src/providers/location_provider.dart';
@@ -19,7 +18,6 @@ import '../logger.dart';
 import 'model/auto_comp_iete_item.dart';
 import 'model/location_result.dart';
 import 'model/nearby_place.dart';
-import 'utils/location_utils.dart';
 
 class LocationPicker extends StatefulWidget {
   const LocationPicker(

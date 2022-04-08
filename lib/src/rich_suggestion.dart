@@ -6,7 +6,8 @@ class RichSuggestion extends StatelessWidget {
   final VoidCallback onTap;
   final AutoCompleteItem autoCompleteItem;
 
-  const RichSuggestion(this.autoCompleteItem, this.onTap, {Key? key}): super(key: key);
+  const RichSuggestion(this.autoCompleteItem, this.onTap, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,17 +15,18 @@ class RichSuggestion extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
-            margin: const EdgeInsets.all(5),
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: RichText(
-                    text: TextSpan(children: getStyledTexts(context)),
-                  ),
-                )
-              ],
-            )),
+          margin: const EdgeInsets.all(5),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: RichText(
+                  text: TextSpan(children: getStyledTexts(context)),
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -39,7 +41,6 @@ class RichSuggestion extends StatelessWidget {
         TextSpan(
           text: startText,
           style: const TextStyle(
-            color: Colors.grey,
             fontSize: 15,
             fontWeight: FontWeight.w300,
           ),
@@ -54,20 +55,18 @@ class RichSuggestion extends StatelessWidget {
       TextSpan(
         text: boldText,
         style: const TextStyle(
-          color: Colors.grey,
           fontSize: 15,
           fontWeight: FontWeight.w500,
         ),
       ),
     );
 
-    String remainingText = autoCompleteItem
-        .text
+    String remainingText = autoCompleteItem.text
         .substring(autoCompleteItem.offset + autoCompleteItem.length);
     result.add(
       TextSpan(
         text: remainingText,
-        style: const TextStyle(color: Colors.grey, fontSize: 15),
+        style: const TextStyle(fontSize: 15),
       ),
     );
 
