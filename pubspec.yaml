@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  intl:
+  intl: ^0.17.0
 
   google_maps_flutter: ^2.1.3
   geolocator: ^8.2.0
