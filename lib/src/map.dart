@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:android_intent/android_intent.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -308,6 +309,7 @@ class MapPickerState extends State<MapPicker> {
 
       List<dynamic> addressComponents =
           json['results'][0]['address_components'];
+
       String? streetNumber;
       String? route;
       String? locality;
@@ -316,26 +318,27 @@ class MapPickerState extends State<MapPicker> {
       String? country;
       String? postalCode;
       if (addressComponents.isNotEmpty) {
-        streetNumber = addressComponents.firstWhere(
-            (entry) => entry['types'].contains('street_number'))['long_name'];
-        route = addressComponents.firstWhere(
-            (entry) => entry['types'].contains('route'))['long_name'];
-        locality = addressComponents.firstWhere(
-            (entry) => entry['types'].contains('locality'))['long_name'];
-        administrativeAreaLevel2 = addressComponents.firstWhere((entry) =>
+        streetNumber = addressComponents.firstWhereOrNull(
+            (entry) => entry['types'].contains('street_number'))?['long_name'];
+        route = addressComponents.firstWhereOrNull(
+            (entry) => entry['types'].contains('route'))?['long_name'];
+        locality = addressComponents.firstWhereOrNull(
+            (entry) => entry['types'].contains('locality'))?['long_name'];
+        administrativeAreaLevel2 = addressComponents.firstWhereOrNull((entry) =>
             entry['types']
-                .contains('administrative_area_level_2'))['long_name'];
-        administrativeAreaLevel1 = addressComponents.firstWhere((entry) =>
+                .contains('administrative_area_level_2'))?['long_name'];
+        administrativeAreaLevel1 = addressComponents.firstWhereOrNull((entry) =>
             entry['types']
-                .contains('administrative_area_level_1'))['long_name'];
-        country = addressComponents.firstWhere(
-            (entry) => entry['types'].contains('country'))['long_name'];
-        postalCode = addressComponents.firstWhere(
-            (entry) => entry['types'].contains('postal_code'))['long_name'];
+                .contains('administrative_area_level_1'))?['long_name'];
+        country = addressComponents.firstWhereOrNull(
+            (entry) => entry['types'].contains('country'))?['long_name'];
+        postalCode = addressComponents.firstWhereOrNull(
+            (entry) => entry['types'].contains('postal_code'))?['long_name'];
       }
+
       return {
-        "placeId": json['results'][0]['place_id'] ?? "no place id",
-        "address": json['results'][0]['formatted_address'] ?? "no address",
+        "placeId": json['results'][0]['place_id'],
+        "address": json['results'][0]['formatted_address'],
         "streetNumber": streetNumber ?? "",
         "route": route ?? "",
         "locality": locality ?? "",
