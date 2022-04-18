@@ -334,8 +334,8 @@ class MapPickerState extends State<MapPicker> {
             (entry) => entry['types'].contains('postal_code'))['long_name'];
       }
       return {
-        "placeId": json['results'][0]['place_id'],
-        "address": json['results'][0]['formatted_address'],
+        "placeId": json['results'][0]['place_id'] ?? "no place id",
+        "address": json['results'][0]['formatted_address'] ?? "no address",
         "streetNumber": streetNumber ?? "",
         "route": route ?? "",
         "locality": locality ?? "",
