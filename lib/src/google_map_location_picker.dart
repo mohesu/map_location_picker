@@ -104,13 +104,11 @@ class LocationPickerState extends State<LocationPicker> {
   /// is hidden so as to give more room and better experience for the
   /// autocomplete list overlay.
   void searchPlace(String place) {
-    if (context == null) return;
-
     clearOverlay();
 
-    setState(() => hasSearchTerm = place.length > 0);
+    setState(() => hasSearchTerm = place.isNotEmpty);
 
-    if (place.length < 1) return;
+    if (place.isEmpty) return;
 
     final RenderBox renderBox = context.findRenderObject()! as RenderBox;
     Size size = renderBox.size;
@@ -199,9 +197,14 @@ class LocationPickerState extends State<LocationPicker> {
             aci.offset = t['matched_substrings'][0]['offset'];
             aci.length = t['matched_substrings'][0]['length'];
 
-            suggestions.add(RichSuggestion(aci, () {
-              decodeAndSelectPlace(aci.id);
-            }));
+            suggestions.add(
+              RichSuggestion(
+                aci,
+                () {
+                  decodeAndSelectPlace(aci.id);
+                },
+              ),
+            );
           }
         }
 
@@ -333,8 +336,8 @@ class LocationPickerState extends State<LocationPicker> {
   Future reverseGeocodeLatLng(LatLng latLng) async {
     final endpoint =
         "https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}"
-                "&key=${widget.apiKey}" +
-            "&language=${widget.language}";
+        "&key=${widget.apiKey}"
+        "&language=${widget.language}";
 
     final response = await http.get(
       Uri.parse(endpoint),

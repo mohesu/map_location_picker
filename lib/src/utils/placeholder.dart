@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PlaceholderWidget extends StatelessWidget {
-  const PlaceholderWidget(this.title, this.message, {Key? key}) : super(key: key);
+  const PlaceholderWidget(this.title, this.message, {Key? key})
+      : super(key: key);
 
   final String title;
   final String message;
@@ -13,12 +14,16 @@ class PlaceholderWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Text(title,
-              style: const TextStyle(fontSize: 32.0, color: Colors.black54),
-              textAlign: TextAlign.center),
-          Text(message,
-              style: const TextStyle(fontSize: 16.0, color: Colors.black54),
-              textAlign: TextAlign.center),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 32.0, color: Colors.black54),
+            textAlign: TextAlign.center,
+          ),
+          Text(
+            message,
+            style: const TextStyle(fontSize: 16.0, color: Colors.black54),
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );

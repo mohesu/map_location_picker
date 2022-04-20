@@ -1,8 +1,9 @@
-# map_location_picker: ![Pub Version](https://img.shields.io/pub/v/map_location_picker?color=blue&style=plastic)
-![GitHub Repo stars](https://img.shields.io/github/stars/rvndsngwn/map_location_picker?style=social)
-![GitHub Repo forks](https://img.shields.io/github/forks/rvndsngwn/map_location_picker?style=social)
-![GitHub Repo issues](https://img.shields.io/github/issues/rvndsngwn/map_location_picker?style=social)
-![GitHub Repo contributors](https://img.shields.io/github/contributors/rvndsngwn/map_location_picker?style=social)
+# map_location_picker: 
+[![Pub Version](https://img.shields.io/pub/v/map_location_picker?color=blue&style=plastic)](https://pub.dev/packages/map_location_picker)
+[![GitHub Repo stars](https://img.shields.io/github/stars/rvndsngwn/map_location_picker?style=social)](https://github.com/rvndsngwn/map_location_picker/stargazers)
+[![GitHub Repo forks](https://img.shields.io/github/forks/rvndsngwn/map_location_picker?style=social)](https://github.com/rvndsngwn/map_location_picker/fork)
+[![GitHub Repo issues](https://img.shields.io/github/issues/rvndsngwn/map_location_picker?style=social)](https://github.com/rvndsngwn/map_location_picker/issues)
+[![GitHub Repo contributors](https://img.shields.io/github/contributors/rvndsngwn/map_location_picker?style=social)](https://github.com/rvndsngwn/map_location_picker/graphs/contributors)
 
 A FLutter package for picking a location on a map
 
@@ -19,8 +20,6 @@ I made This plugin because google deprecated [Place Picker](https://developers.g
   <img src="https://raw.githubusercontent.com/humazed/google_map_location_picker/master/art/Screenshot_1.png" width=265 />
   <img src="https://raw.githubusercontent.com/humazed/google_map_location_picker/master/art/Screenshot_2.png" width=265 />
 </p>
-
-[![Demo](https://raw.githubusercontent.com/humazed/google_map_location_picker/master/art/ios_demo.png?raw=true)](https://www.youtube.com/watch?v=Ev1tqijch1o)
 
 ## Using
 

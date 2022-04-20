@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:android_intent/android_intent.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +12,6 @@ import 'package:map_location_picker/src/utils/loading_builder.dart';
 import 'package:map_location_picker/src/utils/log.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import '../logger.dart';
@@ -266,7 +264,7 @@ class MapPickerState extends State<MapPicker> {
                     ),
                   ),
                   const Spacer(),
-                  FloatingActionButton(
+                  FloatingActionButton.small(
                     onPressed: () {
                       Navigator.of(context).pop({
                         'location': LocationResult(
@@ -388,14 +386,12 @@ class MapPickerState extends State<MapPicker> {
     );
   }
 
-  var dialogOpen;
-  final Permission _permission = Permission.locationWhenInUse;
+  Future<dynamic>? dialogOpen;
   Future _checkGeolocationPermission() async {
     final geolocationStatus = await Geolocator.checkPermission();
     d("geolocationStatus = $geolocationStatus");
-
+    await Geolocator.requestPermission();
     if (geolocationStatus == LocationPermission.denied && dialogOpen == null) {
-      _permission.request();
       dialogOpen = _showDeniedDialog();
     } else if (geolocationStatus == LocationPermission.deniedForever &&
         dialogOpen == null) {
@@ -403,7 +399,6 @@ class MapPickerState extends State<MapPicker> {
     } else if (geolocationStatus == LocationPermission.whileInUse ||
         geolocationStatus == LocationPermission.always) {
       d('GeolocationStatus.granted');
-
       if (dialogOpen != null) {
         Navigator.of(context, rootNavigator: true).pop();
         dialogOpen = null;
@@ -472,37 +467,6 @@ class MapPickerState extends State<MapPicker> {
       },
     );
   }
-
-  // TODO: 9/12/2020 this is no longer needed, remove in the next release
-  Future _checkGps() async {
-    if (!(await Geolocator.isLocationServiceEnabled())) {
-      if (Theme.of(context).platform == TargetPlatform.android) {
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(S.of(context).cant_get_current_location),
-              content: Text(
-                  S.of(context).please_make_sure_you_enable_gps_and_try_again),
-              actions: <Widget>[
-                ElevatedButton(
-                  child: const Text('Ok'),
-                  onPressed: () {
-                    const AndroidIntent intent = AndroidIntent(
-                        action: 'android.settings.LOCATION_SOURCE_SETTINGS');
-
-                    intent.launch();
-                    Navigator.of(context, rootNavigator: true).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      }
-    }
-  }
 }
 
 class _MapFabs extends StatelessWidget {
@@ -512,8 +476,7 @@ class _MapFabs extends StatelessWidget {
     required this.layersButtonEnabled,
     required this.onToggleMapTypePressed,
     required this.onMyLocationPressed,
-  })  : assert(onToggleMapTypePressed != null),
-        super(key: key);
+  }) : super(key: key);
 
   final bool myLocationButtonEnabled;
   final bool layersButtonEnabled;
@@ -525,7 +488,7 @@ class _MapFabs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topRight,
-      margin: const EdgeInsets.only(top: kToolbarHeight + 24, right: 8),
+      margin: const EdgeInsets.only(top: kToolbarHeight + 50, right: 8),
       child: Column(
         children: <Widget>[
           if (layersButtonEnabled)

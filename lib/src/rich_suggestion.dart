@@ -11,21 +11,13 @@ class RichSuggestion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: InkWell(
-        onTap: onTap,
-        child: Container(
-          margin: const EdgeInsets.all(5),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: RichText(
-                  text: TextSpan(children: getStyledTexts(context)),
-                ),
-              )
-            ],
-          ),
+    return ListTile(
+      onTap: onTap,
+      leading: const Icon(Icons.location_city),
+      title: RichText(
+        text: TextSpan(
+          children: getStyledTexts(context),
+          style: const TextStyle(color: Colors.black),
         ),
       ),
     );
