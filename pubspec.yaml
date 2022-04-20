@@ -22,6 +22,7 @@ dependencies:
   intl_utils: ^2.6.1
   logger: ^1.1.0
   uuid: ^3.0.6
+  collection: ^1.15.0
 
 
 dev_dependencies:
