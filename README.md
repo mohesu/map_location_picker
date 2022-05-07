@@ -183,3 +183,5 @@ The google map from [Flutter's](https://github.com/flutter) [google_maps_flutter
 current location and permission from [BaseflowIT's](https://github.com/BaseflowIT) [flutter-geolocator](https://github.com/baseflowit/flutter-geolocator) package.
 
 The search bar from [Degreat's](https://github.com/blackmann) [locationpicker](https://github.com/blackmann/locationpicker) package.
+
+Update Null Safety and Android_v2 from [davemg3/google_map_location_picker](https://github.com/davemg3/google_map_location_picker/tree/null_safety_android_v2)
