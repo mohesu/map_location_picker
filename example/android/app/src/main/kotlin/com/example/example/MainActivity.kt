@@ -1,4 +1,4 @@
-package com.mohesu.hotel
+package com.example.example
 
 import io.flutter.embedding.android.FlutterActivity
 
