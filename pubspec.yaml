@@ -1,6 +1,6 @@
 name: map_location_picker
 description: Google Map location picker for flutter Based on google_maps_flutter.
-version: 1.0.0
+version: 1.0.0+1
 homepage: https://github.com/rvndsngwn/map_location_picker
 
 environment:

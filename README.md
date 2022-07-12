@@ -30,11 +30,11 @@ I made This plugin because google deprecated [Place Picker](https://developers.g
      <td>Places autocomplete</td>
   </tr>
   <tr>
-<td><img src="assets/GIF_4300.gif" width=270 height=480></td>
-<td><img src="assets/IMG_2480.PNG" width=270 height=480></td>
-<td><img src="assets/IMG_2482.PNG" width=270 height=480></td>
+<td><img src="https://raw.githubusercontent.com/rvndsngwn/map_location_picker/master/assets/GIF_4300.gif" width=270 height=480></td>
+<td><img src="https://raw.githubusercontent.com/rvndsngwn/map_location_picker/master/assets/IMG_2480.PNG" width=270 height=480></td>
+<td><img src="https://raw.githubusercontent.com/rvndsngwn/map_location_picker/master/assets/IMG_2482.PNG" width=270 height=480></td>
 </tr>
- </table>
+</table>
 
 ## Setup
 
@@ -206,7 +206,7 @@ See the `example` directory for a complete sample app.
 
 ## 💰You can help me by Donating
 
-[![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/rvndsngwn) [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/rvndsngwn) [![Ko-Fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/rvndsngwn)
+[![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/rvndsngwn) [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/rvndsngwn?country.x=IN&locale.x=en_GB) [![Ko-Fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/rvndsngwn)
 
 ### Parameters of the MapLocationPicker
 
