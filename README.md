@@ -1,10 +1,10 @@
 # map_location_picker:
 
 [![Pub Version](https://img.shields.io/pub/v/map_location_picker?color=blue&style=plastic)](https://pub.dev/packages/map_location_picker)
-[![GitHub Repo stars](https://img.shields.io/github/stars/rvndsngwn/map_location_picker?style=social)](https://github.com/rvndsngwn/map_location_picker/stargazers)
-[![GitHub Repo forks](https://img.shields.io/github/forks/rvndsngwn/map_location_picker?style=social)](https://github.com/rvndsngwn/map_location_picker/fork)
-[![GitHub Repo issues](https://img.shields.io/github/issues/rvndsngwn/map_location_picker?style=social)](https://github.com/rvndsngwn/map_location_picker/issues)
-[![GitHub Repo contributors](https://img.shields.io/github/contributors/rvndsngwn/map_location_picker?style=social)](https://github.com/rvndsngwn/map_location_picker/graphs/contributors)
+[![GitHub Repo stars](https://img.shields.io/github/stars/rvndsngwn/map_location_picker?color=gold&style=plastic)](https://github.com/rvndsngwn/map_location_picker/stargazers)
+[![GitHub Repo forks](https://img.shields.io/github/forks/rvndsngwn/map_location_picker?color=slateblue&style=plastic)](https://github.com/rvndsngwn/map_location_picker/fork)
+[![GitHub Repo issues](https://img.shields.io/github/issues/rvndsngwn/map_location_picker?color=coral&style=plastic)](https://github.com/rvndsngwn/map_location_picker/issues)
+[![GitHub Repo contributors](https://img.shields.io/github/contributors/rvndsngwn/map_location_picker?color=green&style=plastic)](https://github.com/rvndsngwn/map_location_picker/graphs/contributors)
 
 # A simple library to pick a location on a map.
 
@@ -42,7 +42,7 @@ Pubspec changes:
 
 ```
       dependencies:
-        map_location_picker: ^1.0.0
+        map_location_picker: ^1.0.0+2
 ```
 You can now add a `GoogleMap` widget to your widget tree.
 
@@ -66,8 +66,8 @@ MapLocationPicker(
   - Maps SDK for Android
   - Maps SDK for iOS
   - Places API
-  - Geolocation API
   - Geocoding API
+  - Maps JavaScript API
 
 - And ensure to enable billing for the project.
 

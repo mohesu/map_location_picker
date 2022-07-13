@@ -1,3 +1,9 @@
+## 1.0.0+2
+* Readme updated
+
+## 1.0.0+1
+* Readme updated
+
 ## 1.0.0
 * Remake of the entire project form scratch.
 * Added new features and UI customizations.
