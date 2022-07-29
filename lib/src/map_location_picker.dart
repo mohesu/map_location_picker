@@ -210,22 +210,22 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
   final TextEditingController _searchController = TextEditingController();
 
   /// initial latitude & longitude
-  late LatLng _initialPosition = const LatLng(28.8993468, 76.6250249);
+  LatLng _initialPosition = const LatLng(28.8993468, 76.6250249);
 
   /// initial address text
-  late String _address = "Tap on map to get address";
+  String _address = "Tap on map to get address";
 
   /// Map type (default: MapType.normal)
-  late MapType _mapType = MapType.normal;
+  MapType _mapType = MapType.normal;
 
   /// initial zoom level
-  late double _zoom = 18.0;
+  double _zoom = 18.0;
 
   /// GeoCoding result for further use
-  late GeocodingResult? _geocodingResult;
+  GeocodingResult? _geocodingResult;
 
   /// GeoCoding results list for further use
-  late List<GeocodingResult> _geocodingResultList = [];
+  List<GeocodingResult> _geocodingResultList = [];
 
   /// Camera position moved to location
   CameraPosition cameraPosition() {
@@ -250,12 +250,32 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
         locationType: widget.locationType,
         resultType: widget.resultType,
       );
+
+      /// When get any error from the API, show the error in the console.
+      if (response.hasNoResults ||
+          response.isDenied ||
+          response.isInvalid ||
+          response.isNotFound ||
+          response.unknownError ||
+          response.isOverQueryLimit) {
+        logger.e(response.errorMessage);
+        _address = response.status;
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(response.errorMessage ??
+                  "Address not found, something went wrong!"),
+            ),
+          );
+        }
+        return;
+      }
       _address = response.results.first.formattedAddress ?? "";
       _geocodingResult = response.results.first;
-      setState(() {});
       if (response.results.length > 1) {
         _geocodingResultList = response.results;
       }
+      setState(() {});
     } catch (e) {
       logger.e(e);
     }
@@ -270,20 +290,43 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
         apiHeaders: widget.placesApiHeaders,
         baseUrl: widget.placesBaseUrl,
       );
-      final result = await places.getDetailsByPlaceId(
+      final response = await places.getDetailsByPlaceId(
         placeId,
         region: widget.region,
         sessionToken: widget.sessionToken,
         language: widget.language,
         fields: widget.fields,
       );
-      _initialPosition = LatLng(result.result.geometry?.location.lat ?? 0,
-          result.result.geometry?.location.lng ?? 0);
+
+      /// When get any error from the API, show the error in the console.
+      if (response.hasNoResults ||
+          response.isDenied ||
+          response.isInvalid ||
+          response.isNotFound ||
+          response.unknownError ||
+          response.isOverQueryLimit) {
+        logger.e(response.errorMessage);
+        _address = response.status;
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(response.errorMessage ??
+                  "Address not found, something went wrong!"),
+            ),
+          );
+        }
+        return;
+      }
+
+      _initialPosition = LatLng(
+        response.result.geometry?.location.lat ?? 0,
+        response.result.geometry?.location.lng ?? 0,
+      );
       final controller = await _controller.future;
       controller
           .animateCamera(CameraUpdate.newCameraPosition(cameraPosition()));
-      _address = result.result.formattedAddress ?? "";
-      widget.onSuggestionSelected?.call(result);
+      _address = response.result.formattedAddress ?? "";
+      widget.onSuggestionSelected?.call(response);
       setState(() {});
     } catch (e) {
       logger.e(e);

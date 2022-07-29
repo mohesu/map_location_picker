@@ -1,3 +1,10 @@
+## 1.0.1
+* google_maps_flutter package updated to 2.1.10
+* form_builder_extra_fields package updated to 8.3.0
+* geolocator package updated to 9.0.1
+* Cannot select a location directly after searching in the search bar [#5](https://github.com/rvndsngwn/map_location_picker/issues/5) resolved.
+* LateInitializationError on _geocodingresult [#6](https://github.com/rvndsngwn/map_location_picker/issues/6) resolved.
+
 ## 1.0.0+2
 * Readme updated
 

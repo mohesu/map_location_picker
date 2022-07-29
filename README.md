@@ -15,9 +15,9 @@ Made by Arvind [@rvndsngwn](https://github.com/rvndsngwn):
 - Added support for flutter web
 - All new customizations are done in the `MapLocationPicker` class
 
-|             | Android | iOS    |
-| ----------- | ------- | ------ |
-| **Support** | SDK 20+ | iOS 9+ |
+|             | Android | iOS    | Flutter Web |
+| ----------- | ------- | ------ | ----------- |
+| **Support** | SDK 20+ | iOS 9+ | Yes         |
 
 Location picker using the official [google_maps_flutter](https://pub.dev/packages/google_maps_flutter).
 
@@ -30,9 +30,9 @@ I made This plugin because google deprecated [Place Picker](https://developers.g
      <td>Places autocomplete</td>
   </tr>
   <tr>
-<td><img src="https://raw.githubusercontent.com/rvndsngwn/map_location_picker/master/assets/GIF_4300.gif" width=270 height=480></td>
-<td><img src="https://raw.githubusercontent.com/rvndsngwn/map_location_picker/master/assets/IMG_2480.PNG" width=270 height=480></td>
-<td><img src="https://raw.githubusercontent.com/rvndsngwn/map_location_picker/master/assets/IMG_2482.PNG" width=270 height=480></td>
+<td><img src="https://raw.githubusercontent.com/rvndsngwn/map_location_picker/master/assets/GIF_4300.gif" width=270 height=480 alt=""></td>
+<td><img src="https://raw.githubusercontent.com/rvndsngwn/map_location_picker/master/assets/IMG_2480.PNG" width=270 height=480 alt=""></td>
+<td><img src="https://raw.githubusercontent.com/rvndsngwn/map_location_picker/master/assets/IMG_2482.PNG" width=270 height=480 alt=""></td>
 </tr>
 </table>
 
@@ -42,7 +42,7 @@ Pubspec changes:
 
 ```
       dependencies:
-        map_location_picker: ^1.0.0+2
+        map_location_picker: ^1.0.1
 ```
 You can now add a `GoogleMap` widget to your widget tree.
 
@@ -204,9 +204,6 @@ MapLocationPicker(
 
 See the `example` directory for a complete sample app.
 
-## 💰You can help me by Donating
-
-[![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/rvndsngwn) [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/rvndsngwn?country.x=IN&locale.x=en_GB) [![Ko-Fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/rvndsngwn)
 
 ### Parameters of the MapLocationPicker
 
@@ -344,3 +341,11 @@ final String? region;
 /// fields
 final List<String> fields;
 ```
+## 💰You can help me by Donating
+
+[![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/rvndsngwn) [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/rvndsngwn?country.x=IN&locale.x=en_GB) [![Ko-Fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/rvndsngwn)
+
+## 👨🏻‍💻Contribute to the project
+All contributions are welcome.
+
+[![GitHub](https://img.shields.io/badge/GitHub-0f0f0f?style=for-the-badge&logo=github&logoColor=white)](https://github.com/rvndsngwn/map_location_picker)

@@ -89,6 +89,19 @@ class AutoCompleteState extends ChangeNotifier {
         types: types,
       );
 
+      /// When get any error from the API, show the error in the console.
+      if (response.hasNoResults ||
+          response.isDenied ||
+          response.isInvalid ||
+          response.isNotFound ||
+          response.unknownError ||
+          response.isOverQueryLimit) {
+        if (query.isNotEmpty) {
+          logger.e(response.errorMessage);
+        }
+        return;
+      }
+
       /// Update the results with the new results.
       results = response.predictions;
 

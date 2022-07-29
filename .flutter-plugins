@@ -1,11 +1,11 @@
 # This is a generated file; do not edit or check into version control.
 flutter_keyboard_visibility=/Users/arvindsangwan/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_keyboard_visibility-5.3.0/
 flutter_keyboard_visibility_web=/Users/arvindsangwan/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_keyboard_visibility_web-2.0.0/
-flutter_plugin_android_lifecycle=/Users/arvindsangwan/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.6/
-geolocator=/Users/arvindsangwan/flutter/.pub-cache/hosted/pub.dartlang.org/geolocator-9.0.0/
-geolocator_android=/Users/arvindsangwan/flutter/.pub-cache/hosted/pub.dartlang.org/geolocator_android-4.0.0/
-geolocator_apple=/Users/arvindsangwan/flutter/.pub-cache/hosted/pub.dartlang.org/geolocator_apple-2.2.0/
-geolocator_web=/Users/arvindsangwan/flutter/.pub-cache/hosted/pub.dartlang.org/geolocator_web-2.1.5/
+flutter_plugin_android_lifecycle=/Users/arvindsangwan/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.7/
+geolocator=/Users/arvindsangwan/flutter/.pub-cache/hosted/pub.dartlang.org/geolocator-9.0.1/
+geolocator_android=/Users/arvindsangwan/flutter/.pub-cache/hosted/pub.dartlang.org/geolocator_android-4.0.2/
+geolocator_apple=/Users/arvindsangwan/flutter/.pub-cache/hosted/pub.dartlang.org/geolocator_apple-2.2.1/
+geolocator_web=/Users/arvindsangwan/flutter/.pub-cache/hosted/pub.dartlang.org/geolocator_web-2.1.6/
 geolocator_windows=/Users/arvindsangwan/flutter/.pub-cache/hosted/pub.dartlang.org/geolocator_windows-0.1.1/
-google_maps_flutter=/Users/arvindsangwan/flutter/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter-2.1.8/
+google_maps_flutter=/Users/arvindsangwan/flutter/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter-2.1.10/
 google_maps_flutter_web=/Users/arvindsangwan/flutter/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter_web-0.4.0+1/
