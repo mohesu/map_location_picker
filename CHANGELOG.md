@@ -1,3 +1,10 @@
+## 1.0.2
+* [#7](https://github.com/rvndsngwn/map_location_picker/issues/7) Enhancement: Add support for current position.
+* New Parameters in `MapLocationPicker` class :- `currentLatLng`, `mapType` and `searchController`
+* Now PlacesAutocomplete search text field is a separate widget `PlacesAutocomplete` which can be used independently. 
+* Dependencies updated.
+* Provider removed.
+
 ## 1.0.1
 * google_maps_flutter package updated to 2.1.10
 * form_builder_extra_fields package updated to 8.3.0

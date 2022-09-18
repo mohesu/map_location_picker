@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 
 void main() {
@@ -20,6 +21,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String address = "null";
   String autocompletePlace = "null";
+
+  final TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +33,19 @@ class _MyAppState extends State<MyApp> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          PlacesAutocomplete(
+            searchController: _controller,
+            apiKey: "YOUR_API_KEY_HERE",
+            mounted: mounted,
+            showBackButton: false,
+            onGetDetailsByPlaceId: (PlacesDetailsResponse? result) {
+              if (result != null) {
+                setState(() {
+                  autocompletePlace = result.result.formattedAddress ?? "";
+                });
+              }
+            },
+          ),
           const Spacer(),
           const Padding(
             padding: EdgeInsets.all(8.0),
@@ -42,6 +58,18 @@ class _MyAppState extends State<MyApp> {
               ),
             ),
           ),
+          TextButton(
+            onPressed: () => Clipboard.setData(
+              const ClipboardData(text: "https://www.mohesu.com"),
+            ).then(
+              (value) => ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Copied to Clipboard"),
+                ),
+              ),
+            ),
+            child: const Text("https://www.mohesu.com"),
+          ),
           const Spacer(),
           Center(
             child: ElevatedButton(
@@ -52,8 +80,9 @@ class _MyAppState extends State<MyApp> {
                   MaterialPageRoute(
                     builder: (context) {
                       return MapLocationPicker(
-                        apiKey: "API_KEY_HERE",
+                        apiKey: "YOUR_API_KEY_HERE",
                         canPopOnNextButtonTaped: true,
+                        currentLatLng: const LatLng(29.121599, 76.396698),
                         onNext: (GeocodingResult? result) {
                           if (result != null) {
                             setState(() {
@@ -76,6 +105,7 @@ class _MyAppState extends State<MyApp> {
               },
             ),
           ),
+          const Spacer(),
           ListTile(
             title: Text("Geocoded Address: $address"),
           ),

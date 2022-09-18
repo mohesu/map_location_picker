@@ -1,10 +1,15 @@
 import "package:google_maps_webservice/places.dart";
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 
 import 'logger.dart';
 
-class AutoCompleteState extends ChangeNotifier {
+class AutoCompleteState {
+  AutoCompleteState({
+    this.httpClient,
+    this.apiHeaders,
+    this.baseUrl,
+  });
+
   /// httpClient is used to make network requests.
   final Client? httpClient;
 
@@ -14,17 +19,11 @@ class AutoCompleteState extends ChangeNotifier {
   /// baseUrl is used to build the url for the request.
   final String? baseUrl;
 
-  AutoCompleteState({
-    this.httpClient,
-    this.apiHeaders,
-    this.baseUrl,
-  });
-
   /// The current state of the autocomplete.
-  List<Prediction> results = [];
+  List<Prediction> predictions = [];
 
   /// void future function to get the autocomplete results.
-  Future<void> search(
+  Future<List<Prediction>> search(
     /// final String input,
     String query,
 
@@ -99,17 +98,20 @@ class AutoCompleteState extends ChangeNotifier {
         if (query.isNotEmpty) {
           logger.e(response.errorMessage);
         }
-        return;
+        return [];
       }
 
       /// Update the results with the new results.
-      results = response.predictions;
+      predictions = response.predictions;
 
-      /// Notify the listeners.
-      notifyListeners();
+      logger.d(predictions.map((e) => e.toJson()).toList());
+
+      /// Return the results.
+      return predictions;
     } catch (err) {
       /// Log the error
       logger.e(err);
+      return [];
     }
   }
 }
