@@ -130,6 +130,8 @@ class MapLocationPicker extends StatefulWidget {
   /// language: 'en',
   final String? language;
 
+  final TextStyle? buttonTextStyle;
+
   /// Types for restricting results to a set of place types
   final List<String> types;
 
@@ -139,6 +141,7 @@ class MapLocationPicker extends StatefulWidget {
 
   /// Bounds for restricting results to a set of bounds
   final bool strictbounds;
+  final bool showMapSwitcher;
 
   /// Region for restricting results to a set of regions
   /// region: "us"
@@ -164,6 +167,8 @@ class MapLocationPicker extends StatefulWidget {
     this.geoCodingHttpClient,
     this.geoCodingApiHeaders,
     this.language,
+    this.showMapSwitcher = true,
+    this.buttonTextStyle,
     this.locationType = const [],
     this.resultType = const [],
     this.minMaxZoomPreference = const MinMaxZoomPreference(10, 20),
@@ -392,55 +397,56 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                 },
               ),
               const Spacer(),
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Card(
-                  color: Theme.of(context).primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(360),
-                  ),
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.5),
-                    child: PopupMenuButton(
-                      tooltip: 'Map Type',
-                      initialValue: _mapType,
-                      icon: Icon(
-                        Icons.layers,
-                        color: Theme.of(context).colorScheme.onPrimary,
+              if (widget.showMapSwitcher)
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Card(
+                    color: Theme.of(context).primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(360),
+                    ),
+                    elevation: 5,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.5),
+                      child: PopupMenuButton(
+                        tooltip: 'Map Type',
+                        initialValue: _mapType,
+                        icon: Icon(
+                          Icons.layers,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                        onSelected: (MapType mapType) {
+                          setState(() {
+                            _mapType = mapType;
+                          });
+                        },
+                        itemBuilder: (context) => const [
+                          PopupMenuItem(
+                            value: MapType.normal,
+                            child: Text('Normal'),
+                          ),
+                          PopupMenuItem(
+                            value: MapType.hybrid,
+                            child: Text('Hybrid'),
+                          ),
+                          PopupMenuItem(
+                            value: MapType.satellite,
+                            child: Text('Satellite'),
+                          ),
+                          PopupMenuItem(
+                            value: MapType.terrain,
+                            child: Text('Terrain'),
+                          ),
+                        ],
                       ),
-                      onSelected: (MapType mapType) {
-                        setState(() {
-                          _mapType = mapType;
-                        });
-                      },
-                      itemBuilder: (context) => const [
-                        PopupMenuItem(
-                          value: MapType.normal,
-                          child: Text('Normal'),
-                        ),
-                        PopupMenuItem(
-                          value: MapType.hybrid,
-                          child: Text('Hybrid'),
-                        ),
-                        PopupMenuItem(
-                          value: MapType.satellite,
-                          child: Text('Satellite'),
-                        ),
-                        PopupMenuItem(
-                          value: MapType.terrain,
-                          child: Text('Terrain'),
-                        ),
-                      ],
                     ),
                   ),
                 ),
-              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: FloatingActionButton(
                   tooltip: 'My Location',
-                  backgroundColor: Theme.of(context).primaryColor,
+                  backgroundColor: Colors.white,
                   foregroundColor: Theme.of(context).colorScheme.onPrimary,
                   onPressed: () async {
                     await Geolocator.requestPermission();
@@ -457,7 +463,10 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                         lat: position.latitude, lng: position.longitude));
                     setState(() {});
                   },
-                  child: const Icon(Icons.my_location),
+                  child: Icon(
+                    Icons.my_location,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
               ),
               Card(
@@ -467,17 +476,68 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ListTile(
-                      title: Text(_address),
-                      trailing: IconButton(
-                        tooltip: widget.bottomCardTooltip,
-                        icon: widget.bottomCardIcon,
-                        onPressed: () async {
-                          widget.onNext.call(_geocodingResult);
-                          if (widget.canPopOnNextButtonTaped) {
-                            Navigator.pop(context);
-                          }
-                        },
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 16, top: 16, right: 16),
+                      child: Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Your Location",
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.grey.shade500),
+                              ),
+                              SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  Icon(Icons.location_on_outlined,
+                                      color: Colors.grey.shade500),
+                                  SizedBox(width: 10),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width /
+                                        1.39,
+                                    child: Text(
+                                      _address,
+                                      maxLines: 4,
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 16),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              height: 60,
+                              child: ElevatedButton(
+                                child: Text('Confirm Location'),
+                                onPressed: () {
+                                  widget.onNext.call(_geocodingResult);
+                                  if (widget.canPopOnNextButtonTaped) {
+                                    Navigator.pop(context);
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                    ),
+                                    primary: Theme.of(context).primaryColor,
+                                    textStyle: widget.buttonTextStyle ??
+                                        TextStyle(fontSize: 20)),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     if (widget.showMoreOptions &&
