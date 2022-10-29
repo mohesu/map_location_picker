@@ -475,8 +475,8 @@ class PlacesAutocomplete extends StatelessWidget {
           minVerticalPadding: 0,
           contentPadding: const EdgeInsets.only(right: 4, left: 4),
           leading: showBackButton ? const BackButton() : backButton,
-          title: ClipRRect(
-            borderRadius: borderRadius,
+          title: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
             child: FormBuilderTypeAhead<Prediction>(
               decoration: decoration ??
                   InputDecoration(

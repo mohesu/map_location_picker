@@ -3,7 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
+<<<<<<< HEAD
 	objectVersion = 54;
+=======
+	objectVersion = 51;
+>>>>>>> 768beba (UI modified)
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -68,7 +72,6 @@
 				A01D19AE3AD7960400F0A6FF /* Pods-Runner.release.xcconfig */,
 				2A06672D6F62CD514FF010F5 /* Pods-Runner.profile.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -376,7 +379,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = M3GXZNPQYJ;
+				DEVELOPMENT_TEAM = T286PM5P72;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -505,7 +508,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = M3GXZNPQYJ;
+				DEVELOPMENT_TEAM = T286PM5P72;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -528,7 +531,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = M3GXZNPQYJ;
+				DEVELOPMENT_TEAM = T286PM5P72;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
