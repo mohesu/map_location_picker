@@ -313,10 +313,10 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black),
         automaticallyImplyLeading: _searchController.text.isEmpty,
-        toolbarHeight: 80,
+        toolbarHeight: 90,
         title: Container(
           width: double.infinity,
-          height: 50,
+          height: 60,
           color: Colors.white,
           child: Center(
             child: PlacesAutocomplete(
