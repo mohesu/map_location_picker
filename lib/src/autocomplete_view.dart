@@ -5,7 +5,7 @@ import 'package:http/http.dart';
 import '../map_location_picker.dart';
 import 'logger.dart';
 
-class PlacesAutocomplete extends StatelessWidget {
+class PlacesAutocomplete extends StatefulWidget {
   /// API key for the map & places
   final String apiKey;
 
@@ -96,6 +96,7 @@ class PlacesAutocomplete extends StatelessWidget {
 
   /// Can show clear button on search text field
   final bool showClearButton;
+  final Function(Prediction?)? onChange;
 
   /// suffix icon for search text field. You can use [showClearButton] to show clear button or replace with suffix icon
   final Widget? suffixIcon;
@@ -103,6 +104,7 @@ class PlacesAutocomplete extends StatelessWidget {
   const PlacesAutocomplete({
     Key? key,
     required this.apiKey,
+    this.onChange,
     this.language,
     this.topCardMargin = const EdgeInsets.all(8),
     this.topCardColor,
@@ -110,7 +112,7 @@ class PlacesAutocomplete extends StatelessWidget {
       borderRadius: BorderRadius.all(Radius.circular(12)),
     ),
     this.borderRadius = const BorderRadius.all(Radius.circular(12)),
-    this.searchHintText = "Start typing to search",
+    this.searchHintText = "Search",
     this.showBackButton = true,
     this.backButton,
     this.placesHttpClient,
@@ -135,21 +137,26 @@ class PlacesAutocomplete extends StatelessWidget {
     this.suffixIcon,
   }) : super(key: key);
 
+  @override
+  State<PlacesAutocomplete> createState() => _PlacesAutocompleteState();
+}
+
+class _PlacesAutocompleteState extends State<PlacesAutocomplete> {
   /// Get address details from place id
   void _getDetailsByPlaceId(String placeId, BuildContext context) async {
     try {
       final GoogleMapsPlaces places = GoogleMapsPlaces(
-        apiKey: apiKey,
-        httpClient: placesHttpClient,
-        apiHeaders: placesApiHeaders,
-        baseUrl: placesBaseUrl,
+        apiKey: widget.apiKey,
+        httpClient: widget.placesHttpClient,
+        apiHeaders: widget.placesApiHeaders,
+        baseUrl: widget.placesBaseUrl,
       );
       final PlacesDetailsResponse response = await places.getDetailsByPlaceId(
         placeId,
-        region: region,
-        sessionToken: sessionToken,
-        language: language,
-        fields: fields,
+        region: widget.region,
+        sessionToken: widget.sessionToken,
+        language: widget.language,
+        fields: widget.fields,
       );
 
       /// When get any error from the API, show the error in the console.
@@ -160,7 +167,7 @@ class PlacesAutocomplete extends StatelessWidget {
           response.unknownError ||
           response.isOverQueryLimit) {
         logger.e(response.errorMessage);
-        if (mounted) {
+        if (widget.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(response.errorMessage ??
@@ -170,7 +177,7 @@ class PlacesAutocomplete extends StatelessWidget {
         }
         return;
       }
-      onGetDetailsByPlaceId?.call(response);
+      widget.onGetDetailsByPlaceId?.call(response);
     } catch (e) {
       logger.e(e);
     }
@@ -178,75 +185,141 @@ class PlacesAutocomplete extends StatelessWidget {
 
   AutoCompleteState autoCompleteState() {
     return AutoCompleteState(
-      apiHeaders: placesApiHeaders,
-      baseUrl: placesBaseUrl,
-      httpClient: placesHttpClient,
+      apiHeaders: widget.placesApiHeaders,
+      baseUrl: widget.placesBaseUrl,
+      httpClient: widget.placesHttpClient,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Card(
-        margin: topCardMargin,
-        shape: topCardShape,
-        color: topCardColor,
-        child: ListTile(
-          minVerticalPadding: 0,
-          contentPadding: const EdgeInsets.only(right: 4, left: 4),
-          leading: showBackButton ? const BackButton() : backButton,
-          title: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
-            child: FormBuilderTypeAhead<Prediction>(
-              decoration: InputDecoration(
-                hintText: searchHintText,
-                border: InputBorder.none,
-                filled: true,
-                suffixIcon: showClearButton
-                    ? IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: () => searchController.clear(),
-                      )
-                    : suffixIcon,
-              ),
-              name: 'Search',
-              controller: searchController,
-              selectionToTextTransformer: (result) {
-                return result.description ?? "";
-              },
-              itemBuilder: (context, continent) {
-                return ListTile(
-                  title: Text(continent.description ?? ""),
-                );
-              },
-              suggestionsCallback: (query) async {
-                List<Prediction> predictions = await autoCompleteState().search(
-                  query,
-                  apiKey,
-                  language: language,
-                  sessionToken: sessionToken,
-                  region: region,
-                  components: components,
-                  location: location,
-                  offset: offset,
-                  origin: origin,
-                  radius: radius,
-                  strictbounds: strictbounds,
-                  types: types,
-                );
-                return predictions;
-              },
-              onSuggestionSelected: (value) async {
-                searchController.selection = TextSelection.collapsed(
-                    offset: searchController.text.length);
-                _getDetailsByPlaceId(value.placeId ?? "", context);
-                onSuggestionSelected?.call(value);
-              },
-              hideSuggestionsOnKeyboardHide: hideSuggestionsOnKeyboardHide,
-            ),
+    return FormBuilderTypeAhead<Prediction>(
+      decoration: InputDecoration(
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: Color(0xFFF6F7F9),
+          ),
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15.0),
+          borderSide: const BorderSide(
+            color: Color(0xFFF6F7F9),
           ),
         ),
+        border: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.grey),
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        hintText: widget.searchHintText,
+        filled: true,
+        suffixIcon:
+            widget.showClearButton && widget.searchController.text.isNotEmpty
+                ? IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => widget.searchController.clear(),
+                  )
+                : widget.suffixIcon,
       ),
+      name: 'Search',
+      onChanged: (s) {},
+      controller: widget.searchController,
+      selectionToTextTransformer: (result) {
+        return result.description ?? "";
+      },
+      itemBuilder: (context, continent) {
+        return ListTile(
+          title: Text(continent.description ?? ""),
+        );
+      },
+      suggestionsCallback: (query) async {
+        List<Prediction> predictions = await autoCompleteState().search(
+          query,
+          widget.apiKey,
+          language: widget.language,
+          sessionToken: widget.sessionToken,
+          region: widget.region,
+          components: widget.components,
+          location: widget.location,
+          offset: widget.offset,
+          origin: widget.origin,
+          radius: widget.radius,
+          strictbounds: widget.strictbounds,
+          types: widget.types,
+        );
+        return predictions;
+      },
+      onSuggestionSelected: (value) async {
+        widget.searchController.selection = TextSelection.collapsed(
+            offset: widget.searchController.text.length);
+        _getDetailsByPlaceId(value.placeId ?? "", context);
+        widget.onSuggestionSelected?.call(value);
+      },
+      hideSuggestionsOnKeyboardHide: widget.hideSuggestionsOnKeyboardHide,
     );
+    // return SafeArea(
+    //   child: Card(
+    //     margin: widget.topCardMargin,
+    //     shape: widget.topCardShape,
+    //     color: widget.topCardColor,
+    //     child: ListTile(
+    //       minVerticalPadding: 0,
+    //       contentPadding: const EdgeInsets.only(right: 4, left: 4),
+    //       leading:
+    //           widget.showBackButton ? const BackButton() : widget.backButton,
+    //       title: Padding(
+    //         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+    //         child: FormBuilderTypeAhead<Prediction>(
+    //           decoration: InputDecoration(
+    //             hintText: widget.searchHintText,
+    //             border: InputBorder.none,
+    //             filled: true,
+    //             suffixIcon: widget.showClearButton
+    //                 ? IconButton(
+    //                     icon: const Icon(Icons.close),
+    //                     onPressed: () => widget.searchController.clear(),
+    //                   )
+    //                 : widget.suffixIcon,
+    //           ),
+    //           name: 'Search',
+    //           controller: widget.searchController,
+    //           selectionToTextTransformer: (result) {
+    //             return result.description ?? "";
+    //           },
+    //           itemBuilder: (context, continent) {
+    //             return ListTile(
+    //               title: Text(continent.description ?? ""),
+    //             );
+    //           },
+    //           suggestionsCallback: (query) async {
+    //             List<Prediction> predictions = await autoCompleteState().search(
+    //               query,
+    //               widget.apiKey,
+    //               language: widget.language,
+    //               sessionToken: widget.sessionToken,
+    //               region: widget.region,
+    //               components: widget.components,
+    //               location: widget.location,
+    //               offset: widget.offset,
+    //               origin: widget.origin,
+    //               radius: widget.radius,
+    //               strictbounds: widget.strictbounds,
+    //               types: widget.types,
+    //             );
+    //             return predictions;
+    //           },
+    //           onSuggestionSelected: (value) async {
+    //             widget.searchController.selection = TextSelection.collapsed(
+    //                 offset: widget.searchController.text.length);
+    //             _getDetailsByPlaceId(value.placeId ?? "", context);
+    //             widget.onSuggestionSelected?.call(value);
+    //           },
+    //           hideSuggestionsOnKeyboardHide:
+    //               widget.hideSuggestionsOnKeyboardHide,
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }

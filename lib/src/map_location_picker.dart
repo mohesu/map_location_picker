@@ -181,7 +181,7 @@ class MapLocationPicker extends StatefulWidget {
       borderRadius: BorderRadius.all(Radius.circular(12)),
     ),
     this.borderRadius = const BorderRadius.all(Radius.circular(12)),
-    this.searchHintText = "Start typing to search",
+    this.searchHintText = "Search for your address",
     this.bottomCardShape = const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(12)),
     ),
@@ -309,6 +309,66 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.black),
+        automaticallyImplyLeading: _searchController.text.isEmpty,
+        toolbarHeight: 80,
+        title: Container(
+          width: double.infinity,
+          height: 50,
+          color: Colors.white,
+          child: Center(
+            child: PlacesAutocomplete(
+              apiKey: widget.apiKey,
+              mounted: mounted,
+              searchController: _searchController,
+              borderRadius: widget.borderRadius,
+              offset: widget.offset,
+              radius: widget.radius,
+              backButton: widget.backButton,
+              components: widget.components,
+              fields: widget.fields,
+              hideSuggestionsOnKeyboardHide:
+                  widget.hideSuggestionsOnKeyboardHide,
+              language: widget.language,
+              location: widget.location,
+              origin: widget.origin,
+              placesApiHeaders: widget.placesApiHeaders,
+              placesBaseUrl: widget.placesBaseUrl,
+              placesHttpClient: widget.placesHttpClient,
+              region: widget.region,
+              searchHintText: widget.searchHintText,
+              sessionToken: widget.sessionToken,
+              showBackButton: widget.showBackButton,
+              strictbounds: widget.strictbounds,
+              topCardColor: widget.topCardColor,
+              topCardMargin: widget.topCardMargin,
+              topCardShape: widget.topCardShape,
+              types: widget.types,
+              onChange: (s) {
+                setState(() {});
+              },
+              onGetDetailsByPlaceId: (placesDetails) async {
+                if (placesDetails == null) {
+                  logger.e("placesDetails is null");
+                  return;
+                }
+                _initialPosition = LatLng(
+                  placesDetails.result.geometry?.location.lat ?? 0,
+                  placesDetails.result.geometry?.location.lng ?? 0,
+                );
+                final controller = await _controller.future;
+                controller.animateCamera(
+                    CameraUpdate.newCameraPosition(cameraPosition()));
+                _address = placesDetails.result.formattedAddress ?? "";
+                widget.onSuggestionSelected?.call(placesDetails);
+                setState(() {});
+              },
+            ),
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           /// Google map view
@@ -352,50 +412,51 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              PlacesAutocomplete(
-                apiKey: widget.apiKey,
-                mounted: mounted,
-                searchController: _searchController,
-                borderRadius: widget.borderRadius,
-                offset: widget.offset,
-                radius: widget.radius,
-                backButton: widget.backButton,
-                components: widget.components,
-                fields: widget.fields,
-                hideSuggestionsOnKeyboardHide:
-                    widget.hideSuggestionsOnKeyboardHide,
-                language: widget.language,
-                location: widget.location,
-                origin: widget.origin,
-                placesApiHeaders: widget.placesApiHeaders,
-                placesBaseUrl: widget.placesBaseUrl,
-                placesHttpClient: widget.placesHttpClient,
-                region: widget.region,
-                searchHintText: widget.searchHintText,
-                sessionToken: widget.sessionToken,
-                showBackButton: widget.showBackButton,
-                strictbounds: widget.strictbounds,
-                topCardColor: widget.topCardColor,
-                topCardMargin: widget.topCardMargin,
-                topCardShape: widget.topCardShape,
-                types: widget.types,
-                onGetDetailsByPlaceId: (placesDetails) async {
-                  if (placesDetails == null) {
-                    logger.e("placesDetails is null");
-                    return;
-                  }
-                  _initialPosition = LatLng(
-                    placesDetails.result.geometry?.location.lat ?? 0,
-                    placesDetails.result.geometry?.location.lng ?? 0,
-                  );
-                  final controller = await _controller.future;
-                  controller.animateCamera(
-                      CameraUpdate.newCameraPosition(cameraPosition()));
-                  _address = placesDetails.result.formattedAddress ?? "";
-                  widget.onSuggestionSelected?.call(placesDetails);
-                  setState(() {});
-                },
-              ),
+              // PlacesAutocomplete(
+              //   apiKey: widget.apiKey,
+              //   mounted: mounted,
+              //   searchController: _searchController,
+              //   borderRadius: widget.borderRadius,
+              //   offset: widget.offset,
+              //   radius: widget.radius,
+              //   backButton: widget.backButton,
+              //   components: widget.components,
+              //   fields: widget.fields,
+              //   hideSuggestionsOnKeyboardHide:
+              //       widget.hideSuggestionsOnKeyboardHide,
+              //   language: widget.language,
+              //   location: widget.location,
+              //   origin: widget.origin,
+              //   placesApiHeaders: widget.placesApiHeaders,
+              //   placesBaseUrl: widget.placesBaseUrl,
+              //   placesHttpClient: widget.placesHttpClient,
+              //   region: widget.region,
+              //   searchHintText: widget.searchHintText,
+              //   sessionToken: widget.sessionToken,
+              //   showBackButton: widget.showBackButton,
+              //   strictbounds: widget.strictbounds,
+              //   topCardColor: widget.topCardColor,
+              //   topCardMargin: widget.topCardMargin,
+              //   topCardShape: widget.topCardShape,
+              //   types: widget.types,
+              //   onGetDetailsByPlaceId: (placesDetails) async {
+              //     if (placesDetails == null) {
+              //       logger.e("placesDetails is null");
+              //       return;
+              //     }
+              //     _initialPosition = LatLng(
+              //       placesDetails.result.geometry?.location.lat ?? 0,
+              //       placesDetails.result.geometry?.location.lng ?? 0,
+              //     );
+              //     final controller = await _controller.future;
+              //     controller.animateCamera(
+              //         CameraUpdate.newCameraPosition(cameraPosition()));
+              //     _address = placesDetails.result.formattedAddress ?? "";
+              //     widget.onSuggestionSelected?.call(placesDetails);
+              //     setState(() {});
+              //   },
+              // ),
+
               const Spacer(),
               if (widget.showMapSwitcher)
                 Padding(
@@ -518,9 +579,8 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                         children: [
                           Expanded(
                             child: SizedBox(
-                              height: 60,
+                              height: 50,
                               child: ElevatedButton(
-                                child: Text('Confirm Location'),
                                 onPressed: () {
                                   widget.onNext.call(_geocodingResult);
                                   if (widget.canPopOnNextButtonTaped) {
@@ -533,7 +593,11 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                                     ),
                                     primary: Theme.of(context).primaryColor,
                                     textStyle: widget.buttonTextStyle ??
-                                        TextStyle(fontSize: 20)),
+                                        const TextStyle(fontSize: 16)),
+                                child: const Text(
+                                  'Confirm Location',
+                                  style: TextStyle(fontSize: 16),
+                                ),
                               ),
                             ),
                           ),
