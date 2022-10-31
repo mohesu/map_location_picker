@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
@@ -253,7 +254,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
   late TextEditingController _searchController = TextEditingController();
 
   /// Decode address from latitude & longitude
-  void _decodeAddress(Location location) async {
+  Future<void> _decodeAddress(Location location) async {
     try {
       final geocoding = GoogleMapsGeocoding(
         apiKey: widget.apiKey,
@@ -361,6 +362,9 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                 final controller = await _controller.future;
                 controller.animateCamera(
                     CameraUpdate.newCameraPosition(cameraPosition()));
+                await _decodeAddress(Location(
+                    lat: placesDetails.result.geometry?.location.lat ?? 0,
+                    lng: placesDetails.result.geometry?.location.lng ?? 0));
                 _address = placesDetails.result.formattedAddress ?? "";
                 widget.onSuggestionSelected?.call(placesDetails);
                 setState(() {});
@@ -387,12 +391,14 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
               final controller = await _controller.future;
               controller.animateCamera(
                   CameraUpdate.newCameraPosition(cameraPosition()));
-              _decodeAddress(
+              await _decodeAddress(
                   Location(lat: position.latitude, lng: position.longitude));
               setState(() {});
             },
             onMapCreated: (GoogleMapController controller) async {
-              _controller.complete(controller);
+              SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                _controller.complete(controller);
+              });
             },
             markers: {
               Marker(
@@ -584,7 +590,9 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                                 onPressed: () {
                                   widget.onNext.call(_geocodingResult);
                                   if (widget.canPopOnNextButtonTaped) {
-                                    Navigator.pop(context);
+                                    Future.delayed(Duration.zero, () {
+                                      Navigator.pop(context);
+                                    });
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
