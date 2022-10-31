@@ -315,7 +315,11 @@ packages:
       sha256: "0a7e0bd1dfe594bc86892d2e69062e3f80b267e378042d82e6b87a8efc798013"
       url: "https://pub.dev"
     source: hosted
+<<<<<<< HEAD
     version: "2.2.6"
+=======
+    version: "2.2.1"
+>>>>>>> f881d3c (package ui updated)
   google_maps_flutter_android:
     dependency: transitive
     description:
