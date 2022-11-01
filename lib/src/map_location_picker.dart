@@ -523,8 +523,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                     LatLng latLng =
                         LatLng(position.latitude, position.longitude);
                     _initialPosition = latLng;
-                    final controller = await _controller.future;
-                    controller.animateCamera(
+                    (await _controller.future).animateCamera(
                         CameraUpdate.newCameraPosition(cameraPosition()));
                     _decodeAddress(Location(
                         lat: position.latitude, lng: position.longitude));
