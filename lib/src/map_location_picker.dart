@@ -157,7 +157,7 @@ class MapLocationPicker extends StatefulWidget {
   final TextEditingController? searchController;
 
   /// Extra Form
-  final List<Widget>? extraFormFields;
+  final Widget? extraForm;
 
   const MapLocationPicker({
     Key? key,
@@ -211,7 +211,7 @@ class MapLocationPicker extends StatefulWidget {
     this.hideSuggestionsOnKeyboardHide = false,
     this.mapType = MapType.normal,
     this.searchController,
-    this.extraFormFields,
+    this.extraForm,
   }) : super(key: key);
 
   @override
@@ -484,8 +484,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                         },
                       ),
                     ),
-                    if (widget.extraFormFields != null)
-                      ...widget.extraFormFields!,
+                    if (widget.extraForm != null) widget.extraForm!,
                     if (widget.showMoreOptions &&
                         _geocodingResultList.isNotEmpty)
                       GestureDetector(
