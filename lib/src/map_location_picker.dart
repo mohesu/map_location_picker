@@ -156,6 +156,9 @@ class MapLocationPicker extends StatefulWidget {
   /// Search text field controller
   final TextEditingController? searchController;
 
+  /// Add your own custom markers
+  final Map<String, LatLng>? additionalMarkers;
+
   const MapLocationPicker({
     Key? key,
     this.desiredAccuracy = LocationAccuracy.high,
@@ -208,6 +211,7 @@ class MapLocationPicker extends StatefulWidget {
     this.hideSuggestionsOnKeyboardHide = false,
     this.mapType = MapType.normal,
     this.searchController,
+    this.additionalMarkers,
   }) : super(key: key);
 
   @override
@@ -303,6 +307,23 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
 
   @override
   Widget build(BuildContext context) {
+    final additionalMarkers = widget.additionalMarkers?.entries
+            .map(
+              (e) => Marker(
+                markerId: MarkerId(e.key),
+                position: e.value,
+              ),
+            )
+            .toList() ??
+        [];
+
+    final markers = Set<Marker>.from(additionalMarkers);
+
+    markers.add(Marker(
+      markerId: const MarkerId("one"),
+      position: _initialPosition,
+    ));
+
     return Scaffold(
       body: Stack(
         children: [
