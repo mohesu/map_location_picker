@@ -1,3 +1,7 @@
+## 1.0.3
+- Support additional markers. Thanks to [Frankely Diaz](https://github.com/frankely) #9 for contribution.
+- Dependencies updated.
+
 ## 1.0.2
 * [#7](https://github.com/rvndsngwn/map_location_picker/issues/7) Enhancement: Add support for current position.
 * New Parameters in `MapLocationPicker` class :- `currentLatLng`, `mapType` and `searchController`
