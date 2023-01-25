@@ -1,3 +1,6 @@
+## 1.1.0
+- Major update. Now you can more customize the UI of the `PlacesAutocomplete`.
+
 ## 1.0.4
 - There is now an optional `searchController` parameter in the `PlacesAutocomplete` class.
 - There are two new parameters in the `PlacesAutocomplete` class: `initialValue` and `validator`.

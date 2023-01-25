@@ -8,4 +8,4 @@ export 'package:google_maps_webservice/places.dart';
 export 'src/autocomplete_service.dart';
 export 'src/autocomplete_view.dart';
 export 'src/map_location_picker.dart';
-export 'src/utils.dart';
+export 'src/use_state.dart';
