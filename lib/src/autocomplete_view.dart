@@ -89,7 +89,7 @@ class PlacesAutocomplete extends StatelessWidget {
   final void Function(Prediction)? onSuggestionSelected;
 
   /// Search text field controller
-  final TextEditingController searchController;
+  final TextEditingController? searchController;
 
   /// Is widget mounted
   final bool mounted;
@@ -99,6 +99,13 @@ class PlacesAutocomplete extends StatelessWidget {
 
   /// suffix icon for search text field. You can use [showClearButton] to show clear button or replace with suffix icon
   final Widget? suffixIcon;
+
+  /// Initial value for search text field (optional)
+  /// [initialValue] not in use when [searchController] is not null.
+  final Prediction? initialValue;
+
+  /// Validator for search text field (optional)
+  final String? Function(Prediction?)? validator;
 
   const PlacesAutocomplete({
     Key? key,
@@ -127,12 +134,14 @@ class PlacesAutocomplete extends StatelessWidget {
     this.components = const [],
     this.strictbounds = false,
     this.hideSuggestionsOnKeyboardHide = false,
-    required this.searchController,
+    this.searchController,
     required this.mounted,
     this.onGetDetailsByPlaceId,
     this.onSuggestionSelected,
     this.showClearButton = true,
     this.suffixIcon,
+    this.initialValue,
+    this.validator,
   }) : super(key: key);
 
   /// Get address details from place id
@@ -176,6 +185,7 @@ class PlacesAutocomplete extends StatelessWidget {
     }
   }
 
+  /// Get [AutoCompleteState] for [AutoCompleteTextField]
   AutoCompleteState autoCompleteState() {
     return AutoCompleteState(
       apiHeaders: placesApiHeaders,
@@ -186,6 +196,9 @@ class PlacesAutocomplete extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// Get text controller from [searchController] or create new instance of [TextEditingController] if [searchController] is null or empty
+    final textController = useState<TextEditingController>(
+        searchController ?? TextEditingController());
     return SafeArea(
       child: Card(
         margin: topCardMargin,
@@ -202,15 +215,15 @@ class PlacesAutocomplete extends StatelessWidget {
                 hintText: searchHintText,
                 border: InputBorder.none,
                 filled: true,
-                suffixIcon: showClearButton
+                suffixIcon: (showClearButton && initialValue == null)
                     ? IconButton(
                         icon: const Icon(Icons.close),
-                        onPressed: () => searchController.clear(),
+                        onPressed: () => textController.value.clear(),
                       )
                     : suffixIcon,
               ),
               name: 'Search',
-              controller: searchController,
+              controller: initialValue == null ? textController.value : null,
               selectionToTextTransformer: (result) {
                 return result.description ?? "";
               },
@@ -237,12 +250,14 @@ class PlacesAutocomplete extends StatelessWidget {
                 return predictions;
               },
               onSuggestionSelected: (value) async {
-                searchController.selection = TextSelection.collapsed(
-                    offset: searchController.text.length);
+                textController.value.selection = TextSelection.collapsed(
+                    offset: textController.value.text.length);
                 _getDetailsByPlaceId(value.placeId ?? "", context);
                 onSuggestionSelected?.call(value);
               },
               hideSuggestionsOnKeyboardHide: hideSuggestionsOnKeyboardHide,
+              initialValue: initialValue,
+              validator: validator,
             ),
           ),
         ),

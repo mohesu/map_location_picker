@@ -1,3 +1,8 @@
+## 1.0.4
+- There is now an optional `searchController` parameter in the `PlacesAutocomplete` class.
+- There are two new parameters in the `PlacesAutocomplete` class: `initialValue` and `validator`.
+- Try to fix the issue of [#10](https://github.com/rvndsngwn/map_location_picker/issues/10) -- Let me know if it works.
+
 ## 1.0.3
 - Support additional markers. Thanks to [Frankely Diaz](https://github.com/frankely) #9 for contribution.
 - Dependencies updated.

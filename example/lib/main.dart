@@ -21,6 +21,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String address = "null";
   String autocompletePlace = "null";
+  Prediction? initialValue;
 
   final TextEditingController _controller = TextEditingController();
   @override
@@ -44,6 +45,44 @@ class _MyAppState extends State<MyApp> {
                   autocompletePlace = result.result.formattedAddress ?? "";
                 });
               }
+            },
+          ),
+          OutlinedButton(
+            child: Text('show dialog'.toUpperCase()),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text('Example'),
+                    content: PlacesAutocomplete(
+                      apiKey: "YOUR_API_KEY_HERE",
+                      searchHintText: "Search for a place",
+                      mounted: mounted,
+                      showBackButton: false,
+                      initialValue: initialValue,
+                      onSuggestionSelected: (value) {
+                        setState(() {
+                          autocompletePlace =
+                              value.structuredFormatting?.mainText ?? "";
+                          initialValue = value;
+                        });
+                      },
+                      onGetDetailsByPlaceId: (value) {
+                        setState(() {
+                          address = value?.result.formattedAddress ?? "";
+                        });
+                      },
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        child: const Text('Done'),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                    ],
+                  );
+                },
+              );
             },
           ),
           const Spacer(),

@@ -272,7 +272,7 @@ packages:
       name: google_maps_flutter_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0+4"
+    version: "0.4.0+5"
   google_maps_webservice:
     dependency: transitive
     description:
@@ -356,7 +356,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.0.3"
+    version: "1.0.4"
   matcher:
     dependency: transitive
     description:
