@@ -1,3 +1,6 @@
+## 1.1.1
+- Miner improvements 
+
 ## 1.1.0
 - Major update. Now you can more customize the UI of the `PlacesAutocomplete`.
 
