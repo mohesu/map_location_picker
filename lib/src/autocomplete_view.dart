@@ -470,7 +470,6 @@ class _PlacesAutocompleteState extends State<PlacesAutocomplete> {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     /// Get text controller from [searchController] or create new instance of [TextEditingController] if [searchController] is null or empty
     final textController = useState<TextEditingController>(
         searchController ?? TextEditingController());
@@ -566,20 +565,6 @@ class _PlacesAutocompleteState extends State<PlacesAutocomplete> {
               onSaved: onSaved,
               key: key,
             ),
-=======
-    return FormBuilderTypeAhead<Prediction>(
-      decoration: InputDecoration(
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: Color(0xFFF6F7F9),
-          ),
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15.0),
-          borderSide: const BorderSide(
-            color: Color(0xFFF6F7F9),
->>>>>>> f881d3c (package ui updated)
           ),
         ),
         border: OutlineInputBorder(
