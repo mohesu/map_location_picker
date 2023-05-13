@@ -1,24 +1,5 @@
 # This is a generated file; do not edit or check into version control.
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-flutter_keyboard_visibility=/Users/arvindsangwan/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility-5.4.1/
-flutter_keyboard_visibility_linux=/Users/arvindsangwan/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility_linux-1.0.0/
-flutter_keyboard_visibility_macos=/Users/arvindsangwan/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility_macos-1.0.0/
-flutter_keyboard_visibility_web=/Users/arvindsangwan/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility_web-2.0.0/
-flutter_keyboard_visibility_windows=/Users/arvindsangwan/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility_windows-1.0.0/
-flutter_plugin_android_lifecycle=/Users/arvindsangwan/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.14/
-geolocator=/Users/arvindsangwan/.pub-cache/hosted/pub.dev/geolocator-9.0.2/
-geolocator_android=/Users/arvindsangwan/.pub-cache/hosted/pub.dev/geolocator_android-4.1.7/
-geolocator_apple=/Users/arvindsangwan/.pub-cache/hosted/pub.dev/geolocator_apple-2.2.5/
-geolocator_web=/Users/arvindsangwan/.pub-cache/hosted/pub.dev/geolocator_web-2.1.6/
-geolocator_windows=/Users/arvindsangwan/.pub-cache/hosted/pub.dev/geolocator_windows-0.1.1/
-google_maps_flutter=/Users/arvindsangwan/.pub-cache/hosted/pub.dev/google_maps_flutter-2.2.6/
-google_maps_flutter_android=/Users/arvindsangwan/.pub-cache/hosted/pub.dev/google_maps_flutter_android-2.4.14/
-google_maps_flutter_ios=/Users/arvindsangwan/.pub-cache/hosted/pub.dev/google_maps_flutter_ios-2.2.1/
-google_maps_flutter_web=/Users/arvindsangwan/.pub-cache/hosted/pub.dev/google_maps_flutter_web-0.4.0+8/
-=======
+
 flutter_keyboard_visibility=/Users/macbook/.pub-cache/hosted/pub.dartlang.org/flutter_keyboard_visibility-5.4.0/
 flutter_keyboard_visibility_linux=/Users/macbook/.pub-cache/hosted/pub.dartlang.org/flutter_keyboard_visibility_linux-1.0.0/
 flutter_keyboard_visibility_macos=/Users/macbook/.pub-cache/hosted/pub.dartlang.org/flutter_keyboard_visibility_macos-1.0.0/
@@ -34,15 +15,15 @@ google_maps_flutter=/Users/macbook/.pub-cache/hosted/pub.dartlang.org/google_map
 google_maps_flutter_android=/Users/macbook/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter_android-2.3.3/
 google_maps_flutter_ios=/Users/macbook/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter_ios-2.1.12/
 google_maps_flutter_web=/Users/macbook/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter_web-0.4.0+3/
->>>>>>> 768beba (UI modified)
-=======
+
 flutter_keyboard_visibility=/Users/macbook/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility-5.4.0/
-=======
+
 flutter_keyboard_visibility=/Users/macbook/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility-5.4.1/
->>>>>>> 34ea1a9 (dependencies updated)
-=======
+
 flutter_keyboard_visibility=/Users/macbook/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility-5.4.0/
->>>>>>> 7382420 (Revert "dependencies updated")
+
+flutter_keyboard_visibility=/Users/macbook/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility-5.4.0/
+
 flutter_keyboard_visibility_linux=/Users/macbook/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility_linux-1.0.0/
 flutter_keyboard_visibility_macos=/Users/macbook/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility_macos-1.0.0/
 flutter_keyboard_visibility_web=/Users/macbook/.pub-cache/hosted/pub.dev/flutter_keyboard_visibility_web-2.0.0/
@@ -53,21 +34,14 @@ geolocator_android=/Users/macbook/.pub-cache/hosted/pub.dev/geolocator_android-4
 geolocator_apple=/Users/macbook/.pub-cache/hosted/pub.dev/geolocator_apple-2.2.5/
 geolocator_web=/Users/macbook/.pub-cache/hosted/pub.dev/geolocator_web-2.1.6/
 geolocator_windows=/Users/macbook/.pub-cache/hosted/pub.dev/geolocator_windows-0.1.1/
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 7382420 (Revert "dependencies updated")
+
 google_maps_flutter=/Users/macbook/.pub-cache/hosted/pub.dev/google_maps_flutter-2.2.3/
 google_maps_flutter_android=/Users/macbook/.pub-cache/hosted/pub.dev/google_maps_flutter_android-2.4.3/
 google_maps_flutter_ios=/Users/macbook/.pub-cache/hosted/pub.dev/google_maps_flutter_ios-2.1.13/
 google_maps_flutter_web=/Users/macbook/.pub-cache/hosted/pub.dev/google_maps_flutter_web-0.4.0+5/
-<<<<<<< HEAD
->>>>>>> bc33abe (pod files updated)
-=======
+
 google_maps_flutter=/Users/macbook/.pub-cache/hosted/pub.dev/google_maps_flutter-2.2.6/
 google_maps_flutter_android=/Users/macbook/.pub-cache/hosted/pub.dev/google_maps_flutter_android-2.4.14/
 google_maps_flutter_ios=/Users/macbook/.pub-cache/hosted/pub.dev/google_maps_flutter_ios-2.2.1/
 google_maps_flutter_web=/Users/macbook/.pub-cache/hosted/pub.dev/google_maps_flutter_web-0.4.0+8/
->>>>>>> 34ea1a9 (dependencies updated)
-=======
->>>>>>> 7382420 (Revert "dependencies updated")
+

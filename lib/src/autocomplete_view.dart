@@ -470,6 +470,7 @@ class _PlacesAutocompleteState extends State<PlacesAutocomplete> {
 
   @override
   Widget build(BuildContext context) {
+
     /// Get text controller from [searchController] or create new instance of [TextEditingController] if [searchController] is null or empty
     final textController = useState<TextEditingController>(
         searchController ?? TextEditingController());
@@ -565,8 +566,21 @@ class _PlacesAutocompleteState extends State<PlacesAutocomplete> {
               onSaved: onSaved,
               key: key,
             ),
+
+          ),
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15.0),
+          borderSide: const BorderSide(
+            color: Color(0xFFF6F7F9),
           ),
         ),
+        border: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.grey),
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+
         border: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.grey),
           borderRadius: BorderRadius.circular(15.0),
@@ -578,6 +592,7 @@ class _PlacesAutocompleteState extends State<PlacesAutocomplete> {
                 ? IconButton(
                     icon: const Icon(Icons.close),
                     onPressed: () => widget.searchController.clear(),
+
                   )
                 : widget.suffixIcon,
       ),
@@ -610,8 +625,10 @@ class _PlacesAutocompleteState extends State<PlacesAutocomplete> {
         return predictions;
       },
       onSuggestionSelected: (value) async {
+
         widget.searchController.selection = TextSelection.collapsed(
             offset: widget.searchController.text.length);
+
         _getDetailsByPlaceId(value.placeId ?? "", context);
         widget.onSuggestionSelected?.call(value);
       },
