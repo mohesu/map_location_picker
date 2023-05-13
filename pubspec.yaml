@@ -12,11 +12,10 @@ dependencies:
     sdk: flutter
 
   google_maps_flutter: ^2.2.3
-  # form_builder_extra_fields:
-  #   git:
-  #     url: https://github.com/rvndsngwn/form_builder_extra_fields.git
-  #     publish_to: none
-  form_builder_extra_fields: ^10.0.0
+  form_builder_extra_fields:
+    git:
+      url: https://github.com/rvndsngwn/form_builder_extra_fields.git
+      publish_to: none
   flutter_typeahead: ^4.3.3
   google_maps_webservice: ^0.0.20-nullsafety.5
   google_maps_flutter_web: ^0.4.0+5
