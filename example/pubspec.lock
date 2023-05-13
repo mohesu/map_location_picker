@@ -265,6 +265,7 @@ packages:
     description:
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> db8251a (dependency updated)
       name: form_builder_extra_fields
@@ -274,15 +275,20 @@ packages:
     version: "10.0.0"
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> 15ffec9 (Revert "dependency updated")
       path: "."
       ref: HEAD
       resolved-ref: "6c991a8e173ce3b4f6c136979777e5b695d00a52"
       url: "https://github.com/rvndsngwn/form_builder_extra_fields.git"
     source: git
     version: "9.0.0"
+<<<<<<< HEAD
 >>>>>>> 34ea1a9 (dependencies updated)
 =======
 >>>>>>> db8251a (dependency updated)
+=======
+>>>>>>> 15ffec9 (Revert "dependency updated")
   geolocator:
     dependency: transitive
     description:
