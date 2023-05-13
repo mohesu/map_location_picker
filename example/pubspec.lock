@@ -232,12 +232,11 @@ packages:
   form_builder_extra_fields:
     dependency: transitive
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "6c991a8e173ce3b4f6c136979777e5b695d00a52"
-      url: "https://github.com/rvndsngwn/form_builder_extra_fields.git"
-    source: git
-    version: "9.0.0"
+      name: form_builder_extra_fields
+      sha256: "00a36223ca1a46b62c54dd02fec5e160577dee5919b1f934d769256b69995da6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "10.0.0"
   geolocator:
     dependency: transitive
     description:
