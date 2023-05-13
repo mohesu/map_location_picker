@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
-import "package:google_maps_webservice/geocoding.dart";
-import 'package:google_maps_webservice/places.dart';
+import "package:google_maps_webapi/geocoding.dart";
+import 'package:google_maps_webapi/places.dart';
 import 'logger.dart';
 import 'autocomplete_view.dart';
 

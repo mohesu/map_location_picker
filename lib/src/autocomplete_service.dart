@@ -1,4 +1,4 @@
-import "package:google_maps_webservice/places.dart";
+import "package:google_maps_webapi/places.dart";
 import 'package:http/http.dart';
 
 import 'logger.dart';
@@ -29,7 +29,6 @@ class AutoCompleteState {
 
     /// API key for Google Places API
     String apiKey, {
-
     /// Session token for Google Places API
     String? sessionToken,
 

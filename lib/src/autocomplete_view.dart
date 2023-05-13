@@ -564,3 +564,7 @@ class PlacesAutocomplete extends StatelessWidget {
     );
   }
 }
+
+ValueNotifier<T> useState<T>(T initialData) {
+  return ValueNotifier<T>(initialData);
+}
