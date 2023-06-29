@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
@@ -159,6 +160,27 @@ class MapLocationPicker extends StatefulWidget {
   /// Add your own custom markers
   final Map<String, LatLng>? additionalMarkers;
 
+  /// The background color the the floating action buttons
+  final Color? floatingActionBackgroundColor;
+
+  /// The foreground color the the floating action buttons
+  final Color? floatingActionForegroundColor;
+
+  /// The text style of the selected address text
+  final TextStyle? selectedAddressTextStyle;
+
+  /// The text style of the 'more results' chip
+  final TextStyle? moreResultsTextStyle;
+
+  /// The general text style mostly used in dialogs
+  final TextStyle? generalTextStyle;
+
+  /// The search text input when writting
+  final TextStyle? inputTextStyle;
+
+  /// The search hint text style
+  final TextStyle? inputHintTextStyle;
+
   const MapLocationPicker({
     Key? key,
     this.desiredAccuracy = LocationAccuracy.high,
@@ -212,6 +234,13 @@ class MapLocationPicker extends StatefulWidget {
     this.mapType = MapType.normal,
     this.searchController,
     this.additionalMarkers,
+    this.floatingActionBackgroundColor,
+    this.floatingActionForegroundColor,
+    this.moreResultsTextStyle,
+    this.selectedAddressTextStyle,
+    this.generalTextStyle,
+    this.inputHintTextStyle,
+    this.inputTextStyle
   }) : super(key: key);
 
   @override
@@ -395,6 +424,11 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                 topCardMargin: widget.topCardMargin,
                 topCardShape: widget.topCardShape,
                 types: widget.types,
+                textFieldConfiguration: TextFieldConfiguration(
+                  style: widget.inputTextStyle
+                ),
+                hintTextStyle: widget.inputHintTextStyle,
+                suggestionsTextStyle: widget.generalTextStyle,
                 onGetDetailsByPlaceId: (placesDetails) async {
                   if (placesDetails == null) {
                     logger.e("placesDetails is null");
@@ -435,22 +469,26 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                           _mapType = mapType;
                         });
                       },
-                      itemBuilder: (context) => const [
+                      itemBuilder: (context) => [
                         PopupMenuItem(
+                          textStyle: widget.generalTextStyle,
                           value: MapType.normal,
-                          child: Text('Normal'),
+                          child: const Text('Normal'),
                         ),
                         PopupMenuItem(
+                          textStyle: widget.generalTextStyle,
                           value: MapType.hybrid,
-                          child: Text('Hybrid'),
+                          child: const Text('Hybrid'),
                         ),
                         PopupMenuItem(
+                          textStyle: widget.generalTextStyle,
                           value: MapType.satellite,
-                          child: Text('Satellite'),
+                          child: const Text('Satellite'),
                         ),
                         PopupMenuItem(
+                          textStyle: widget.generalTextStyle,
                           value: MapType.terrain,
-                          child: Text('Terrain'),
+                          child: const Text('Terrain'),
                         ),
                       ],
                     ),
@@ -461,8 +499,8 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                 padding: const EdgeInsets.all(8.0),
                 child: FloatingActionButton(
                   tooltip: 'My Location',
-                  backgroundColor: Theme.of(context).primaryColor,
-                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                  backgroundColor: widget.floatingActionBackgroundColor ?? Theme.of(context).primaryColor,
+                  foregroundColor: widget.floatingActionForegroundColor ?? Theme.of(context).colorScheme.onPrimary,
                   onPressed: () async {
                     await Geolocator.requestPermission();
                     Position position = await Geolocator.getCurrentPosition(
@@ -489,6 +527,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     ListTile(
+                      titleTextStyle: widget.selectedAddressTextStyle,
                       title: Text(_address),
                       trailing: IconButton(
                         tooltip: widget.bottomCardTooltip,
@@ -508,13 +547,16 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
+                              contentTextStyle: widget.generalTextStyle,
                               title: Text(widget.dialogTitle),
                               scrollable: true,
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: _geocodingResultList.map((element) {
                                   return ListTile(
-                                    title: Text(element.formattedAddress ?? ""),
+                                    title: Text(
+                                      element.formattedAddress ?? "",
+                                    ),
                                     onTap: () {
                                       _address = element.formattedAddress ?? "";
                                       _geocodingResult = element;
@@ -536,6 +578,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                           );
                         },
                         child: Chip(
+                          labelStyle: widget.moreResultsTextStyle,
                           label: Text(
                             "Tap to show ${(_geocodingResultList.length - 1)} more result options",
                           ),

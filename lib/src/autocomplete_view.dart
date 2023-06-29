@@ -343,6 +343,12 @@ class PlacesAutocomplete extends StatelessWidget {
   /// Focus node for the text field
   final FocusNode? focusNode;
 
+  /// The text style of the suggestions dialog
+  final TextStyle? suggestionsTextStyle;
+
+  /// The text style of the hint text
+  final TextStyle? hintTextStyle;
+
   const PlacesAutocomplete({
     Key? key,
     required this.apiKey,
@@ -409,6 +415,8 @@ class PlacesAutocomplete extends StatelessWidget {
     this.onReset,
     this.onSaved,
     this.focusNode,
+    this.suggestionsTextStyle,
+    this.hintTextStyle
   }) : super(key: key);
 
   /// Get address details from place id
@@ -480,6 +488,7 @@ class PlacesAutocomplete extends StatelessWidget {
             child: FormBuilderTypeAhead<Prediction>(
               decoration: decoration ??
                   InputDecoration(
+                    hintStyle: hintTextStyle,
                     hintText: searchHintText,
                     border: InputBorder.none,
                     filled: true,
@@ -498,6 +507,7 @@ class PlacesAutocomplete extends StatelessWidget {
               itemBuilder: itemBuilder ??
                   (context, continent) {
                     return ListTile(
+                      titleTextStyle: suggestionsTextStyle,
                       title: Text(continent.description ?? ""),
                     );
                   },
