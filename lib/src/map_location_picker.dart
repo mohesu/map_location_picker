@@ -172,14 +172,26 @@ class MapLocationPicker extends StatefulWidget {
   /// The text style of the 'more results' chip
   final TextStyle? moreResultsTextStyle;
 
+  /// The background color of the 'more results' chip
+  final Color? moreResultsBackgroundColor;
+
   /// The general text style mostly used in dialogs
   final TextStyle? generalTextStyle;
 
-  /// The search text input when writting
+  /// The search text input style
   final TextStyle? inputTextStyle;
 
-  /// The search hint text style
-  final TextStyle? inputHintTextStyle;
+  /// The fill color of the input
+  final Color? inputFillColor;
+
+  /// If true, the floating action buttons will be shown
+  final bool showFloatingActionButtons;
+
+  /// The formatted String of what should be written on the 'more results' chip. Use {amount} in the String to specify how many other results there is.
+  final String? formattedMoreResultsTextChip;
+
+  /// The default text on the bottom card.
+  final String defaultAddressText;
 
   const MapLocationPicker({
     Key? key,
@@ -239,8 +251,12 @@ class MapLocationPicker extends StatefulWidget {
     this.moreResultsTextStyle,
     this.selectedAddressTextStyle,
     this.generalTextStyle,
-    this.inputHintTextStyle,
-    this.inputTextStyle
+    this.inputTextStyle,
+    this.inputFillColor,
+    this.moreResultsBackgroundColor,
+    this.showFloatingActionButtons = true,
+    this.formattedMoreResultsTextChip,
+    this.defaultAddressText = "Tap on map to get address"
   }) : super(key: key);
 
   @override
@@ -255,7 +271,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
   late LatLng _initialPosition = const LatLng(28.8993468, 76.6250249);
 
   /// initial address text
-  late String _address = "Tap on map to get address";
+  String? _address;
 
   /// Map type (default: MapType.normal)
   late MapType _mapType = MapType.normal;
@@ -424,10 +440,10 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                 topCardMargin: widget.topCardMargin,
                 topCardShape: widget.topCardShape,
                 types: widget.types,
+                fillColor: widget.inputFillColor,
                 textFieldConfiguration: TextFieldConfiguration(
                   style: widget.inputTextStyle
                 ),
-                hintTextStyle: widget.inputHintTextStyle,
                 suggestionsTextStyle: widget.generalTextStyle,
                 onGetDetailsByPlaceId: (placesDetails) async {
                   if (placesDetails == null) {
@@ -447,10 +463,10 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                 },
               ),
               const Spacer(),
-              Padding(
+              if(widget.showFloatingActionButtons) Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Card(
-                  color: Theme.of(context).primaryColor,
+                  color: widget.floatingActionBackgroundColor ?? Theme.of(context).primaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(360),
                   ),
@@ -462,7 +478,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                       initialValue: _mapType,
                       icon: Icon(
                         Icons.layers,
-                        color: Theme.of(context).colorScheme.onPrimary,
+                        color: widget.floatingActionForegroundColor ?? Theme.of(context).colorScheme.onPrimary,
                       ),
                       onSelected: (MapType mapType) {
                         setState(() {
@@ -495,7 +511,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                   ),
                 ),
               ),
-              Padding(
+              if(widget.showFloatingActionButtons) Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: FloatingActionButton(
                   tooltip: 'My Location',
@@ -528,7 +544,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                   children: [
                     ListTile(
                       titleTextStyle: widget.selectedAddressTextStyle,
-                      title: Text(_address),
+                      title: Text(_address ?? widget.defaultAddressText),
                       trailing: IconButton(
                         tooltip: widget.bottomCardTooltip,
                         icon: widget.bottomCardIcon,
@@ -579,8 +595,10 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                         },
                         child: Chip(
                           labelStyle: widget.moreResultsTextStyle,
+                          backgroundColor: widget.moreResultsBackgroundColor,
                           label: Text(
-                            "Tap to show ${(_geocodingResultList.length - 1)} more result options",
+                            widget.formattedMoreResultsTextChip == null ? "Tap to show ${(_geocodingResultList.length - 1)} more result options" :
+                              widget.formattedMoreResultsTextChip!.replaceAll("{amount}", (_geocodingResultList.length - 1).toString())
                           ),
                         ),
                       ),

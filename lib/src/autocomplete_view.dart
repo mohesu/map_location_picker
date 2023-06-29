@@ -346,8 +346,8 @@ class PlacesAutocomplete extends StatelessWidget {
   /// The text style of the suggestions dialog
   final TextStyle? suggestionsTextStyle;
 
-  /// The text style of the hint text
-  final TextStyle? hintTextStyle;
+  /// The input fill color
+  final Color? fillColor;
 
   const PlacesAutocomplete({
     Key? key,
@@ -416,7 +416,7 @@ class PlacesAutocomplete extends StatelessWidget {
     this.onSaved,
     this.focusNode,
     this.suggestionsTextStyle,
-    this.hintTextStyle
+    this.fillColor
   }) : super(key: key);
 
   /// Get address details from place id
@@ -488,7 +488,7 @@ class PlacesAutocomplete extends StatelessWidget {
             child: FormBuilderTypeAhead<Prediction>(
               decoration: decoration ??
                   InputDecoration(
-                    hintStyle: hintTextStyle,
+                    fillColor: fillColor,
                     hintText: searchHintText,
                     border: InputBorder.none,
                     filled: true,
