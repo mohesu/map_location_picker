@@ -1,3 +1,7 @@
+## 1.2.1-dev.1
+
+- Dependencies updated.
+
 ## 1.2.1
 
 - Dependencies updated.

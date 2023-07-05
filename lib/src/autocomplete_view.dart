@@ -6,6 +6,10 @@ import 'package:http/http.dart';
 import '../map_location_picker.dart';
 import 'logger.dart';
 
+ValueNotifier<T> useState<T>(T initialData) {
+  return ValueNotifier<T>(initialData);
+}
+
 class PlacesAutocomplete extends StatelessWidget {
   /// API key for the map & places
   final String apiKey;
@@ -411,47 +415,6 @@ class PlacesAutocomplete extends StatelessWidget {
     this.focusNode,
   }) : super(key: key);
 
-  /// Get address details from place id
-  void _getDetailsByPlaceId(String placeId, BuildContext context) async {
-    try {
-      final GoogleMapsPlaces places = GoogleMapsPlaces(
-        apiKey: apiKey,
-        httpClient: placesHttpClient,
-        apiHeaders: placesApiHeaders,
-        baseUrl: placesBaseUrl,
-      );
-      final PlacesDetailsResponse response = await places.getDetailsByPlaceId(
-        placeId,
-        region: region,
-        sessionToken: sessionToken,
-        language: language,
-        fields: fields,
-      );
-
-      /// When get any error from the API, show the error in the console.
-      if (response.hasNoResults ||
-          response.isDenied ||
-          response.isInvalid ||
-          response.isNotFound ||
-          response.unknownError ||
-          response.isOverQueryLimit) {
-        logger.e(response.errorMessage);
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(response.errorMessage ??
-                  "Address not found, something went wrong!"),
-            ),
-          );
-        }
-        return;
-      }
-      onGetDetailsByPlaceId?.call(response);
-    } catch (e) {
-      logger.e(e);
-    }
-  }
-
   /// Get [AutoCompleteState] for [AutoCompleteTextField]
   AutoCompleteState autoCompleteState() {
     return AutoCompleteState(
@@ -563,8 +526,45 @@ class PlacesAutocomplete extends StatelessWidget {
       ),
     );
   }
-}
 
-ValueNotifier<T> useState<T>(T initialData) {
-  return ValueNotifier<T>(initialData);
+  /// Get address details from place id
+  void _getDetailsByPlaceId(String placeId, BuildContext context) async {
+    try {
+      final GoogleMapsPlaces places = GoogleMapsPlaces(
+        apiKey: apiKey,
+        httpClient: placesHttpClient,
+        apiHeaders: placesApiHeaders,
+        baseUrl: placesBaseUrl,
+      );
+      final PlacesDetailsResponse response = await places.getDetailsByPlaceId(
+        placeId,
+        region: region,
+        sessionToken: sessionToken,
+        language: language,
+        fields: fields,
+      );
+
+      /// When get any error from the API, show the error in the console.
+      if (response.hasNoResults ||
+          response.isDenied ||
+          response.isInvalid ||
+          response.isNotFound ||
+          response.unknownError ||
+          response.isOverQueryLimit) {
+        logger.e(response.errorMessage);
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(response.errorMessage ??
+                  "Address not found, something went wrong!"),
+            ),
+          );
+        }
+        return;
+      }
+      onGetDetailsByPlaceId?.call(response);
+    } catch (e) {
+      logger.e(e);
+    }
+  }
 }

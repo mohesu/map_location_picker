@@ -1,6 +1,6 @@
 import 'package:logger/logger.dart';
 
-var loggerLevel = Level.verbose;
+const Level loggerLevel = Level.verbose;
 
 /// Logger for the app.
 Logger logger = Logger(

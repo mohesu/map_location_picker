@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart';
 import "package:google_maps_webapi/geocoding.dart";
 import 'package:google_maps_webapi/places.dart';
-import 'logger.dart';
+import 'package:http/http.dart';
+
 import 'autocomplete_view.dart';
+import 'logger.dart';
 
 class MapLocationPicker extends StatefulWidget {
   /// Padding around the map
@@ -240,70 +241,8 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
   /// GeoCoding results list for further use
   late List<GeocodingResult> _geocodingResultList = [];
 
-  /// Camera position moved to location
-  CameraPosition cameraPosition() {
-    return CameraPosition(
-      target: _initialPosition,
-      zoom: _zoom,
-    );
-  }
-
   /// Search text field controller
   late TextEditingController _searchController = TextEditingController();
-
-  /// Decode address from latitude & longitude
-  void _decodeAddress(Location location) async {
-    try {
-      final geocoding = GoogleMapsGeocoding(
-        apiKey: widget.apiKey,
-        baseUrl: widget.geoCodingBaseUrl,
-        apiHeaders: widget.geoCodingApiHeaders,
-        httpClient: widget.geoCodingHttpClient,
-      );
-      final response = await geocoding.searchByLocation(
-        location,
-        language: widget.language,
-        locationType: widget.locationType,
-        resultType: widget.resultType,
-      );
-
-      /// When get any error from the API, show the error in the console.
-      if (response.hasNoResults ||
-          response.isDenied ||
-          response.isInvalid ||
-          response.isNotFound ||
-          response.unknownError ||
-          response.isOverQueryLimit) {
-        logger.e(response.errorMessage);
-        _address = response.status;
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(response.errorMessage ??
-                  "Address not found, something went wrong!"),
-            ),
-          );
-        }
-        return;
-      }
-      _address = response.results.first.formattedAddress ?? "";
-      _geocodingResult = response.results.first;
-      if (response.results.length > 1) {
-        _geocodingResultList = response.results;
-      }
-      setState(() {});
-    } catch (e) {
-      logger.e(e);
-    }
-  }
-
-  @override
-  void initState() {
-    _initialPosition = widget.currentLatLng ?? _initialPosition;
-    _mapType = widget.mapType;
-    _searchController = widget.searchController ?? _searchController;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -549,5 +488,67 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
         ],
       ),
     );
+  }
+
+  /// Camera position moved to location
+  CameraPosition cameraPosition() {
+    return CameraPosition(
+      target: _initialPosition,
+      zoom: _zoom,
+    );
+  }
+
+  @override
+  void initState() {
+    _initialPosition = widget.currentLatLng ?? _initialPosition;
+    _mapType = widget.mapType;
+    _searchController = widget.searchController ?? _searchController;
+    super.initState();
+  }
+
+  /// Decode address from latitude & longitude
+  void _decodeAddress(Location location) async {
+    try {
+      final geocoding = GoogleMapsGeocoding(
+        apiKey: widget.apiKey,
+        baseUrl: widget.geoCodingBaseUrl,
+        apiHeaders: widget.geoCodingApiHeaders,
+        httpClient: widget.geoCodingHttpClient,
+      );
+      final response = await geocoding.searchByLocation(
+        location,
+        language: widget.language,
+        locationType: widget.locationType,
+        resultType: widget.resultType,
+      );
+
+      /// When get any error from the API, show the error in the console.
+      if (response.hasNoResults ||
+          response.isDenied ||
+          response.isInvalid ||
+          response.isNotFound ||
+          response.unknownError ||
+          response.isOverQueryLimit) {
+        logger.e(response.errorMessage);
+        _address = response.status;
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(response.errorMessage ??
+                  "Address not found, something went wrong!"),
+            ),
+          );
+        }
+        return;
+      }
+      _address = response.results.first.formattedAddress ?? "";
+      _geocodingResult = response.results.first;
+      if (response.results.length > 1) {
+        _geocodingResultList = response.results;
+      }
+      setState(() {});
+    } catch (e) {
+      logger.e(e);
+    }
   }
 }

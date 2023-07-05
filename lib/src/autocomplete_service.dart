@@ -4,12 +4,6 @@ import 'package:http/http.dart';
 import 'logger.dart';
 
 class AutoCompleteState {
-  AutoCompleteState({
-    this.httpClient,
-    this.apiHeaders,
-    this.baseUrl,
-  });
-
   /// httpClient is used to make network requests.
   final Client? httpClient;
 
@@ -21,6 +15,12 @@ class AutoCompleteState {
 
   /// The current state of the autocomplete.
   List<Prediction> predictions = [];
+
+  AutoCompleteState({
+    this.httpClient,
+    this.apiHeaders,
+    this.baseUrl,
+  });
 
   /// void future function to get the autocomplete results.
   Future<List<Prediction>> search(
