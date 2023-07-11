@@ -459,9 +459,9 @@ class PlacesAutocomplete extends StatelessWidget {
                 return result.description ?? "";
               },
               itemBuilder: itemBuilder ??
-                  (context, continent) {
+                  (context, content) {
                     return ListTile(
-                      title: Text(continent.description ?? ""),
+                      title: Text(content.description ?? ""),
                     );
                   },
               suggestionsCallback: (query) async {

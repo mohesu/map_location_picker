@@ -11,6 +11,9 @@ import 'autocomplete_view.dart';
 import 'logger.dart';
 
 class MapLocationPicker extends StatefulWidget {
+  /// TextDecoration object for the Search Autocomplete field
+  final InputDecoration? autocompleteTextboxDecoration;
+
   /// Padding around the map
   final EdgeInsets padding;
 
@@ -145,7 +148,8 @@ class MapLocationPicker extends StatefulWidget {
   /// region: "us"
   final String? region;
 
-  /// fields
+  /// List of fields to be returned by the Google Maps Places API.
+  /// Refer to the Google Documentation here for a list of valid values: https://developers.google.com/maps/documentation/places/web-service/details
   final List<String> fields;
 
   /// Hide Suggestions on keyboard hide
@@ -162,57 +166,58 @@ class MapLocationPicker extends StatefulWidget {
 
   const MapLocationPicker({
     Key? key,
-    this.desiredAccuracy = LocationAccuracy.high,
     required this.apiKey,
-    this.geoCodingBaseUrl,
-    this.geoCodingHttpClient,
-    this.geoCodingApiHeaders,
-    this.language,
-    this.locationType = const [],
-    this.resultType = const [],
-    this.minMaxZoomPreference = const MinMaxZoomPreference(10, 20),
-    this.padding = const EdgeInsets.all(0),
-    this.compassEnabled = true,
-    this.liteModeEnabled = false,
-    this.topCardMargin = const EdgeInsets.all(8),
-    this.topCardColor,
-    this.topCardShape = const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(12)),
-    ),
+    this.additionalMarkers,
+    this.autocompleteTextboxDecoration,
+    this.desiredAccuracy = LocationAccuracy.high,
+    this.backButton,
     this.borderRadius = const BorderRadius.all(Radius.circular(12)),
-    this.searchHintText = "Start typing to search",
     this.bottomCardShape = const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(12)),
     ),
-    this.bottomCardMargin = const EdgeInsets.fromLTRB(8, 8, 8, 16),
-    this.bottomCardIcon = const Icon(Icons.send),
-    this.bottomCardTooltip = "Continue with this location",
     this.bottomCardColor,
+    this.bottomCardIcon = const Icon(Icons.send),
+    this.bottomCardMargin = const EdgeInsets.fromLTRB(8, 8, 8, 16),
+    this.bottomCardTooltip = "Continue with this location",
+    this.compassEnabled = true,
+    this.components = const [],
+    this.canPopOnNextButtonTaped = false,
+    this.currentLatLng = const LatLng(28.8993468, 76.6250249),
+    this.dialogTitle = 'You can also use the following options',
+    this.fields = const [],
+    this.geoCodingBaseUrl,
+    this.geoCodingHttpClient,
+    this.geoCodingApiHeaders,
+    this.hideSuggestionsOnKeyboardHide = false,
+    this.language,
+    this.liteModeEnabled = false,
+    this.location,
+    this.locationType = const [],
+    this.mapType = MapType.normal,
+    this.minMaxZoomPreference = const MinMaxZoomPreference(10, 20),
+    this.offset,
     this.onSuggestionSelected,
     required this.onNext,
-    this.currentLatLng = const LatLng(28.8993468, 76.6250249),
-    this.showBackButton = true,
-    this.canPopOnNextButtonTaped = false,
-    this.backButton,
-    this.showMoreOptions = true,
-    this.dialogTitle = 'You can also use the following options',
+    this.origin,
+    this.padding = const EdgeInsets.all(0),
     this.placesHttpClient,
     this.placesApiHeaders,
     this.placesBaseUrl,
-    this.sessionToken,
-    this.offset,
-    this.origin,
-    this.location,
     this.radius,
     this.region,
-    this.fields = const [],
-    this.types = const [],
-    this.components = const [],
-    this.strictbounds = false,
-    this.hideSuggestionsOnKeyboardHide = false,
-    this.mapType = MapType.normal,
+    this.resultType = const [],
     this.searchController,
-    this.additionalMarkers,
+    this.searchHintText = "Start typing to search",
+    this.sessionToken,
+    this.showBackButton = true,
+    this.showMoreOptions = true,
+    this.strictbounds = false,
+    this.topCardColor,
+    this.topCardMargin = const EdgeInsets.all(8),
+    this.topCardShape = const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(12)),
+    ),
+    this.types = const [],
   }) : super(key: key);
 
   @override
@@ -309,23 +314,24 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
             children: [
               PlacesAutocomplete(
                 apiKey: widget.apiKey,
-                mounted: mounted,
-                searchController: _searchController,
-                borderRadius: widget.borderRadius,
-                offset: widget.offset,
-                radius: widget.radius,
                 backButton: widget.backButton,
+                borderRadius: widget.borderRadius,
                 components: widget.components,
+                decoration: widget.autocompleteTextboxDecoration,
                 fields: widget.fields,
                 hideSuggestionsOnKeyboardHide:
                     widget.hideSuggestionsOnKeyboardHide,
                 language: widget.language,
                 location: widget.location,
+                mounted: mounted,
+                offset: widget.offset,
                 origin: widget.origin,
                 placesApiHeaders: widget.placesApiHeaders,
                 placesBaseUrl: widget.placesBaseUrl,
                 placesHttpClient: widget.placesHttpClient,
+                radius: widget.radius,
                 region: widget.region,
+                searchController: _searchController,
                 searchHintText: widget.searchHintText,
                 sessionToken: widget.sessionToken,
                 showBackButton: widget.showBackButton,
