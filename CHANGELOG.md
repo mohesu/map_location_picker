@@ -1,3 +1,7 @@
+## 1.2.3
+
+- google_maps_flutter_web removed from dependencies because it is now supported by google_maps_flutter package.
+
 ## 1.2.2
 
 - search card safe area parameters [bottom, left, maintainBottomViewPadding, minimum, right, top] added. #19
