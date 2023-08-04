@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
             searchController: _controller,
             apiKey: "YOUR_API_KEY_HERE",
             mounted: mounted,
-            showBackButton: false,
+            hideBackButton: false,
             onGetDetailsByPlaceId: (PlacesDetailsResponse? result) {
               if (result != null) {
                 setState(() {
@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> {
                       apiKey: "YOUR_API_KEY_HERE",
                       searchHintText: "Search for a place",
                       mounted: mounted,
-                      showBackButton: false,
+                      hideBackButton: false,
                       initialValue: initialValue,
                       onSuggestionSelected: (value) {
                         setState(() {
@@ -120,7 +120,7 @@ class _MyAppState extends State<MyApp> {
                     builder: (context) {
                       return MapLocationPicker(
                         apiKey: "YOUR_API_KEY_HERE",
-                        canPopOnNextButtonTaped: true,
+                        popOnNextButtonTaped: true,
                         currentLatLng: const LatLng(29.121599, 76.396698),
                         onNext: (GeocodingResult? result) {
                           if (result != null) {

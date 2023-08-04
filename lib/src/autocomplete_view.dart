@@ -24,15 +24,15 @@ class PlacesAutocomplete extends StatelessWidget {
   final ShapeBorder topCardShape;
 
   /// Top card text field border radius
-  final BorderRadius? borderRadius;
+  final BorderRadiusGeometry? borderRadius;
 
   /// Top card text field hint text
   final String searchHintText;
 
   /// Show back button (default: true)
-  final bool showBackButton;
+  final bool hideBackButton;
 
-  /// Back button replacement when [showBackButton] is false and [backButton] is not null
+  /// Back button replacement when [hideBackButton] is false and [backButton] is not null
   final Widget? backButton;
 
   /// httpClient is used to make network requests.
@@ -347,6 +347,14 @@ class PlacesAutocomplete extends StatelessWidget {
   /// Focus node for the text field
   final FocusNode? focusNode;
 
+  /// Safe area parameters
+  final bool bottom;
+  final bool left;
+  final bool maintainBottomViewPadding;
+  final EdgeInsets minimum;
+  final bool right;
+  final bool top;
+
   const PlacesAutocomplete({
     Key? key,
     required this.apiKey,
@@ -358,7 +366,7 @@ class PlacesAutocomplete extends StatelessWidget {
     ),
     this.borderRadius = const BorderRadius.all(Radius.circular(12)),
     this.searchHintText = "Start typing to search",
-    this.showBackButton = true,
+    this.hideBackButton = false,
     this.backButton,
     this.placesHttpClient,
     this.placesApiHeaders,
@@ -413,6 +421,12 @@ class PlacesAutocomplete extends StatelessWidget {
     this.onReset,
     this.onSaved,
     this.focusNode,
+    this.minimum = EdgeInsets.zero,
+    this.bottom = true,
+    this.left = true,
+    this.maintainBottomViewPadding = false,
+    this.right = true,
+    this.top = true,
   }) : super(key: key);
 
   /// Get [AutoCompleteState] for [AutoCompleteTextField]
@@ -430,6 +444,12 @@ class PlacesAutocomplete extends StatelessWidget {
     final textController = useState<TextEditingController>(
         searchController ?? TextEditingController());
     return SafeArea(
+      bottom: bottom,
+      left: left,
+      maintainBottomViewPadding: maintainBottomViewPadding,
+      minimum: minimum,
+      right: right,
+      top: top,
       child: Card(
         margin: topCardMargin,
         shape: topCardShape,
@@ -437,7 +457,7 @@ class PlacesAutocomplete extends StatelessWidget {
         child: ListTile(
           minVerticalPadding: 0,
           contentPadding: const EdgeInsets.only(right: 4, left: 4),
-          leading: showBackButton ? const BackButton() : backButton,
+          leading: hideBackButton ? null : backButton ?? const BackButton(),
           title: ClipRRect(
             borderRadius: borderRadius,
             child: FormBuilderTypeAhead<Prediction>(

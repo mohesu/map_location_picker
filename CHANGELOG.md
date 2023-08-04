@@ -1,3 +1,11 @@
+## 1.2.2
+
+- search card safe area parameters [bottom, left, maintainBottomViewPadding, minimum, right, top] added. #19
+- parameters added for hide my location button [hideLocationButton], map type button [hideLocationButton] and bottom card [hideBottomCard]. #20
+- onDecodeAddress parameter added.
+- showBackButton changed to hideBackButton.
+- canPopOnNextButtonTaped changed to popOnNextButtonTaped.
+
 ## 1.2.1-dev.1
 
 - Dependencies updated.
