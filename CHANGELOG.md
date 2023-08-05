@@ -1,3 +1,8 @@
+## 1.2.4
+
+- warnings, lints, or formatting issues fixed.
+- `lints_core` added to dev_dependencies.
+
 ## 1.2.3
 
 - google_maps_flutter_web removed from dependencies because it is now supported by google_maps_flutter package.

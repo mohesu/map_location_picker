@@ -54,7 +54,7 @@ class MapLocationPicker extends StatefulWidget {
   final ShapeBorder topCardShape;
 
   /// Top card text field border radius
-  final BorderRadius? borderRadius;
+  final BorderRadiusGeometry borderRadius;
 
   /// Top card text field hint text
   final String searchHintText;
