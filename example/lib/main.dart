@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
                   return AlertDialog(
                     title: const Text('Example'),
                     content: PlacesAutocomplete(
-                      apiKey: "YOUR_API_KEY_HERE",
+                      apiKey: "",
                       searchHintText: "Search for a place",
                       mounted: mounted,
                       hideBackButton: false,
@@ -121,7 +121,7 @@ class _MyAppState extends State<MyApp> {
                       return MapLocationPicker(
                         apiKey: "YOUR_API_KEY_HERE",
                         popOnNextButtonTaped: true,
-                        currentLatLng: const LatLng(29.121599, 76.396698),
+                        currentLatLng: const LatLng(29.146727, 76.464895),
                         onNext: (GeocodingResult? result) {
                           if (result != null) {
                             setState(() {

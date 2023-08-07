@@ -546,6 +546,14 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
     _initialPosition = widget.currentLatLng ?? _initialPosition;
     _mapType = widget.mapType;
     _searchController = widget.searchController ?? _searchController;
+    if (widget.currentLatLng != null) {
+      _decodeAddress(
+        Location(
+          lat: _initialPosition.latitude,
+          lng: _initialPosition.longitude,
+        ),
+      );
+    }
     super.initState();
   }
 

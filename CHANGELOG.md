@@ -1,3 +1,6 @@
+## 1.2.5
+- now if currentLatLng != null GoogleMapsGeocoding added on init. #22
+
 ## 1.2.4
 
 - warnings, lints, or formatting issues fixed.
