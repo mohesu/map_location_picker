@@ -148,7 +148,8 @@ class MapLocationPicker extends StatefulWidget {
   /// region: "us"
   final String? region;
 
-  /// fields
+  /// List of fields to be returned by the Google Maps Places API.
+  /// Refer to the Google Documentation here for a list of valid values: https://developers.google.com/maps/documentation/places/web-service/details
   final List<String> fields;
 
   /// Hide Suggestions on keyboard hide
@@ -285,12 +286,12 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
         [];
 
     final markers = Set<Marker>.from(additionalMarkers);
-
-    markers.add(Marker(
-      markerId: const MarkerId("one"),
-      position: _initialPosition,
-    ));
-
+    markers.add(
+      Marker(
+        markerId: const MarkerId("one"),
+        position: _initialPosition,
+      ),
+    );
     return Scaffold(
       body: Stack(
         children: [
@@ -386,6 +387,13 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                       CameraUpdate.newCameraPosition(cameraPosition()));
                   _address = placesDetails.result.formattedAddress ?? "";
                   widget.onSuggestionSelected?.call(placesDetails);
+                  _geocodingResult = GeocodingResult(
+                    geometry: placesDetails.result.geometry!,
+                    placeId: placesDetails.result.placeId,
+                    addressComponents: placesDetails.result.addressComponents,
+                    formattedAddress: placesDetails.result.formattedAddress,
+                    types: placesDetails.result.types,
+                  );
                   setState(() {});
                 },
               ),
@@ -452,9 +460,16 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                       _initialPosition = latLng;
                       final controller = await _controller.future;
                       controller.animateCamera(
-                          CameraUpdate.newCameraPosition(cameraPosition()));
-                      _decodeAddress(Location(
-                          lat: position.latitude, lng: position.longitude));
+                        CameraUpdate.newCameraPosition(
+                          cameraPosition(),
+                        ),
+                      );
+                      _decodeAddress(
+                        Location(
+                          lat: position.latitude,
+                          lng: position.longitude,
+                        ),
+                      );
                       setState(() {});
                     },
                     child: const Icon(Icons.my_location),

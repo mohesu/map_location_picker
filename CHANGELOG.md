@@ -1,4 +1,10 @@
+## 1.2.6
+
+- [#22](https://github.com/rvndsngwn/map_location_picker/issues/22) fixed
+- [#25](https://github.com/rvndsngwn/map_location_picker/issues/25) fixed
+
 ## 1.2.5
+
 - now if currentLatLng != null GoogleMapsGeocoding added on init. #22
 
 ## 1.2.4
