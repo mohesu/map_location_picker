@@ -114,33 +114,7 @@ class _MyAppState extends State<MyApp> {
             child: ElevatedButton(
               child: const Text('Pick location'),
               onPressed: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return MapLocationPicker(
-                        apiKey: "YOUR_API_KEY_HERE",
-                        popOnNextButtonTaped: true,
-                        currentLatLng: const LatLng(29.146727, 76.464895),
-                        onNext: (GeocodingResult? result) {
-                          if (result != null) {
-                            setState(() {
-                              address = result.formattedAddress ?? "";
-                            });
-                          }
-                        },
-                        onSuggestionSelected: (PlacesDetailsResponse? result) {
-                          if (result != null) {
-                            setState(() {
-                              autocompletePlace =
-                                  result.result.formattedAddress ?? "";
-                            });
-                          }
-                        },
-                      );
-                    },
-                  ),
-                );
+
               },
             ),
           ),
