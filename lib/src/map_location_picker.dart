@@ -394,6 +394,14 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                     formattedAddress: placesDetails.result.formattedAddress,
                     types: placesDetails.result.types,
                   );
+
+                  // updating the suggestion box modal data
+                  _decodeAddress(
+                    Location(
+                        lat: _initialPosition.latitude,
+                        lng: _initialPosition.longitude),
+                  );
+
                   setState(() {});
                 },
               ),
