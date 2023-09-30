@@ -74,6 +74,12 @@ class MapLocationPicker extends StatefulWidget {
   /// Bottom card color
   final Color? bottomCardColor;
 
+  /// On location permission callback
+  final bool hasLocationPermission;
+
+  /// detect location button click callback
+  final Function()? getLocation;
+
   /// On Suggestion Selected callback
   final Function(PlacesDetailsResponse?)? onSuggestionSelected;
 
@@ -207,6 +213,8 @@ class MapLocationPicker extends StatefulWidget {
     this.bottomCardIcon = const Icon(Icons.send),
     this.bottomCardTooltip = "Continue with this location",
     this.bottomCardColor,
+    this.hasLocationPermission = true,
+    this.getLocation,
     this.onSuggestionSelected,
     this.onNext,
     this.currentLatLng = const LatLng(28.8993468, 76.6250249),
@@ -459,26 +467,33 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                     backgroundColor: Theme.of(context).primaryColor,
                     foregroundColor: Theme.of(context).colorScheme.onPrimary,
                     onPressed: () async {
-                      await Geolocator.requestPermission();
-                      Position position = await Geolocator.getCurrentPosition(
-                        desiredAccuracy: widget.desiredAccuracy,
-                      );
-                      LatLng latLng =
-                          LatLng(position.latitude, position.longitude);
-                      _initialPosition = latLng;
-                      final controller = await _controller.future;
-                      controller.animateCamera(
-                        CameraUpdate.newCameraPosition(
-                          cameraPosition(),
-                        ),
-                      );
-                      _decodeAddress(
-                        Location(
-                          lat: position.latitude,
-                          lng: position.longitude,
-                        ),
-                      );
-                      setState(() {});
+                      // call parent method
+                      if (widget.getLocation != null) {
+                        widget.getLocation!.call();
+                      }
+
+                      if (widget.hasLocationPermission) {
+                        await Geolocator.requestPermission();
+                        Position position = await Geolocator.getCurrentPosition(
+                          desiredAccuracy: widget.desiredAccuracy,
+                        );
+                        LatLng latLng =
+                            LatLng(position.latitude, position.longitude);
+                        _initialPosition = latLng;
+                        final controller = await _controller.future;
+                        controller.animateCamera(
+                          CameraUpdate.newCameraPosition(
+                            cameraPosition(),
+                          ),
+                        );
+                        _decodeAddress(
+                          Location(
+                            lat: position.latitude,
+                            lng: position.longitude,
+                          ),
+                        );
+                        setState(() {});
+                      }
                     },
                     child: const Icon(Icons.my_location),
                   ),
