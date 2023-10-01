@@ -21,11 +21,11 @@ dependencies:
   flutter:
     sdk: flutter
 
-  google_maps_flutter: ^2.4.0
+  google_maps_flutter: ^2.4.1
   form_builder_extra_fields: ^10.0.0
   flutter_typeahead: ^4.6.2
   google_maps_webapi: ^0.0.22
-  geolocator: ^9.0.2
+  geolocator: ^10.0.0
   http: ^1.1.0
   logger: ^2.0.1
 
