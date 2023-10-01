@@ -336,7 +336,8 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                 );
                 setState(() {});
               },
-              onMapCreated: (GoogleMapController controller) => _controller.complete(controller),
+              onMapCreated: (GoogleMapController controller) =>
+                  _controller.complete(controller),
               markers: {
                 Marker(
                   markerId: const MarkerId('one'),
@@ -371,7 +372,8 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                   backButton: widget.backButton,
                   components: widget.components,
                   fields: widget.fields,
-                  hideSuggestionsOnKeyboardHide: widget.hideSuggestionsOnKeyboardHide,
+                  hideSuggestionsOnKeyboardHide:
+                      widget.hideSuggestionsOnKeyboardHide,
                   language: widget.language,
                   location: widget.location,
                   origin: widget.origin,
@@ -397,7 +399,8 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                       placesDetails.result.geometry?.location.lng ?? 0,
                     );
                     final controller = await _controller.future;
-                    controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition()));
+                    controller.animateCamera(
+                        CameraUpdate.newCameraPosition(cameraPosition()));
                     _address = placesDetails.result.formattedAddress ?? "";
                     widget.onSuggestionSelected?.call(placesDetails);
                     _geocodingResult = GeocodingResult(
@@ -410,306 +413,235 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                     setState(() {});
                   },
                 ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    PlacesAutocomplete(
+                      bottom: widget.bottom,
+                      left: widget.left,
+                      maintainBottomViewPadding:
+                          widget.maintainBottomViewPadding,
+                      minimum: widget.minimum,
+                      right: widget.right,
+                      top: widget.top,
+                      apiKey: widget.apiKey,
+                      mounted: mounted,
+                      searchController: _searchController,
+                      borderRadius: widget.borderRadius,
+                      offset: widget.offset,
+                      radius: widget.radius,
+                      backButton: widget.backButton,
+                      components: widget.components,
+                      fields: widget.fields,
+                      hideSuggestionsOnKeyboardHide:
+                          widget.hideSuggestionsOnKeyboardHide,
+                      language: widget.language,
+                      location: widget.location,
+                      origin: widget.origin,
+                      placesApiHeaders: widget.placesApiHeaders,
+                      placesBaseUrl: widget.placesBaseUrl,
+                      placesHttpClient: widget.placesHttpClient,
+                      region: widget.region,
+                      searchHintText: widget.searchHintText,
+                      sessionToken: widget.sessionToken,
+                      hideBackButton: widget.hideBackButton,
+                      strictbounds: widget.strictbounds,
+                      topCardColor: widget.topCardColor,
+                      topCardMargin: widget.topCardMargin,
+                      topCardShape: widget.topCardShape,
+                      types: widget.types,
+                      onGetDetailsByPlaceId: (placesDetails) async {
+                        if (placesDetails == null) {
+                          logger.e("placesDetails is null");
+                          return;
+                        }
+                        _initialPosition = LatLng(
+                          placesDetails.result.geometry?.location.lat ?? 0,
+                          placesDetails.result.geometry?.location.lng ?? 0,
+                        );
+                        final controller = await _controller.future;
+                        controller.animateCamera(
+                            CameraUpdate.newCameraPosition(cameraPosition()));
+                        _address = placesDetails.result.formattedAddress ?? "";
+                        widget.onSuggestionSelected?.call(placesDetails);
+                        _geocodingResult = GeocodingResult(
+                          geometry: placesDetails.result.geometry!,
+                          placeId: placesDetails.result.placeId,
+                          addressComponents:
+                              placesDetails.result.addressComponents,
+                          formattedAddress:
+                              placesDetails.result.formattedAddress,
+                          types: placesDetails.result.types,
+                        );
 
-              );
-              setState(() {});
-            },
-            onMapCreated: (GoogleMapController controller) =>
-                _controller.complete(controller),
-            markers: {
-              Marker(
-                markerId: const MarkerId('one'),
-                position: _initialPosition,
-              ),
-            },
-            myLocationButtonEnabled: false,
-            myLocationEnabled: true,
-            zoomControlsEnabled: false,
-            padding: widget.padding,
-            compassEnabled: widget.compassEnabled,
-            liteModeEnabled: widget.liteModeEnabled,
-            mapType: widget.mapType,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              PlacesAutocomplete(
-                bottom: widget.bottom,
-                left: widget.left,
-                maintainBottomViewPadding: widget.maintainBottomViewPadding,
-                minimum: widget.minimum,
-                right: widget.right,
-                top: widget.top,
-                apiKey: widget.apiKey,
-                mounted: mounted,
-                searchController: _searchController,
-                borderRadius: widget.borderRadius,
-                offset: widget.offset,
-                radius: widget.radius,
-                backButton: widget.backButton,
-                components: widget.components,
-                fields: widget.fields,
-                hideSuggestionsOnKeyboardHide:
-                    widget.hideSuggestionsOnKeyboardHide,
-                language: widget.language,
-                location: widget.location,
-                origin: widget.origin,
-                placesApiHeaders: widget.placesApiHeaders,
-                placesBaseUrl: widget.placesBaseUrl,
-                placesHttpClient: widget.placesHttpClient,
-                region: widget.region,
-                searchHintText: widget.searchHintText,
-                sessionToken: widget.sessionToken,
-                hideBackButton: widget.hideBackButton,
-                strictbounds: widget.strictbounds,
-                topCardColor: widget.topCardColor,
-                topCardMargin: widget.topCardMargin,
-                topCardShape: widget.topCardShape,
-                types: widget.types,
-                onGetDetailsByPlaceId: (placesDetails) async {
-                  if (placesDetails == null) {
-                    logger.e("placesDetails is null");
-                    return;
-                  }
-                  _initialPosition = LatLng(
-                    placesDetails.result.geometry?.location.lat ?? 0,
-                    placesDetails.result.geometry?.location.lng ?? 0,
-                  );
-                  final controller = await _controller.future;
-                  controller.animateCamera(
-                      CameraUpdate.newCameraPosition(cameraPosition()));
-                  _address = placesDetails.result.formattedAddress ?? "";
-                  widget.onSuggestionSelected?.call(placesDetails);
-                  _geocodingResult = GeocodingResult(
-                    geometry: placesDetails.result.geometry!,
-                    placeId: placesDetails.result.placeId,
-                    addressComponents: placesDetails.result.addressComponents,
-                    formattedAddress: placesDetails.result.formattedAddress,
-                    types: placesDetails.result.types,
-                  );
+                        // updating the suggestion box modal data
+                        _decodeAddress(
+                          Location(
+                              lat: _initialPosition.latitude,
+                              lng: _initialPosition.longitude),
+                        );
 
-                  // updating the suggestion box modal data
-                  _decodeAddress(
-                    Location(
-                        lat: _initialPosition.latitude,
-                        lng: _initialPosition.longitude),
-                  );
-
-                  setState(() {});
-                },
-              ),
-              const Spacer(),
-              if (!widget.hideMapTypeButton)
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Card(
-                    color: Theme.of(context).primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(360),
+                        setState(() {});
+                      },
                     ),
-                    elevation: 5,
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.5),
-                      child: PopupMenuButton(
-                        tooltip: 'Map Type',
-                        initialValue: _mapType,
-                        icon: Icon(
-                          Icons.layers,
-                          color: Theme.of(context).colorScheme.onPrimary,
+                    Spacer(),
+                    if (!widget.hideMapTypeButton)
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Card(
+                          color: Theme.of(context).primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(360),
+                          ),
+                          elevation: 5,
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.5),
+                            child: PopupMenuButton(
+                              tooltip: 'Map Type',
+                              initialValue: _mapType,
+                              icon: Icon(
+                                Icons.layers,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                              onSelected: (MapType mapType) {
+                                setState(() {
+                                  _mapType = mapType;
+                                });
+                              },
+                              itemBuilder: (context) => const [
+                                PopupMenuItem(
+                                  value: MapType.normal,
+                                  child: Text('Normal'),
+                                ),
+                                PopupMenuItem(
+                                  value: MapType.hybrid,
+                                  child: Text('Hybrid'),
+                                ),
+                                PopupMenuItem(
+                                  value: MapType.satellite,
+                                  child: Text('Satellite'),
+                                ),
+                                PopupMenuItem(
+                                  value: MapType.terrain,
+                                  child: Text('Terrain'),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                        onSelected: (MapType mapType) {
-                          setState(() {
-                            _mapType = mapType;
-                          });
-                        },
-                        itemBuilder: (context) => const [
-                          PopupMenuItem(
-                            value: MapType.normal,
-                            child: Text('Normal'),
-                          ),
-                          PopupMenuItem(
-                            value: MapType.hybrid,
-                            child: Text('Hybrid'),
-                          ),
-                          PopupMenuItem(
-                            value: MapType.satellite,
-                            child: Text('Satellite'),
-                          ),
-                          PopupMenuItem(
-                            value: MapType.terrain,
-                            child: Text('Terrain'),
-
-                const Spacer(),
-                if (!widget.hideMapTypeButton)
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Card(
-                      color: Theme.of(context).primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(360),
                       ),
-                      elevation: 5,
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.5),
-                        child: PopupMenuButton(
-                          tooltip: 'Map Type',
-                          initialValue: _mapType,
-                          icon: Icon(
-                            Icons.layers,
-                            color: Theme.of(context).colorScheme.onPrimary,
+                    if (!widget.hideLocationButton)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FloatingActionButton(
+                          tooltip: 'My Location',
+                          backgroundColor: Theme.of(context).primaryColor,
+                          foregroundColor:
+                              Theme.of(context).colorScheme.onPrimary,
+                          onPressed: () async {
+                            // call parent method
+                            if (widget.getLocation != null) {
+                              widget.getLocation!.call();
+                            }
 
-                          ),
-                          onSelected: (MapType mapType) {
-                            setState(() {
-                              _mapType = mapType;
-                            });
+                            if (widget.hasLocationPermission) {
+                              await Geolocator.requestPermission();
+                              Position position =
+                                  await Geolocator.getCurrentPosition(
+                                desiredAccuracy: widget.desiredAccuracy,
+                              );
+                              LatLng latLng =
+                                  LatLng(position.latitude, position.longitude);
+                              _initialPosition = latLng;
+                              final controller = await _controller.future;
+                              controller.animateCamera(
+                                CameraUpdate.newCameraPosition(
+                                  cameraPosition(),
+                                ),
+                              );
+                              _decodeAddress(
+                                Location(
+                                  lat: position.latitude,
+                                  lng: position.longitude,
+                                ),
+                              );
+                              setState(() {});
+                            }
                           },
-                          itemBuilder: (context) => const [
-                            PopupMenuItem(
-                              value: MapType.normal,
-                              child: Text('Normal'),
+                          child: const Icon(Icons.my_location),
+                        ),
+                      ),
+                    if (!widget.hideBottomCard)
+                      Card(
+                        margin: widget.bottomCardMargin,
+                        shape: widget.bottomCardShape,
+                        color: widget.bottomCardColor,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ListTile(
+                              title: Text(_address),
+                              trailing: IconButton(
+                                tooltip: widget.bottomCardTooltip,
+                                icon: widget.bottomCardIcon,
+                                onPressed: () async {
+                                  widget.onNext?.call(_geocodingResult);
+                                  if (widget.popOnNextButtonTaped) {
+                                    Navigator.pop(context, _geocodingResult);
+                                  }
+                                },
+                              ),
                             ),
-                            PopupMenuItem(
-                              value: MapType.hybrid,
-                              child: Text('Hybrid'),
-                            ),
-                            PopupMenuItem(
-                              value: MapType.satellite,
-                              child: Text('Satellite'),
-                            ),
-                            PopupMenuItem(
-                              value: MapType.terrain,
-                              child: Text('Terrain'),
-                            ),
+                            if (!widget.hideMoreOptions &&
+                                _geocodingResultList.isNotEmpty)
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: Text(widget.dialogTitle),
+                                      scrollable: true,
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children:
+                                            _geocodingResultList.map((element) {
+                                          return ListTile(
+                                            title: Text(
+                                                element.formattedAddress ?? ""),
+                                            onTap: () {
+                                              _address =
+                                                  element.formattedAddress ??
+                                                      "";
+                                              _geocodingResult = element;
+                                              setState(() {});
+                                              Navigator.pop(context, element);
+                                            },
+                                          );
+                                        }).toList(),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          child: const Text('Cancel'),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                child: Chip(
+                                  label: Text(
+                                    "Tap to show ${(_geocodingResultList.length - 1)} more result options",
+                                  ),
+                                ),
+                              ),
                           ],
                         ),
                       ),
-                    ),
-                  ),
-
-                ),
-              if (!widget.hideLocationButton)
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FloatingActionButton(
-                    tooltip: 'My Location',
-                    backgroundColor: Theme.of(context).primaryColor,
-                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                    onPressed: () async {
-                      // call parent method
-                      if (widget.getLocation != null) {
-                        widget.getLocation!.call();
-                      }
-
-                      if (widget.hasLocationPermission) {
-
-                if (!widget.hideLocationButton)
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: FloatingActionButton(
-                      tooltip: 'My Location',
-                      backgroundColor: Theme.of(context).primaryColor,
-                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                      onPressed: () async {
-
-                        await Geolocator.requestPermission();
-                        Position position = await Geolocator.getCurrentPosition(
-                          desiredAccuracy: widget.desiredAccuracy,
-                        );
-
-                        LatLng latLng =
-                            LatLng(position.latitude, position.longitude);
-
-                        LatLng latLng = LatLng(position.latitude, position.longitude);
-
-                        _initialPosition = latLng;
-                        final controller = await _controller.future;
-                        controller.animateCamera(
-                          CameraUpdate.newCameraPosition(
-                            cameraPosition(),
-                          ),
-                        );
-                        _decodeAddress(
-                          Location(
-                            lat: position.latitude,
-                            lng: position.longitude,
-                          ),
-                        );
-                        setState(() {});
-
-                      }
-                    },
-                    child: const Icon(Icons.my_location),
-
-                      },
-                      child: const Icon(Icons.my_location),
-                    ),
-
-                  ),
-                if (!widget.hideBottomCard)
-                  Card(
-                    margin: widget.bottomCardMargin,
-                    shape: widget.bottomCardShape,
-                    color: widget.bottomCardColor,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ListTile(
-                          title: Text(_address),
-                          trailing: IconButton(
-                            tooltip: widget.bottomCardTooltip,
-                            icon: widget.bottomCardIcon,
-                            onPressed: () async {
-                              widget.onNext?.call(_geocodingResult);
-                              if (widget.popOnNextButtonTaped) {
-                                Navigator.pop(context, _geocodingResult);
-                              }
-                            },
-                          ),
-                        ),
-                        if (!widget.hideMoreOptions && _geocodingResultList.isNotEmpty)
-                          GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text(widget.dialogTitle),
-                                  scrollable: true,
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: _geocodingResultList.map((element) {
-                                      return ListTile(
-                                        title: Text(element.formattedAddress ?? ""),
-                                        onTap: () {
-                                          _address = element.formattedAddress ?? "";
-                                          _geocodingResult = element;
-                                          setState(() {});
-                                          Navigator.pop(context, element);
-                                        },
-                                      );
-                                    }).toList(),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      child: const Text('Cancel'),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                            child: Chip(
-                              label: Text(
-                                "Tap to show ${(_geocodingResultList.length - 1)} more result options",
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
+                  ],
+                )
               ],
             ),
           ],
@@ -770,7 +702,8 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(response.errorMessage ?? "Address not found, something went wrong!"),
+              content: Text(response.errorMessage ??
+                  "Address not found, something went wrong!"),
             ),
           );
         }
