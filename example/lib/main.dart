@@ -24,6 +24,9 @@ class _MyAppState extends State<MyApp> {
   Prediction? initialValue;
 
   final TextEditingController _controller = TextEditingController();
+
+  final  String APIKEY = "AIzaSyByb5hBAZWfP_klcoQaWPFNm3KybD0rqY8";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +39,7 @@ class _MyAppState extends State<MyApp> {
         children: [
           PlacesAutocomplete(
             searchController: _controller,
-            apiKey: "YOUR_API_KEY_HERE",
+            apiKey: APIKEY,
             mounted: mounted,
             hideBackButton: false,
             onGetDetailsByPlaceId: (PlacesDetailsResponse? result) {
@@ -114,7 +117,33 @@ class _MyAppState extends State<MyApp> {
             child: ElevatedButton(
               child: const Text('Pick location'),
               onPressed: () async {
-
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return GoogleMapLocationPicker(
+                        apiKey: APIKEY,
+                        popOnNextButtonTaped: true,
+                        currentLatLng: const LatLng(29.146727, 76.464895),
+                        onNext: (GeocodingResult? result) {
+                          if (result != null) {
+                            setState(() {
+                              address = result.formattedAddress ?? "";
+                            });
+                          }
+                        },
+                        onSuggestionSelected: (PlacesDetailsResponse? result) {
+                          if (result != null) {
+                            setState(() {
+                              autocompletePlace =
+                                  result.result.formattedAddress ?? "";
+                            });
+                          }
+                        },
+                      );
+                    },
+                  ),
+                );
               },
             ),
           ),

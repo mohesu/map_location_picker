@@ -7,4 +7,5 @@ export 'package:google_maps_webapi/places.dart';
 
 export 'src/autocomplete_service.dart';
 export 'src/autocomplete_view.dart';
-export 'src/map_location_picker.dart';
+export 'src/google_map.dart';
+export 'src/open_map.dart';
