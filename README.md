@@ -1,10 +1,10 @@
 # map_location_picker:
 
 [![Pub Version](https://img.shields.io/pub/v/map_location_picker?color=blue&style=plastic)](https://pub.dev/packages/map_location_picker)
-[![GitHub Repo stars](https://img.shields.io/github/stars/rvndsngwn/map_location_picker?color=gold&style=plastic)](https://github.com/rvndsngwn/map_location_picker/stargazers)
-[![GitHub Repo forks](https://img.shields.io/github/forks/rvndsngwn/map_location_picker?color=slateblue&style=plastic)](https://github.com/rvndsngwn/map_location_picker/fork)
-[![GitHub Repo issues](https://img.shields.io/github/issues/rvndsngwn/map_location_picker?color=coral&style=plastic)](https://github.com/rvndsngwn/map_location_picker/issues)
-[![GitHub Repo contributors](https://img.shields.io/github/contributors/rvndsngwn/map_location_picker?color=green&style=plastic)](https://github.com/rvndsngwn/map_location_picker/graphs/contributors)
+[![GitHub Repo stars](https://img.shields.io/github/stars/rvndsngwn/map_location_picker?color=gold&style=plastic)](https://github.com/mohesu/map_location_picker/stargazers)
+[![GitHub Repo forks](https://img.shields.io/github/forks/rvndsngwn/map_location_picker?color=slateblue&style=plastic)](https://github.com/mohesu/map_location_picker/fork)
+[![GitHub Repo issues](https://img.shields.io/github/issues/rvndsngwn/map_location_picker?color=coral&style=plastic)](https://github.com/mohesu/map_location_picker/issues)
+[![GitHub Repo contributors](https://img.shields.io/github/contributors/rvndsngwn/map_location_picker?color=green&style=plastic)](https://github.com/mohesu/map_location_picker/graphs/contributors)
 
 # A simple library to pick a location on a map.
 
@@ -15,9 +15,9 @@ Made by Arvind [@rvndsngwn](https://github.com/rvndsngwn):
 - Added support for flutter web
 - All new customizations are done in the `MapLocationPicker` class
 
-|             | Android | iOS    | Flutter Web |
-|-------------|---------|--------|-------------|
-| **Support** | SDK 20+ | iOS 9+ | Yes         |
+|             | Android | iOS     | Web                              |
+|-------------|---------|---------|----------------------------------|
+| **Support** | SDK 20+ | iOS 11+ | Same as [Flutter's][web-support] |
 
 Location picker using the official [google_maps_flutter](https://pub.dev/packages/google_maps_flutter).
 
@@ -367,4 +367,4 @@ final List<String> fields;
 
 All contributions are welcome.
 
-[![GitHub](https://img.shields.io/badge/GitHub-0f0f0f?style=for-the-badge&logo=github&logoColor=white)](https://github.com/rvndsngwn/map_location_picker)
+[![GitHub](https://img.shields.io/badge/GitHub-0f0f0f?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mohesu/map_location_picker)

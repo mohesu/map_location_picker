@@ -1,3 +1,7 @@
+## 1.2.7+1
+
+- Readme updated.
+
 ## 1.2.7
 
 - dependencies updated.
@@ -28,7 +32,8 @@
 ## 1.2.2
 
 - search card safe area parameters [bottom, left, maintainBottomViewPadding, minimum, right, top] added. #19
-- parameters added for hide my location button [hideLocationButton], map type button [hideLocationButton] and bottom card [hideBottomCard]. #20
+- parameters added for hide my location button [hideLocationButton], map type button [hideLocationButton] and bottom
+  card [hideBottomCard]. #20
 - onDecodeAddress parameter added.
 - showBackButton changed to hideBackButton.
 - canPopOnNextButtonTaped changed to popOnNextButtonTaped.
@@ -78,7 +83,8 @@
 - google_maps_flutter package updated to 2.1.10
 - form_builder_extra_fields package updated to 8.3.0
 - geolocator package updated to 9.0.1
-- Cannot select a location directly after searching in the search bar [#5](https://github.com/rvndsngwn/map_location_picker/issues/5) resolved.
+- Cannot select a location directly after searching in the search
+  bar [#5](https://github.com/rvndsngwn/map_location_picker/issues/5) resolved.
 - LateInitializationError on \_geocodingresult [#6](https://github.com/rvndsngwn/map_location_picker/issues/6) resolved.
 
 ## 1.0.0+2
@@ -100,7 +106,8 @@
 
 ## 0.0.2
 
-- Merge pull request [#1](https://github.com/rvndsngwn/map_location_picker/pull/1) from [jeffmilanes/new_update](https://github.com/jeffmilanes)
+- Merge pull request [#1](https://github.com/rvndsngwn/map_location_picker/pull/1)
+  from [jeffmilanes/new_update](https://github.com/jeffmilanes)
 - Search results text color changed to black
 - Permission handler removed
 - Code cleanup
