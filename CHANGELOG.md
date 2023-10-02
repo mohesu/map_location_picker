@@ -1,3 +1,8 @@
+## 1.2.8+2
+
+- Topics updated.
+- minor changes in readme.
+
 ## 1.2.8+1
 
 - Tags and screenshots added.
