@@ -39,7 +39,7 @@ Pubspec changes:
 
 ```
       dependencies:
-        map_location_picker: ^1.3.0-beta
+        map_location_picker: ^1.3.0-beta.1
 ```
 You can now add a `GoogleMap` widget to your widget tree.
 
