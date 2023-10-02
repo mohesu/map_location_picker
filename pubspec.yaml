@@ -14,11 +14,11 @@ screenshots:
       path: assets/GIF_4300.gif
 
 topics:
-    - map_picker
-    - location_picker
-    - flutter_location_picker
-    - google_maps_flutter
-    - google_maps
+    - map-picker
+    - location-picker
+    - flutter-location-picker
+    - google-maps-flutter
+    - google-maps
 
 environment:
     sdk: ">=3.1.0 <4.0.0"

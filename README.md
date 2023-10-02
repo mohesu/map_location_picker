@@ -1,10 +1,10 @@
 # map_location_picker:
 
 [![Pub Version](https://img.shields.io/pub/v/map_location_picker?color=blue&style=plastic)](https://pub.dev/packages/map_location_picker)
-[![GitHub Repo stars](https://img.shields.io/github/stars/rvndsngwn/map_location_picker?color=gold&style=plastic)](https://github.com/mohesu/map_location_picker/stargazers)
-[![GitHub Repo forks](https://img.shields.io/github/forks/rvndsngwn/map_location_picker?color=slateblue&style=plastic)](https://github.com/mohesu/map_location_picker/fork)
-[![GitHub Repo issues](https://img.shields.io/github/issues/rvndsngwn/map_location_picker?color=coral&style=plastic)](https://github.com/mohesu/map_location_picker/issues)
-[![GitHub Repo contributors](https://img.shields.io/github/contributors/rvndsngwn/map_location_picker?color=green&style=plastic)](https://github.com/mohesu/map_location_picker/graphs/contributors)
+[![GitHub Repo stars](https://img.shields.io/github/stars/mohesu/map_location_picker?color=gold&style=plastic)](https://github.com/mohesu/map_location_picker/stargazers)
+[![GitHub Repo forks](https://img.shields.io/github/forks/mohesu/map_location_picker?color=slateblue&style=plastic)](https://github.com/mohesu/map_location_picker/fork)
+[![GitHub Repo issues](https://img.shields.io/github/issues/mohesu/map_location_picker?color=coral&style=plastic)](https://github.com/mohesu/map_location_picker/issues)
+[![GitHub Repo contributors](https://img.shields.io/github/contributors/mohesu/map_location_picker?color=green&style=plastic)](https://github.com/mohesu/map_location_picker/graphs/contributors)
 
 # A simple library to pick a location on a map.
 
@@ -31,9 +31,9 @@ deprecated [Place Picker](https://developers.google.com/places/android-sdk/place
      <td>Places autocomplete</td>
   </tr>
   <tr>
-<td><img src="https://raw.githubusercontent.com/rvndsngwn/map_location_picker/master/assets/GIF_4300.gif" width=270 height=480 alt=""></td>
-<td><img src="https://raw.githubusercontent.com/rvndsngwn/map_location_picker/master/assets/IMG_2480.PNG" width=270 height=480 alt=""></td>
-<td><img src="https://raw.githubusercontent.com/rvndsngwn/map_location_picker/master/assets/IMG_2482.PNG" width=270 height=480 alt=""></td>
+<td><img src="https://raw.githubusercontent.com/mohesu/map_location_picker/master/assets/GIF_4300.gif" width=270 height=480 alt=""></td>
+<td><img src="https://raw.githubusercontent.com/mohesu/map_location_picker/master/assets/IMG_2480.PNG" width=270 height=480 alt=""></td>
+<td><img src="https://raw.githubusercontent.com/mohesu/map_location_picker/master/assets/IMG_2482.PNG" width=270 height=480 alt=""></td>
 </tr>
 </table>
 
