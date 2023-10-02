@@ -368,3 +368,11 @@ final List<String> fields;
 All contributions are welcome.
 
 [![GitHub](https://img.shields.io/badge/GitHub-0f0f0f?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mohesu/map_location_picker)
+
+## 👨🏻‍💻Contributors
+
+<a href="https://github.com/mohesu/map_location_picker/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=mohesu/map_location_picker" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
