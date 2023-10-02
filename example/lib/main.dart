@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 
+import 'key.dart';
+
 void main() {
   runApp(
     const MaterialApp(
@@ -23,10 +25,6 @@ class _MyAppState extends State<MyApp> {
   String autocompletePlace = "null";
   Prediction? initialValue;
 
-  final TextEditingController _controller = TextEditingController();
-
-  final  String APIKEY = "AIzaSyByb5hBAZWfP_klcoQaWPFNm3KybD0rqY8";
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,11 +36,8 @@ class _MyAppState extends State<MyApp> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           PlacesAutocomplete(
-            searchController: _controller,
-            apiKey: APIKEY,
-            mounted: mounted,
-            hideBackButton: false,
-            onGetDetailsByPlaceId: (PlacesDetailsResponse? result) {
+            apiKey: YOUR_API_KEY,
+            onPlacesDetailsResponse: (PlacesDetailsResponse? result) {
               if (result != null) {
                 setState(() {
                   autocompletePlace = result.result.formattedAddress ?? "";
@@ -61,17 +56,14 @@ class _MyAppState extends State<MyApp> {
                     content: PlacesAutocomplete(
                       apiKey: "",
                       searchHintText: "Search for a place",
-                      mounted: mounted,
-                      hideBackButton: false,
-                      initialValue: initialValue,
                       onSuggestionSelected: (value) {
                         setState(() {
                           autocompletePlace =
-                              value.structuredFormatting?.mainText ?? "";
+                              value?.structuredFormatting?.mainText ?? "";
                           initialValue = value;
                         });
                       },
-                      onGetDetailsByPlaceId: (value) {
+                      onPlacesDetailsResponse: (value) {
                         setState(() {
                           address = value?.result.formattedAddress ?? "";
                         });
@@ -122,8 +114,7 @@ class _MyAppState extends State<MyApp> {
                   MaterialPageRoute(
                     builder: (context) {
                       return GoogleMapLocationPicker(
-                        apiKey: APIKEY,
-                        popOnNextButtonTaped: true,
+                        apiKey: YOUR_API_KEY,
                         currentLatLng: const LatLng(29.146727, 76.464895),
                         onNext: (GeocodingResult? result) {
                           if (result != null) {
@@ -132,7 +123,8 @@ class _MyAppState extends State<MyApp> {
                             });
                           }
                         },
-                        onSuggestionSelected: (PlacesDetailsResponse? result) {
+                        onPlacesDetailsResponse:
+                            (PlacesDetailsResponse? result) {
                           if (result != null) {
                             setState(() {
                               autocompletePlace =

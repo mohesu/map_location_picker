@@ -15,14 +15,6 @@ class PlacesAutocomplete extends StatelessWidget {
   /// by the anchor and the default size.
   final bool? isFullScreen;
 
-  /// An optional controller that allows opening and closing of the search view from
-  /// other widgets.
-  ///
-  /// If this is null, one internal search controller is created automatically
-  /// and it is used to open the search view when the user taps on the anchor.
-  final SearchController? searchController;
-
-
   /// An optional widget to display before the text input field when the search
   /// view is open.
   ///
@@ -53,7 +45,6 @@ class PlacesAutocomplete extends StatelessWidget {
   /// If null, the value of [SearchViewThemeData.elevation] will be used. If this
   /// is also null, then default value is 6.0.
   final double? viewElevation;
-
 
   /// The color and weight of the search view's outline.
   ///
@@ -108,7 +99,6 @@ class PlacesAutocomplete extends StatelessWidget {
   /// ```
   final BoxConstraints? viewConstraints;
 
-
   /// Called to get the suggestion list for the search view.
   ///
   /// By default, the list returned by this builder is laid out in a [ListView].
@@ -128,7 +118,6 @@ class PlacesAutocomplete extends StatelessWidget {
   /// Search bar elevation (optional)
   final MaterialStateProperty<double?>? barElevation;
 
-
   final void Function()? onTap;
 
   final MaterialStateProperty<Color?>? barBackgroundColor;
@@ -138,7 +127,6 @@ class PlacesAutocomplete extends StatelessWidget {
   final Widget? barLeading;
 
   final MaterialStateProperty<Color?>? barOverlayColor;
-
 
   final MaterialStateProperty<TextStyle?>? barTextStyle;
 
@@ -209,13 +197,10 @@ class PlacesAutocomplete extends StatelessWidget {
   final List<String> fields;
 
   /// On get details callback
-  final void Function(PlacesDetailsResponse?)? onGetDetailsByPlaceId;
+  final void Function(PlacesDetailsResponse?)? onPlacesDetailsResponse;
 
   /// On suggestion selected callback
-  final void Function(Prediction)? onSuggestionSelected;
-
-  /// Validator for search text field (optional)
-  final String? Function(Prediction?)? validator;
+  final void Function(Prediction?)? onSuggestionSelected;
 
   const PlacesAutocomplete({
     Key? key,
@@ -236,11 +221,9 @@ class PlacesAutocomplete extends StatelessWidget {
     this.types = const [],
     this.components = const [],
     this.strictbounds = false,
-    this.onGetDetailsByPlaceId,
+    this.onPlacesDetailsResponse,
     this.onSuggestionSelected,
-    this.validator,
     this.isFullScreen,
-    this.searchController ,
     this.viewLeading,
     this.viewTrailing,
     this.viewHintText,
@@ -284,11 +267,10 @@ class PlacesAutocomplete extends StatelessWidget {
             RoundedRectangleBorder(borderRadius: borderRadius),
           ),
       viewConstraints: viewConstraints ?? const BoxConstraints(maxHeight: 300),
-      barElevation: barElevation ?? MaterialStateProperty.all(2),
+      barElevation: barElevation ?? MaterialStateProperty.all(1),
       viewElevation: viewElevation ?? 220,
       barHintText: searchHintText,
       onTap: onTap,
-      searchController: searchController ?? SearchController(),
       barBackgroundColor: barBackgroundColor,
       barHintStyle: barHintStyle,
       barLeading: barLeading,
@@ -404,7 +386,7 @@ class PlacesAutocomplete extends StatelessWidget {
         }
         return;
       }
-      onGetDetailsByPlaceId?.call(response);
+      onPlacesDetailsResponse?.call(response);
     } catch (e) {
       logger.e(e);
     }

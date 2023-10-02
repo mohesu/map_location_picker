@@ -1,3 +1,10 @@
+## 1.3.0-beta
+
+- Major changes in the UI. SearchBar replaced with SearchAnchor.bar
+- form_builder_extra_fields removed from dependencies.
+- flutter_typeahead: ^4.8.0 removed from dependencies.
+
+
 ## 1.2.6
 
 - [#22](https://github.com/rvndsngwn/map_location_picker/issues/22) fixed

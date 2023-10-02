@@ -13,12 +13,9 @@ Made by Arvind [@rvndsngwn](https://github.com/rvndsngwn):
 - Compatibility with Geolocator
 - Use of Google map APIs
 - Added support for flutter web
-- All new customizations are done in the `MapLocationPicker` class
+- All new customizations are done in the `GoogleMapLocationPicker` class
 
-|             | Android | iOS    | Flutter Web |
-| ----------- | ------- | ------ | ----------- |
-| **Support** | SDK 20+ | iOS 9+ | Yes         |
-
+## 📸 Screenshots
 Location picker using the official [google_maps_flutter](https://pub.dev/packages/google_maps_flutter).
 
 I made This plugin because google deprecated [Place Picker](https://developers.google.com/places/android-sdk/placepicker).
@@ -42,14 +39,14 @@ Pubspec changes:
 
 ```
       dependencies:
-        map_location_picker: ^1.0.1
+        map_location_picker: ^1.3.0-beta
 ```
 You can now add a `GoogleMap` widget to your widget tree.
 
 ```dart
 import 'package:map_location_picker/map_location_picker.dart';
 
-MapLocationPicker(
+GoogleMapLocationPicker(
   apiKey: "YOUR_API_KEY",
   onNext: (GeocodingResult? result) {
       ...
@@ -194,7 +191,7 @@ You can find code information at [Wikipedia: List of ISO 3166 country codes](htt
 The example below restricts Autocomplete Search to the United Arab Emirates and Nigeria
 
 ```dart
-MapLocationPicker(
+GoogleMapLocationPicker(
  apiKey: "YOUR_API_KEY",
  onNext: (GeocodingResult? result) {
    ...
@@ -208,7 +205,7 @@ See the `example` directory for a complete sample app.
 ### Parameters of the MapLocationPicker
 
 ```dart
-/// Padding around the map
+  /// Padding around the map
 final EdgeInsets padding;
 
 /// Compass for the map (default: true)
@@ -241,18 +238,6 @@ final List<String> resultType;
 /// Map minimum zoom level & maximum zoom level
 final MinMaxZoomPreference minMaxZoomPreference;
 
-/// Top card margin
-final EdgeInsetsGeometry topCardMargin;
-
-/// Top card color
-final Color? topCardColor;
-
-/// Top card shape
-final ShapeBorder topCardShape;
-
-/// Top card text field border radius
-final BorderRadius? borderRadius;
-
 /// Top card text field hint text
 final String searchHintText;
 
@@ -263,31 +248,25 @@ final ShapeBorder bottomCardShape;
 final EdgeInsetsGeometry bottomCardMargin;
 
 /// Bottom card icon
-final Icon bottomCardIcon;
-
-/// Bottom card tooltip
-final String bottomCardTooltip;
+final Widget? nextButton;
 
 /// Bottom card color
 final Color? bottomCardColor;
 
-/// On Suggestion Selected callback
-final Function(PlacesDetailsResponse?)? onSuggestionSelected;
+/// On location permission callback
+final bool hasLocationPermission;
+
+/// detect location button click callback
+final Function()? getLocation;
 
 /// On Next Page callback
-final Function(GeocodingResult?) onNext;
+final Function(GeocodingResult?)? onNext;
 
-/// Show back button (default: true)
-final bool showBackButton;
-
-/// Popup route on next press (default: false)
-final bool canPopOnNextButtonTaped;
-
-/// Back button replacement when [showBackButton] is false and [backButton] is not null
-final Widget? backButton;
+/// When tap on map decode address callback function
+final Function(GeocodingResult?)? onDecodeAddress;
 
 /// Show more suggestions
-final bool showMoreOptions;
+final bool hideMoreOptions;
 
 /// Dialog title
 final String dialogTitle;
@@ -311,6 +290,10 @@ final num? offset;
 /// Origin location for calculating distance from results
 /// origin: Location(lat: -33.852, lng: 151.211),
 final Location? origin;
+
+/// currentLatLng init location for camera position
+/// currentLatLng: Location(lat: -33.852, lng: 151.211),
+final LatLng? currentLatLng;
 
 /// Location bounds for restricting results to a radius around a location
 /// location: Location(lat: -33.867, lng: 151.195)
@@ -338,8 +321,94 @@ final bool strictbounds;
 /// region: "us"
 final String? region;
 
-/// fields
+/// List of fields to be returned by the Google Maps Places API.
+/// Refer to the Google Documentation here for a list of valid values: https://developers.google.com/maps/documentation/places/web-service/details
 final List<String> fields;
+
+/// Hide Suggestions on keyboard hide
+final bool hideSearchBar;
+
+/// Map type (default: MapType.normal)
+final MapType mapType;
+
+/// Search text field controller
+final SearchController? searchController;
+
+/// Add your own custom markers
+final Map<String, LatLng>? additionalMarkers;
+
+/// Safe area parameters (default: true)
+final bool bottom;
+final bool left;
+final bool maintainBottomViewPadding;
+final EdgeInsets minimum;
+final bool right;
+final bool top;
+
+/// hide location button and map type button (default: false)
+final bool hideLocationButton;
+final bool hideMapTypeButton;
+
+/// hide bottom card (default: false)
+final bool hideBottomCard;
+
+final BorderRadiusGeometry borderRadius;
+
+final Iterable<Widget>? viewTrailing;
+
+final BorderSide? viewSide;
+
+final OutlinedBorder? viewShape;
+
+final Widget? viewLeading;
+
+final String? viewHintText;
+
+final Color? viewBackgroundColor;
+
+final Color? dividerColor;
+
+final BoxConstraints? constraints;
+
+final Iterable<Widget>? barTrailing;
+
+final MaterialStateProperty<TextStyle?>? barTextStyle;
+
+final MaterialStateProperty<BorderSide?>? barSide;
+
+final MaterialStateProperty<EdgeInsetsGeometry?>? barPadding;
+
+final MaterialStateProperty<Color?>? barOverlayColor;
+
+final Widget? barLeading;
+
+final MaterialStateProperty<TextStyle?>? barHintStyle;
+
+final MaterialStateProperty<Color?>? barBackgroundColor;
+
+final MaterialStateProperty<OutlinedBorder?>? barShape;
+
+final void Function()? onBarTap;
+
+final bool isFullScreen;
+
+final MaterialStateProperty<double?>? barElevation;
+
+final TextStyle? headerHintStyle;
+
+final TextStyle? headerTextStyle;
+
+final Widget Function(BuildContext, List<Prediction>?)? listBuilder;
+
+final BoxConstraints? viewConstraints;
+
+final void Function(Prediction?)? onSuggestionSelected;
+final void Function(PlacesDetailsResponse?)? onPlacesDetailsResponse;
+
+final FutureOr<Iterable<Widget>> Function(BuildContext, SearchController)?
+suggestionsBuilder;
+
+final double? viewElevation;
 ```
 ## 💰You can help me by Donating
 
