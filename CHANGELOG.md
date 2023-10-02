@@ -1,3 +1,12 @@
+## 1.2.7
+
+- dependencies updated.
+- #29 not issue not found while testing.
+- #27 Map scroll and singlechildscrollview both can't be used at the same time.
+- #26 fixed.
+- New contribution by [Raju Prasad](https://github.com/rajuprasad-dev)
+- New contribution by [Hemil Gandhi](https://github.com/hgandhi67)
+
 ## 1.2.6
 
 - [#22](https://github.com/rvndsngwn/map_location_picker/issues/22) fixed

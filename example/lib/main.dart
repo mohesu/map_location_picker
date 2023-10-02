@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 
+import 'key.dart';
+
 void main() {
   runApp(
     const MaterialApp(
@@ -24,6 +26,7 @@ class _MyAppState extends State<MyApp> {
   Prediction? initialValue;
 
   final TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,9 +39,9 @@ class _MyAppState extends State<MyApp> {
         children: [
           PlacesAutocomplete(
             searchController: _controller,
-            apiKey: "YOUR_API_KEY_HERE",
+            apiKey: YOUR_API_KEY,
             mounted: mounted,
-            hideBackButton: false,
+            hideBackButton: true,
             onGetDetailsByPlaceId: (PlacesDetailsResponse? result) {
               if (result != null) {
                 setState(() {
@@ -59,7 +62,7 @@ class _MyAppState extends State<MyApp> {
                       apiKey: "",
                       searchHintText: "Search for a place",
                       mounted: mounted,
-                      hideBackButton: false,
+                      hideBackButton: true,
                       initialValue: initialValue,
                       onSuggestionSelected: (value) {
                         setState(() {
@@ -114,7 +117,33 @@ class _MyAppState extends State<MyApp> {
             child: ElevatedButton(
               child: const Text('Pick location'),
               onPressed: () async {
-
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return MapLocationPicker(
+                        apiKey: YOUR_API_KEY,
+                        popOnNextButtonTaped: true,
+                        currentLatLng: const LatLng(29.146727, 76.464895),
+                        onNext: (GeocodingResult? result) {
+                          if (result != null) {
+                            setState(() {
+                              address = result.formattedAddress ?? "";
+                            });
+                          }
+                        },
+                        onSuggestionSelected: (PlacesDetailsResponse? result) {
+                          if (result != null) {
+                            setState(() {
+                              autocompletePlace =
+                                  result.result.formattedAddress ?? "";
+                            });
+                          }
+                        },
+                      );
+                    },
+                  ),
+                );
               },
             ),
           ),
