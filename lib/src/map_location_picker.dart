@@ -185,6 +185,15 @@ class MapLocationPicker extends StatefulWidget {
   /// hide bottom card (default: false)
   final bool hideBottomCard;
 
+  /// Focus node for the search text field
+  final FocusNode? focusNode;
+  
+  /// Tooltip for the FAB button.
+  final String fabTooltip;
+
+  /// FAB icon
+  final IconData fabIcon;
+
   const MapLocationPicker({
     Key? key,
     this.desiredAccuracy = LocationAccuracy.high,
@@ -250,6 +259,9 @@ class MapLocationPicker extends StatefulWidget {
     this.hideMapTypeButton = false,
     this.hideBottomCard = false,
     this.onDecodeAddress,
+    this.focusNode,
+    this.fabTooltip = 'My Location',
+    this.fabIcon =  Icons.my_location
   }) : super(key: key);
 
   @override
@@ -357,6 +369,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 PlacesAutocomplete(
+                  focusNode: widget.focusNode,
                   bottom: widget.bottom,
                   left: widget.left,
                   maintainBottomViewPadding: widget.maintainBottomViewPadding,
@@ -471,7 +484,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: FloatingActionButton(
-                      tooltip: 'My Location',
+                      tooltip: widget.fabTooltip,
                       backgroundColor: Theme.of(context).primaryColor,
                       foregroundColor: Theme.of(context).colorScheme.onPrimary,
                       onPressed: () async {
@@ -504,7 +517,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                           setState(() {});
                         }
                       },
-                      child: const Icon(Icons.my_location),
+                      child: Icon(widget.fabIcon),
                     ),
                   ),
                 if (!widget.hideBottomCard)
