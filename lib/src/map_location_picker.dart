@@ -194,6 +194,10 @@ class MapLocationPicker extends StatefulWidget {
   /// FAB icon
   final IconData fabIcon;
 
+  /// Minimum number of characters to trigger the autocomplete
+  /// Defaults to 0
+  final int minCharsForSuggestions;
+
   const MapLocationPicker({
     Key? key,
     this.desiredAccuracy = LocationAccuracy.high,
@@ -261,7 +265,8 @@ class MapLocationPicker extends StatefulWidget {
     this.onDecodeAddress,
     this.focusNode,
     this.fabTooltip = 'My Location',
-    this.fabIcon =  Icons.my_location
+    this.fabIcon =  Icons.my_location,
+    this.minCharsForSuggestions = 0
   }) : super(key: key);
 
   @override
@@ -402,6 +407,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                   topCardMargin: widget.topCardMargin,
                   topCardShape: widget.topCardShape,
                   types: widget.types,
+                  minCharsForSuggestions: widget.minCharsForSuggestions,
                   onGetDetailsByPlaceId: (placesDetails) async {
                     if (placesDetails == null) {
                       logger.e("placesDetails is null");
