@@ -185,6 +185,19 @@ class MapLocationPicker extends StatefulWidget {
   /// hide bottom card (default: false)
   final bool hideBottomCard;
 
+  /// Focus node for the search text field
+  final FocusNode? focusNode;
+  
+  /// Tooltip for the FAB button.
+  final String fabTooltip;
+
+  /// FAB icon
+  final IconData fabIcon;
+
+  /// Minimum number of characters to trigger the autocomplete
+  /// Defaults to 0
+  final int minCharsForSuggestions;
+
   const MapLocationPicker({
     Key? key,
     this.desiredAccuracy = LocationAccuracy.high,
@@ -250,6 +263,10 @@ class MapLocationPicker extends StatefulWidget {
     this.hideMapTypeButton = false,
     this.hideBottomCard = false,
     this.onDecodeAddress,
+    this.focusNode,
+    this.fabTooltip = 'My Location',
+    this.fabIcon =  Icons.my_location,
+    this.minCharsForSuggestions = 0
   }) : super(key: key);
 
   @override
@@ -357,6 +374,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 PlacesAutocomplete(
+                  focusNode: widget.focusNode,
                   bottom: widget.bottom,
                   left: widget.left,
                   maintainBottomViewPadding: widget.maintainBottomViewPadding,
@@ -389,6 +407,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                   topCardMargin: widget.topCardMargin,
                   topCardShape: widget.topCardShape,
                   types: widget.types,
+                  minCharsForSuggestions: widget.minCharsForSuggestions,
                   onGetDetailsByPlaceId: (placesDetails) async {
                     if (placesDetails == null) {
                       logger.e("placesDetails is null");
@@ -471,7 +490,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: FloatingActionButton(
-                      tooltip: 'My Location',
+                      tooltip: widget.fabTooltip,
                       backgroundColor: Theme.of(context).primaryColor,
                       foregroundColor: Theme.of(context).colorScheme.onPrimary,
                       onPressed: () async {
@@ -504,7 +523,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                           setState(() {});
                         }
                       },
-                      child: const Icon(Icons.my_location),
+                      child: Icon(widget.fabIcon),
                     ),
                   ),
                 if (!widget.hideBottomCard)
