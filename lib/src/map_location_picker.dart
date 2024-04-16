@@ -198,6 +198,12 @@ class MapLocationPicker extends StatefulWidget {
   /// Defaults to 0
   final int minCharsForSuggestions;
 
+  /// Map styles, you can style a map to be dark or light, see more at
+  /// [https://stackoverflow.com/questions/49953913/flutter-styled-map] and see here to create a json
+  /// styling and load it from assets as a string [https://mapstyle.withgoogle.com]
+  final String? mapStyle;
+  
+
   const MapLocationPicker({
     Key? key,
     this.desiredAccuracy = LocationAccuracy.high,
@@ -264,6 +270,7 @@ class MapLocationPicker extends StatefulWidget {
     this.hideBottomCard = false,
     this.onDecodeAddress,
     this.focusNode,
+    this.mapStyle,
     this.fabTooltip = 'My Location',
     this.fabIcon =  Icons.my_location,
     this.minCharsForSuggestions = 0
@@ -368,6 +375,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
               compassEnabled: widget.compassEnabled,
               liteModeEnabled: widget.liteModeEnabled,
               mapType: widget.mapType,
+              style: widget.mapStyle,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
