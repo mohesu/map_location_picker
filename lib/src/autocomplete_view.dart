@@ -202,6 +202,9 @@ class PlacesAutocomplete extends StatelessWidget {
   /// On suggestion selected callback
   final void Function(Prediction?)? onSuggestionSelected;
 
+  /// Search List Card Padding
+  final EdgeInsetsGeometry searchListCardPadding;
+
   const PlacesAutocomplete({
     Key? key,
     required this.apiKey,
@@ -249,6 +252,7 @@ class PlacesAutocomplete extends StatelessWidget {
     this.constraints,
     this.barPadding,
     this.barSide,
+    this.searchListCardPadding = const EdgeInsets.symmetric(horizontal: 8),
   }) : super(key: key);
 
   /// Get [AutoCompleteState] for [AutoCompleteTextField]
@@ -333,9 +337,12 @@ class PlacesAutocomplete extends StatelessWidget {
                                 controller.text = prediction.description ?? "";
                                 FocusScope.of(context).unfocus();
                               },
-                              title: Text(prediction.description ??
-                                  prediction.structuredFormatting?.mainText ??
-                                  "No title"),
+                              title: Padding(
+                                padding: searchListCardPadding,
+                                child: Text(prediction.description ??
+                                    prediction.structuredFormatting?.mainText ??
+                                    "No title"),
+                              ),
                             );
                           },
                         );
