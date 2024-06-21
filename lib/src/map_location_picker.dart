@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -187,7 +189,7 @@ class MapLocationPicker extends StatefulWidget {
 
   /// Focus node for the search text field
   final FocusNode? focusNode;
-  
+
   /// Tooltip for the FAB button.
   final String fabTooltip;
 
@@ -202,10 +204,96 @@ class MapLocationPicker extends StatefulWidget {
   /// [https://stackoverflow.com/questions/49953913/flutter-styled-map] and see here to create a json
   /// styling and load it from assets as a string [https://mapstyle.withgoogle.com]
   final String? mapStyle;
-  
+
+  /// Enables or disables showing 3D buildings where available
+  final bool buildingsEnabled;
+
+  /// Geographical bounding box for the camera target.
+  final CameraTargetBounds cameraTargetBounds;
+
+  /// Circles to be placed on the map.
+  final Set<Circle> circles;
+
+  /// Identifier that's associated with a specific cloud-based map style.
+  ///
+  /// See https://developers.google.com/maps/documentation/get-map-id
+  /// for more details.
+  final String? cloudMapId;
+
+  /// True if 45 degree imagery should be enabled. Web only.
+  final bool fortyFiveDegreeImageryEnabled;
+
+  /// Which gestures should be consumed by the map.
+  ///
+  /// It is possible for other gesture recognizers to be competing with the map on pointer
+  /// events, e.g if the map is inside a [ListView] the [ListView] will want to handle
+  /// vertical drags. The map will claim gestures that are recognized by any of the
+  /// recognizers on this list.
+  ///
+  /// When this set is empty, the map will only handle pointer events for gestures that
+  /// were not claimed by any other gesture recognizer.
+  final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers;
+
+  /// Enables or disables the indoor view from the map
+  final bool indoorViewEnabled;
+
+  /// The layout direction to use for the embedded view.
+  ///
+  /// If this is null, the ambient [Directionality] is used instead. If there is
+  /// no ambient [Directionality], [TextDirection.ltr] is used.
+  final TextDirection? layoutDirection;
+
+  /// True if the map should show a toolbar when you interact with the map. Android only.
+  final bool mapToolbarEnabled;
+
+  /// Called when camera movement has ended, there are no pending
+  /// animations and the user has stopped interacting with the map.
+  final VoidCallback? onCameraIdle;
+
+  /// Called when the camera starts moving.
+  ///
+  /// This can be initiated by the following:
+  /// 1. Non-gesture animation initiated in response to user actions.
+  ///    For example: zoom buttons, my location button, or marker clicks.
+  /// 2. Programmatically initiated animation.
+  /// 3. Camera motion initiated in response to user gestures on the map.
+  ///    For example: pan, tilt, pinch to zoom, or rotate.
+  final VoidCallback? onCameraMoveStarted;
+
+  /// Called every time a [GoogleMap] is long pressed.
+  final ArgumentCallback<LatLng>? onLongPress;
+
+  /// Polygons to be placed on the map.
+  final Set<Polygon> polygons;
+
+  /// Polylines to be placed on the map.
+  final Set<Polyline> polylines;
+
+  /// True if the map view should respond to rotate gestures.
+  final bool rotateGesturesEnabled;
+
+  /// True if the map view should respond to scroll gestures.
+  final bool scrollGesturesEnabled;
+
+  /// Tile overlays to be placed on the map.
+  final Set<TileOverlay> tileOverlays;
+
+  /// True if the map view should respond to tilt gestures.
+  final bool tiltGesturesEnabled;
+
+  /// Enables or disables the traffic layer of the map
+  final bool trafficEnabled;
+
+  /// This setting controls how the API handles gestures on the map. Web only.
+  ///
+  /// See [WebGestureHandling] for more details.
+  final WebGestureHandling? webGestureHandling;
+
+  /// True if the map view should respond to zoom gestures.
+  final bool zoomGesturesEnabled;
 
   const MapLocationPicker({
-    Key? key,
+    super.key,
     this.desiredAccuracy = LocationAccuracy.high,
     required this.apiKey,
     this.geoCodingBaseUrl,
@@ -272,9 +360,30 @@ class MapLocationPicker extends StatefulWidget {
     this.focusNode,
     this.mapStyle,
     this.fabTooltip = 'My Location',
-    this.fabIcon =  Icons.my_location,
-    this.minCharsForSuggestions = 0
-  }) : super(key: key);
+    this.fabIcon = Icons.my_location,
+    this.minCharsForSuggestions = 0,
+    this.buildingsEnabled = true,
+    this.cameraTargetBounds = CameraTargetBounds.unbounded,
+    this.circles = const <Circle>{},
+    this.cloudMapId,
+    this.fortyFiveDegreeImageryEnabled = false,
+    this.gestureRecognizers = const <Factory<OneSequenceGestureRecognizer>>{},
+    this.indoorViewEnabled = false,
+    this.layoutDirection,
+    this.mapToolbarEnabled = true,
+    this.onCameraIdle,
+    this.onCameraMoveStarted,
+    this.onLongPress,
+    this.polygons = const <Polygon>{},
+    this.polylines = const <Polyline>{},
+    this.rotateGesturesEnabled = true,
+    this.scrollGesturesEnabled = true,
+    this.tileOverlays = const <TileOverlay>{},
+    this.tiltGesturesEnabled = true,
+    this.trafficEnabled = true,
+    this.webGestureHandling,
+    this.zoomGesturesEnabled = true,
+  });
 
   @override
   State<MapLocationPicker> createState() => _MapLocationPickerState();
@@ -324,14 +433,8 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
         position: _initialPosition,
       ),
     );
-    return WillPopScope(
-      onWillPop: () async {
-        if (Navigator.of(context).userGestureInProgress) {
-          return false;
-        } else {
-          return true;
-        }
-      },
+    return PopScope(
+      canPop: Navigator.of(context).userGestureInProgress,
       child: Scaffold(
         body: Stack(
           children: [
@@ -376,6 +479,28 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
               liteModeEnabled: widget.liteModeEnabled,
               mapType: widget.mapType,
               style: widget.mapStyle,
+              buildingsEnabled: widget.buildingsEnabled,
+              cameraTargetBounds: widget.cameraTargetBounds,
+              circles: widget.circles,
+              cloudMapId: widget.cloudMapId,
+              fortyFiveDegreeImageryEnabled:
+                  widget.fortyFiveDegreeImageryEnabled,
+              gestureRecognizers: widget.gestureRecognizers,
+              indoorViewEnabled: widget.indoorViewEnabled,
+              layoutDirection: widget.layoutDirection,
+              mapToolbarEnabled: widget.mapToolbarEnabled,
+              onCameraIdle: widget.onCameraIdle,
+              onCameraMoveStarted: widget.onCameraMoveStarted,
+              onLongPress: widget.onLongPress,
+              polygons: widget.polygons,
+              polylines: widget.polylines,
+              rotateGesturesEnabled: widget.rotateGesturesEnabled,
+              scrollGesturesEnabled: widget.scrollGesturesEnabled,
+              tileOverlays: widget.tileOverlays,
+              tiltGesturesEnabled: widget.tiltGesturesEnabled,
+              trafficEnabled: widget.trafficEnabled,
+              webGestureHandling: widget.webGestureHandling,
+              zoomGesturesEnabled: widget.zoomGesturesEnabled,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,

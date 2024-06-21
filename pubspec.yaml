@@ -1,16 +1,16 @@
 name: map_location_picker
 description: Google Map location picker for flutter Based on google_maps_flutter.
-version: 1.2.8+2
+version: 1.2.9
 homepage: https://github.com/mohesu/map_location_picker
 repository: https://github.com/mohesu/map_location_picker
 issue_tracker: https://github.com/mohesu/map_location_picker/issues
 documentation: https://github.com/mohesu/map_location_picker/blob/master/README.md
 screenshots:
-    - description: 'Map Location Picker Decoded Address'
+    - description: "Map Location Picker Decoded Address"
       path: assets/IMG_2480.PNG
-    - description: 'Map Location Picker Places autocomplete'
+    - description: "Map Location Picker Places autocomplete"
       path: assets/IMG_2482.PNG
-    - description: 'Map Location Picker Video'
+    - description: "Map Location Picker Video"
       path: assets/GIF_4300.gif
 
 topics:
@@ -38,15 +38,15 @@ dependencies:
     flutter:
         sdk: flutter
 
-    google_maps_flutter: ^2.5.0
-    form_builder_extra_fields: ^10.1.0
-    flutter_typeahead: ^4.8.0
+    google_maps_flutter: ^2.7.0
+    form_builder_extra_fields: ^10.2.0
+    flutter_typeahead: ^4.7.0
     google_maps_webapi: ^0.0.22
-    geolocator: ^10.1.0
-    http: ^1.1.0
-    logger: ^2.0.2+1
+    geolocator: ^12.0.0
+    http: ^1.2.1
+    logger: ^2.3.0
 
 dev_dependencies:
     flutter_test:
         sdk: flutter
-    lints: ^2.1.1
+    lints: ^4.0.0
