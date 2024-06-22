@@ -1,3 +1,7 @@
+## 1.2.9+2
+
+- bottomCardBuilder added to customize the bottom card.
+
 ## 1.2.9+1
 
 - updated dependencies.
