@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
 const Level loggerLevel = Level.trace;
@@ -15,3 +16,7 @@ Logger logger = Logger(
   ),
   level: loggerLevel,
 );
+
+ValueNotifier<T> useState<T>(T initialData) {
+  return ValueNotifier<T>(initialData);
+}

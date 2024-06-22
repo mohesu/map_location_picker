@@ -6,9 +6,6 @@ import 'package:http/http.dart';
 import '../map_location_picker.dart';
 import 'logger.dart';
 
-ValueNotifier<T> useState<T>(T initialData) {
-  return ValueNotifier<T>(initialData);
-}
 
 class PlacesAutocomplete extends StatelessWidget {
   /// API key for the map & places

@@ -1,3 +1,7 @@
+## 1.3.0
+
+- useState now private.
+
 ## 1.2.9+2
 
 - bottomCardBuilder added to customize the bottom card.
