@@ -166,6 +166,9 @@ class MapLocationPicker extends StatefulWidget {
   /// Map type (default: MapType.normal)
   final MapType mapType;
 
+  /// Hide top search bar (default: false)
+  final bool hideSearchBar;
+
   /// Search text field controller
   final TextEditingController? searchController;
 
@@ -353,6 +356,7 @@ class MapLocationPicker extends StatefulWidget {
     this.strictbounds = false,
     this.hideSuggestionsOnKeyboardHide = false,
     this.mapType = MapType.normal,
+    this.hideSearchBar = false,
     this.searchController,
     this.additionalMarkers,
     this.bottom = true,
@@ -517,80 +521,82 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 /// Search text field
-                PlacesAutocomplete(
-                  focusNode: widget.focusNode,
-                  bottom: widget.bottom,
-                  left: widget.left,
-                  maintainBottomViewPadding: widget.maintainBottomViewPadding,
-                  minimum: widget.minimum,
-                  right: widget.right,
-                  top: widget.top,
-                  apiKey: widget.apiKey,
-                  mounted: mounted,
-                  searchController: _searchController,
-                  borderRadius: widget.borderRadius,
-                  offset: widget.offset,
-                  radius: widget.radius,
-                  backButton: widget.backButton,
-                  components: widget.components,
-                  fields: widget.fields,
-                  hideSuggestionsOnKeyboardHide:
-                      widget.hideSuggestionsOnKeyboardHide,
-                  language: widget.language,
-                  location: widget.location,
-                  origin: widget.origin,
-                  placesApiHeaders: widget.placesApiHeaders,
-                  placesBaseUrl: widget.placesBaseUrl,
-                  placesHttpClient: widget.placesHttpClient,
-                  region: widget.region,
-                  searchHintText: widget.searchHintText,
-                  sessionToken: widget.sessionToken,
-                  hideBackButton: widget.hideBackButton,
-                  strictbounds: widget.strictbounds,
-                  topCardColor: widget.topCardColor,
-                  topCardMargin: widget.topCardMargin,
-                  topCardShape: widget.topCardShape,
-                  types: widget.types,
-                  minCharsForSuggestions: widget.minCharsForSuggestions,
-                  decoration: widget.decoration,
-                  onGetDetailsByPlaceId: (placesDetails) async {
-                    if (placesDetails == null) {
-                      logger.e("placesDetails is null");
-                      return;
-                    }
-                    _initialPosition = LatLng(
-                      placesDetails.result.geometry?.location.lat ?? 0,
-                      placesDetails.result.geometry?.location.lng ?? 0,
-                    );
-                    final controller = await _controller.future;
-                    controller.animateCamera(
-                        CameraUpdate.newCameraPosition(cameraPosition()));
-                    _address = placesDetails.result.formattedAddress ?? "";
-                    widget.onSuggestionSelected?.call(placesDetails);
+                if (!widget.hideSearchBar)
+                  PlacesAutocomplete(
+                    focusNode: widget.focusNode,
+                    bottom: widget.bottom,
+                    left: widget.left,
+                    maintainBottomViewPadding: widget.maintainBottomViewPadding,
+                    minimum: widget.minimum,
+                    right: widget.right,
+                    top: widget.top,
+                    apiKey: widget.apiKey,
+                    mounted: mounted,
+                    searchController: _searchController,
+                    borderRadius: widget.borderRadius,
+                    offset: widget.offset,
+                    radius: widget.radius,
+                    backButton: widget.backButton,
+                    components: widget.components,
+                    fields: widget.fields,
+                    hideSuggestionsOnKeyboardHide:
+                        widget.hideSuggestionsOnKeyboardHide,
+                    language: widget.language,
+                    location: widget.location,
+                    origin: widget.origin,
+                    placesApiHeaders: widget.placesApiHeaders,
+                    placesBaseUrl: widget.placesBaseUrl,
+                    placesHttpClient: widget.placesHttpClient,
+                    region: widget.region,
+                    searchHintText: widget.searchHintText,
+                    sessionToken: widget.sessionToken,
+                    hideBackButton: widget.hideBackButton,
+                    strictbounds: widget.strictbounds,
+                    topCardColor: widget.topCardColor,
+                    topCardMargin: widget.topCardMargin,
+                    topCardShape: widget.topCardShape,
+                    types: widget.types,
+                    minCharsForSuggestions: widget.minCharsForSuggestions,
+                    decoration: widget.decoration,
+                    onGetDetailsByPlaceId: (placesDetails) async {
+                      if (placesDetails == null) {
+                        logger.e("placesDetails is null");
+                        return;
+                      }
+                      _initialPosition = LatLng(
+                        placesDetails.result.geometry?.location.lat ?? 0,
+                        placesDetails.result.geometry?.location.lng ?? 0,
+                      );
+                      final controller = await _controller.future;
+                      controller.animateCamera(
+                          CameraUpdate.newCameraPosition(cameraPosition()));
+                      _address = placesDetails.result.formattedAddress ?? "";
+                      widget.onSuggestionSelected?.call(placesDetails);
 
-                    /// _geocodingResult is used for further use
-                    /// like passing to the parent widget
-                    /// or to show the address in the bottom card
-                    _geocodingResult = GeocodingResult(
-                      geometry: placesDetails.result.geometry!,
-                      placeId: placesDetails.result.placeId,
-                      addressComponents: placesDetails.result.addressComponents,
-                      formattedAddress: placesDetails.result.formattedAddress,
-                      types: placesDetails.result.types,
-                    );
+                      /// _geocodingResult is used for further use
+                      /// like passing to the parent widget
+                      /// or to show the address in the bottom card
+                      _geocodingResult = GeocodingResult(
+                        geometry: placesDetails.result.geometry!,
+                        placeId: placesDetails.result.placeId,
+                        addressComponents:
+                            placesDetails.result.addressComponents,
+                        formattedAddress: placesDetails.result.formattedAddress,
+                        types: placesDetails.result.types,
+                      );
 
-                    // updating the suggestion box modal data
-                    // to show the selected address
-                    _decodeAddress(
-                      Location(
-                        lat: _initialPosition.latitude,
-                        lng: _initialPosition.longitude,
-                      ),
-                    );
+                      // updating the suggestion box modal data
+                      // to show the selected address
+                      _decodeAddress(
+                        Location(
+                          lat: _initialPosition.latitude,
+                          lng: _initialPosition.longitude,
+                        ),
+                      );
 
-                    setState(() {});
-                  },
-                ),
+                      setState(() {});
+                    },
+                  ),
                 Spacer(),
                 if (!widget.hideMapTypeButton)
                   Padding(
