@@ -518,54 +518,54 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
               children: [
                 /// Search text field
                 if (!widget.hideSearchBar)
-                PlacesAutocomplete(
-                  focusNode: widget.focusNode,
-                  bottom: widget.bottom,
-                  left: widget.left,
-                  maintainBottomViewPadding: widget.maintainBottomViewPadding,
-                  minimum: widget.minimum,
-                  right: widget.right,
-                  top: widget.top,
-                  apiKey: widget.apiKey,
-                  mounted: mounted,
-                  searchController: _searchController,
-                  borderRadius: widget.borderRadius,
-                  offsetParameter: widget.offset,
-                  radius: widget.radius,
-                  backButton: widget.backButton,
-                  components: widget.components,
-                  fields: widget.fields,
-                  language: widget.language,
-                  location: widget.location,
-                  origin: widget.origin,
-                  placesApiHeaders: widget.placesApiHeaders,
-                  placesBaseUrl: widget.placesBaseUrl,
-                  placesHttpClient: widget.placesHttpClient,
-                  region: widget.region,
-                  searchHintText: widget.searchHintText,
-                  sessionToken: widget.sessionToken,
-                  hideBackButton: widget.hideBackButton,
-                  strictbounds: widget.strictbounds,
-                  topCardColor: widget.topCardColor,
-                  topCardMargin: widget.topCardMargin,
-                  topCardShape: widget.topCardShape,
-                  types: widget.types,
-                  minCharsForSuggestions: widget.minCharsForSuggestions,
-                  decoration: widget.decoration,
-                  onGetDetailsByPlaceId: (placesDetails) async {
-                    if (placesDetails == null) {
-                      logger.e("placesDetails is null");
-                      return;
-                    }
-                    _initialPosition = LatLng(
-                      placesDetails.result.geometry?.location.lat ?? 0,
-                      placesDetails.result.geometry?.location.lng ?? 0,
-                    );
-                    final controller = await _controller.future;
-                    controller.animateCamera(
-                        CameraUpdate.newCameraPosition(cameraPosition()));
-                    _address = placesDetails.result.formattedAddress ?? "";
-                    widget.onSuggestionSelected?.call(placesDetails);
+                  PlacesAutocomplete(
+                    focusNode: widget.focusNode,
+                    bottom: widget.bottom,
+                    left: widget.left,
+                    maintainBottomViewPadding: widget.maintainBottomViewPadding,
+                    minimum: widget.minimum,
+                    right: widget.right,
+                    top: widget.top,
+                    apiKey: widget.apiKey,
+                    mounted: mounted,
+                    searchController: _searchController,
+                    borderRadius: widget.borderRadius,
+                    offsetParameter: widget.offset,
+                    radius: widget.radius,
+                    backButton: widget.backButton,
+                    components: widget.components,
+                    fields: widget.fields,
+                    language: widget.language,
+                    location: widget.location,
+                    origin: widget.origin,
+                    placesApiHeaders: widget.placesApiHeaders,
+                    placesBaseUrl: widget.placesBaseUrl,
+                    placesHttpClient: widget.placesHttpClient,
+                    region: widget.region,
+                    searchHintText: widget.searchHintText,
+                    sessionToken: widget.sessionToken,
+                    hideBackButton: widget.hideBackButton,
+                    strictbounds: widget.strictbounds,
+                    topCardColor: widget.topCardColor,
+                    topCardMargin: widget.topCardMargin,
+                    topCardShape: widget.topCardShape,
+                    types: widget.types,
+                    minCharsForSuggestions: widget.minCharsForSuggestions,
+                    decoration: widget.decoration,
+                    onGetDetailsByPlaceId: (placesDetails) async {
+                      if (placesDetails == null) {
+                        logger.e("placesDetails is null");
+                        return;
+                      }
+                      _initialPosition = LatLng(
+                        placesDetails.result.geometry?.location.lat ?? 0,
+                        placesDetails.result.geometry?.location.lng ?? 0,
+                      );
+                      final controller = await _controller.future;
+                      controller.animateCamera(
+                          CameraUpdate.newCameraPosition(cameraPosition()));
+                      _address = placesDetails.result.formattedAddress ?? "";
+                      widget.onSuggestionSelected?.call(placesDetails);
 
                       /// _geocodingResult is used for further use
                       /// like passing to the parent widget
