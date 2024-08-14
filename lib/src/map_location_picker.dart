@@ -160,9 +160,6 @@ class MapLocationPicker extends StatefulWidget {
   /// Refer to the Google Documentation here for a list of valid values: https://developers.google.com/maps/documentation/places/web-service/details
   final List<String> fields;
 
-  /// Hide Suggestions on keyboard hide
-  final bool hideSuggestionsOnKeyboardHide;
-
   /// Map type (default: MapType.normal)
   final MapType mapType;
 
@@ -351,7 +348,6 @@ class MapLocationPicker extends StatefulWidget {
     this.types = const [],
     this.components = const [],
     this.strictbounds = false,
-    this.hideSuggestionsOnKeyboardHide = false,
     this.mapType = MapType.normal,
     this.searchController,
     this.additionalMarkers,
@@ -529,13 +525,11 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                   mounted: mounted,
                   searchController: _searchController,
                   borderRadius: widget.borderRadius,
-                  offset: widget.offset,
+                  offsetParameter: widget.offset,
                   radius: widget.radius,
                   backButton: widget.backButton,
                   components: widget.components,
                   fields: widget.fields,
-                  hideSuggestionsOnKeyboardHide:
-                      widget.hideSuggestionsOnKeyboardHide,
                   language: widget.language,
                   location: widget.location,
                   origin: widget.origin,

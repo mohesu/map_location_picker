@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
                       mounted: mounted,
                       hideBackButton: true,
                       initialValue: initialValue,
-                      onSuggestionSelected: (value) {
+                      onSelected: (value) {
                         setState(() {
                           autocompletePlace =
                               value.structuredFormatting?.mainText ?? "";

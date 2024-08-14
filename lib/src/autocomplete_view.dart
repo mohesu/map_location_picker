@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart' hide ErrorBuilder;
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:form_builder_extra_fields/form_builder_extra_fields.dart';
 import 'package:http/http.dart';
 
 import '../map_location_picker.dart';
 import 'logger.dart';
-
 
 class PlacesAutocomplete extends StatelessWidget {
   /// API key for the map & places
@@ -46,7 +45,7 @@ class PlacesAutocomplete extends StatelessWidget {
 
   /// Offset for pagination of results
   /// offset: int,
-  final num? offset;
+  final num? offsetParameter;
 
   /// Origin location for calculating distance from results
   /// origin: Location(lat: -33.852, lng: 151.211),
@@ -85,7 +84,7 @@ class PlacesAutocomplete extends StatelessWidget {
   final void Function(PlacesDetailsResponse?)? onGetDetailsByPlaceId;
 
   /// On suggestion selected callback
-  final void Function(Prediction)? onSuggestionSelected;
+  final void Function(Prediction)? onSelected;
 
   /// Search text field controller
   ///
@@ -127,15 +126,6 @@ class PlacesAutocomplete extends StatelessWidget {
   /// ```
   final Widget Function(BuildContext, Prediction)? itemBuilder;
 
-  /// The decoration of the material sheet that contains the suggestions.
-  ///
-  /// If null, default decoration with an elevation of 4.0 is used
-  final SuggestionsBoxDecoration suggestionsBoxDecoration;
-
-  /// Used to control the `_SuggestionsBox`. Allows manual control to
-  /// open, close, toggle, or resize the `_SuggestionsBox`.
-  final SuggestionsBoxController? suggestionsBoxController;
-
   /// The duration to wait after the user stops typing before calling
   /// [suggestionsCallback]
   ///
@@ -158,20 +148,6 @@ class PlacesAutocomplete extends StatelessWidget {
   /// If not specified, a [CircularProgressIndicator](https://docs.flutter.io/flutter/material/CircularProgressIndicator-class.html) is shown
   final WidgetBuilder? loadingBuilder;
 
-  /// Called when [suggestionsCallback] returns an empty array.
-  ///
-  /// It is expected to return a widget to display when no suggestions are
-  /// available.
-  /// For example:
-  /// ```dart
-  /// (BuildContext context) {
-  ///   return Text('No Items Found!');
-  /// }
-  /// ```
-  ///
-  /// If not specified, a simple text is shown
-  final WidgetBuilder? noItemsFoundBuilder;
-
   /// Called when [suggestionsCallback] throws an exception.
   ///
   /// It is called with the error object, and expected to return a widget to
@@ -186,32 +162,6 @@ class PlacesAutocomplete extends StatelessWidget {
   /// If not specified, the error is shown in [ThemeData.errorColor](https://docs.flutter.io/flutter/material/ThemeData/errorColor.html)
   final Widget Function(BuildContext, Object?)? errorBuilder;
 
-  /// Called to display animations when [suggestionsCallback] returns suggestions
-  ///
-  /// It is provided with the suggestions box instance and the animation
-  /// controller, and expected to return some animation that uses the controller
-  /// to display the suggestion box.
-  ///
-  /// For example:
-  /// ```dart
-  /// transitionBuilder: (context, suggestionsBox, animationController) {
-  ///   return FadeTransition(
-  ///     child: suggestionsBox,
-  ///     opacity: CurvedAnimation(
-  ///       parent: animationController,
-  ///       curve: Curves.fastOutSlowIn
-  ///     ),
-  ///   );
-  /// }
-  /// ```
-  /// This argument is best used with [animationDuration] and [animationStart]
-  /// to fully control the animation.
-  ///
-  /// To fully remove the animation, just return `suggestionsBox`
-  ///
-  /// If not specified, a [SizeTransition](https://docs.flutter.io/flutter/widgets/SizeTransition-class.html) is shown.
-  final AnimationTransitionBuilder? transitionBuilder;
-
   /// The duration that [transitionBuilder] animation takes.
   ///
   /// This argument is best used with [transitionBuilder] and [animationStart]
@@ -220,43 +170,10 @@ class PlacesAutocomplete extends StatelessWidget {
   /// Defaults to 500 milliseconds.
   final Duration animationDuration;
 
-  /// Determine the [SuggestionBox]'s direction.
-  ///
-  /// If [AxisDirection.down], the [SuggestionBox] will be below the [TextField]
-  /// and the [_SuggestionsList] will grow **down**.
-  ///
-  /// If [AxisDirection.up], the [SuggestionBox] will be above the [TextField]
-  /// and the [_SuggestionsList] will grow **up**.
-  ///
-  /// [AxisDirection.left] and [AxisDirection.right] are not allowed.
-  final AxisDirection direction;
+  final VerticalDirection direction;
 
-  /// The value at which the [transitionBuilder] animation starts.
-  ///
-  /// This argument is best used with [transitionBuilder] and [animationDuration]
-  /// to fully control the animation.
-  ///
-  /// Defaults to 0.25.
-  final double animationStart;
-
-  /// The configuration of the [TextField](https://docs.flutter.io/flutter/material/TextField-class.html)
-  /// that the TypeAhead widget displays
-  final TextFieldConfiguration textFieldConfiguration;
-
-  /// How far below the text field should the suggestions box be
-  ///
-  /// Defaults to 5.0
-  final double suggestionsBoxVerticalOffset;
-
-  /// If set to true, suggestions will be fetched immediately when the field is
-  /// added to the view.
-  ///
-  /// But the suggestions box will only be shown when the field receives focus.
-  /// To make the field receive focus immediately, you can set the `autofocus`
-  /// property in the [textFieldConfiguration] to true
-  ///
-  /// Defaults to false
-  final bool getImmediateSuggestions;
+  final Widget Function(BuildContext, Animation<double>, Widget)?
+      transitionBuilder;
 
   /// If set to true, no loading box will be shown while suggestions are
   /// being fetched. [loadingBuilder] will also be ignored.
@@ -276,31 +193,6 @@ class PlacesAutocomplete extends StatelessWidget {
   /// Defaults to false.
   final bool hideOnError;
 
-  /// If set to false, the suggestions box will stay opened after
-  /// the keyboard is closed.
-  ///
-  /// Defaults to true.
-  final bool hideSuggestionsOnKeyboardHide;
-
-  /// If set to false, the suggestions box will show a circular
-  /// progress indicator when retrieving suggestions.
-  ///
-  /// Defaults to true.
-  final bool keepSuggestionsOnLoading;
-
-  /// If set to true, the suggestions box will remain opened even after
-  /// selecting a suggestion.
-  ///
-  /// Note that if this is enabled, the only way
-  /// to close the suggestions box is either manually via the
-  /// `SuggestionsBoxController` or when the user closes the software
-  /// keyboard if `hideSuggestionsOnKeyboardHide` is set to true. Users
-  /// with a physical keyboard will be unable to close the
-  /// box without a manual way via `SuggestionsBoxController`.
-  ///
-  /// Defaults to false.
-  final bool keepSuggestionsOnSuggestionSelected;
-
   /// If set to true, in the case where the suggestions box has less than
   /// _SuggestionsBoxController.minOverlaySpace to grow in the desired [direction], the direction axis
   /// will be temporarily flipped if there's more room available in the opposite
@@ -313,9 +205,6 @@ class PlacesAutocomplete extends StatelessWidget {
   ///
   /// If null, this widget will create its own [TextEditingController].
   final TextEditingController? controller;
-
-  /// Hide the keyboard when a suggestion is selected
-  final bool hideKeyboard;
 
   /// The suggestions box controller
   final ScrollController? scrollController;
@@ -356,6 +245,23 @@ class PlacesAutocomplete extends StatelessWidget {
   /// Defaults to 0
   final int minCharsForSuggestions;
 
+  final bool autoFlipListDirection;
+  final double autoFlipMinHeight;
+  final BoxConstraints? constraints;
+  final TextField? customTextField;
+  final Widget Function(BuildContext, Widget)? decorationBuilder;
+  final Widget Function(BuildContext)? emptyBuilder;
+  final bool hideKeyboardOnDrag;
+  final bool hideOnSelect;
+  final bool hideOnUnfocus;
+  final bool hideWithKeyboard;
+  final Widget Function(BuildContext, int)? itemSeparatorBuilder;
+  final Widget Function(BuildContext, List<Widget>)? listBuilder;
+  final Offset? offset;
+  final bool retainOnLoading;
+  final bool showOnFocus;
+  final SuggestionsController<Prediction>? suggestionsController;
+
   const PlacesAutocomplete({
     super.key,
     required this.apiKey,
@@ -382,38 +288,26 @@ class PlacesAutocomplete extends StatelessWidget {
     this.types = const [],
     this.components = const [],
     this.strictbounds = false,
-    this.hideSuggestionsOnKeyboardHide = false,
     this.searchController,
     required this.mounted,
     this.onGetDetailsByPlaceId,
-    this.onSuggestionSelected,
+    this.onSelected,
     this.showClearButton = true,
     this.suffixIcon,
     this.initialValue,
     this.validator,
     this.itemBuilder,
     this.animationDuration = const Duration(milliseconds: 500),
-    this.animationStart = 0.25,
     this.autoFlipDirection = false,
     this.controller,
     this.debounceDuration = const Duration(milliseconds: 300),
-    this.direction = AxisDirection.down,
+    this.direction = VerticalDirection.down,
     this.errorBuilder,
-    this.getImmediateSuggestions = false,
-    this.hideKeyboard = false,
     this.hideOnEmpty = false,
     this.hideOnError = false,
     this.hideOnLoading = false,
-    this.keepSuggestionsOnLoading = true,
-    this.keepSuggestionsOnSuggestionSelected = false,
     this.loadingBuilder,
-    this.noItemsFoundBuilder,
     this.scrollController,
-    this.suggestionsBoxController,
-    this.suggestionsBoxDecoration = const SuggestionsBoxDecoration(),
-    this.suggestionsBoxVerticalOffset = 5.0,
-    this.textFieldConfiguration = const TextFieldConfiguration(),
-    this.transitionBuilder,
     this.decoration,
     this.valueTransformer,
     this.enabled = true,
@@ -429,6 +323,23 @@ class PlacesAutocomplete extends StatelessWidget {
     this.right = true,
     this.top = true,
     this.minCharsForSuggestions = 0,
+    this.transitionBuilder,
+    this.autoFlipListDirection = true,
+    this.autoFlipMinHeight = 64.0,
+    this.constraints,
+    this.customTextField,
+    this.decorationBuilder,
+    this.emptyBuilder,
+    this.hideKeyboardOnDrag = false,
+    this.hideOnSelect = true,
+    this.hideOnUnfocus = true,
+    this.hideWithKeyboard = true,
+    this.itemSeparatorBuilder,
+    this.listBuilder,
+    this.retainOnLoading = true,
+    this.showOnFocus = true,
+    this.suggestionsController,
+    this.offsetParameter,
   });
 
   /// Get [AutoCompleteState] for [AutoCompleteTextField]
@@ -463,7 +374,6 @@ class PlacesAutocomplete extends StatelessWidget {
           title: ClipRRect(
             borderRadius: borderRadius,
             child: FormBuilderTypeAhead<Prediction>(
-              minCharsForSuggestions: minCharsForSuggestions,
               decoration: decoration ??
                   InputDecoration(
                     hintText: searchHintText,
@@ -496,7 +406,7 @@ class PlacesAutocomplete extends StatelessWidget {
                   region: region,
                   components: components,
                   location: location,
-                  offset: offset,
+                  offset: offsetParameter,
                   origin: origin,
                   radius: radius,
                   strictbounds: strictbounds,
@@ -504,37 +414,25 @@ class PlacesAutocomplete extends StatelessWidget {
                 );
                 return predictions;
               },
-              onSuggestionSelected: (value) async {
+              onSelected: (value) async {
                 textController.value.selection = TextSelection.collapsed(
                     offset: textController.value.text.length);
                 _getDetailsByPlaceId(value.placeId ?? "", context);
-                onSuggestionSelected?.call(value);
+                onSelected?.call(value);
               },
-              hideSuggestionsOnKeyboardHide: hideSuggestionsOnKeyboardHide,
               initialValue: initialValue,
               validator: validator,
-              suggestionsBoxDecoration: suggestionsBoxDecoration,
               scrollController: scrollController,
               animationDuration: animationDuration,
-              animationStart: animationStart,
               autoFlipDirection: autoFlipDirection,
               debounceDuration: debounceDuration,
               direction: direction,
               errorBuilder: errorBuilder,
               focusNode: focusNode,
-              getImmediateSuggestions: getImmediateSuggestions,
-              hideKeyboard: hideKeyboard,
               hideOnEmpty: hideOnEmpty,
               hideOnError: hideOnError,
               hideOnLoading: hideOnLoading,
-              keepSuggestionsOnLoading: keepSuggestionsOnLoading,
-              keepSuggestionsOnSuggestionSelected:
-                  keepSuggestionsOnSuggestionSelected,
               loadingBuilder: loadingBuilder,
-              noItemsFoundBuilder: noItemsFoundBuilder,
-              suggestionsBoxController: suggestionsBoxController,
-              suggestionsBoxVerticalOffset: suggestionsBoxVerticalOffset,
-              textFieldConfiguration: textFieldConfiguration,
               transitionBuilder: transitionBuilder,
               valueTransformer: valueTransformer,
               enabled: enabled,
@@ -543,6 +441,22 @@ class PlacesAutocomplete extends StatelessWidget {
               onReset: onReset,
               onSaved: onSaved,
               key: key,
+              autoFlipListDirection: autoFlipListDirection,
+              autoFlipMinHeight: autoFlipMinHeight,
+              constraints: constraints,
+              customTextField: customTextField,
+              decorationBuilder: decorationBuilder,
+              emptyBuilder: emptyBuilder,
+              hideKeyboardOnDrag: hideKeyboardOnDrag,
+              hideOnSelect: hideOnSelect,
+              hideOnUnfocus: hideOnUnfocus,
+              hideWithKeyboard: hideWithKeyboard,
+              itemSeparatorBuilder: itemSeparatorBuilder,
+              listBuilder: listBuilder,
+              offset: offset,
+              retainOnLoading: retainOnLoading,
+              showOnFocus: showOnFocus,
+              suggestionsController: suggestionsController,
             ),
           ),
         ),
