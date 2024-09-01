@@ -25,6 +25,12 @@ class PlacesAutocomplete extends StatelessWidget {
   /// Top card text field hint text
   final String searchHintText;
 
+  /// Top card text field hint style (optional)
+  final TextStyle? searchHintStyle;
+
+  /// Top card text field label style (optional)
+  final TextStyle? labelStyle;
+
   /// Show back button (default: true)
   final bool hideBackButton;
 
@@ -273,6 +279,8 @@ class PlacesAutocomplete extends StatelessWidget {
     ),
     this.borderRadius = const BorderRadius.all(Radius.circular(12)),
     this.searchHintText = "Start typing to search",
+    this.searchHintStyle,
+    this.labelStyle,
     this.hideBackButton = false,
     this.backButton,
     this.placesHttpClient,
@@ -377,6 +385,7 @@ class PlacesAutocomplete extends StatelessWidget {
               decoration: decoration ??
                   InputDecoration(
                     hintText: searchHintText,
+                    hintStyle: searchHintStyle,
                     border: InputBorder.none,
                     filled: true,
                     suffixIcon: (showClearButton && initialValue == null)
@@ -385,6 +394,7 @@ class PlacesAutocomplete extends StatelessWidget {
                             onPressed: () => textController.value.clear(),
                           )
                         : suffixIcon,
+                    labelStyle: labelStyle,
                   ),
               name: 'Search',
               controller: initialValue == null ? textController.value : null,
