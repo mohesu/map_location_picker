@@ -300,6 +300,9 @@ class MapLocationPicker extends StatefulWidget {
     String address,
   )? bottomCardBuilder;
 
+  /// Duration for search debounce in milliseconds
+  final Duration debounceDuration;
+
   const MapLocationPicker({
     super.key,
     this.desiredAccuracy = LocationAccuracy.high,
@@ -393,6 +396,7 @@ class MapLocationPicker extends StatefulWidget {
     this.zoomGesturesEnabled = true,
     this.decoration,
     this.bottomCardBuilder,
+    this.debounceDuration = const Duration(milliseconds: 500),
   });
 
   @override
@@ -552,6 +556,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                     types: widget.types,
                     minCharsForSuggestions: widget.minCharsForSuggestions,
                     decoration: widget.decoration,
+                    debounceDuration: widget.debounceDuration,
                     onGetDetailsByPlaceId: (placesDetails) async {
                       if (placesDetails == null) {
                         logger.e("placesDetails is null");

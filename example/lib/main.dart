@@ -42,6 +42,7 @@ class _MyAppState extends State<MyApp> {
             apiKey: YOUR_API_KEY,
             mounted: mounted,
             hideBackButton: true,
+            debounceDuration: const Duration(milliseconds: 500),
             onGetDetailsByPlaceId: (PlacesDetailsResponse? result) {
               if (result != null) {
                 setState(() {
@@ -64,6 +65,7 @@ class _MyAppState extends State<MyApp> {
                       mounted: mounted,
                       hideBackButton: true,
                       initialValue: initialValue,
+                      debounceDuration: const Duration(milliseconds: 500),
                       onSelected: (value) {
                         setState(() {
                           autocompletePlace =
@@ -125,6 +127,7 @@ class _MyAppState extends State<MyApp> {
                         apiKey: YOUR_API_KEY,
                         popOnNextButtonTaped: true,
                         currentLatLng: const LatLng(29.146727, 76.464895),
+                        debounceDuration: const Duration(milliseconds: 500),
                         onNext: (GeocodingResult? result) {
                           if (result != null) {
                             setState(() {

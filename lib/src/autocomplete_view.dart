@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:form_builder_extra_fields/form_builder_extra_fields.dart';
@@ -6,7 +8,7 @@ import 'package:http/http.dart';
 import '../map_location_picker.dart';
 import 'logger.dart';
 
-class PlacesAutocomplete extends StatelessWidget {
+class PlacesAutocomplete extends StatefulWidget {
   /// API key for the map & places
   final String apiKey;
 
@@ -242,7 +244,7 @@ class PlacesAutocomplete extends StatelessWidget {
   final bool top;
 
   /// Minimum number of characters to trigger suggestions
-  /// Defaults to 0
+  /// Defaults to 3
   final int minCharsForSuggestions;
 
   final bool autoFlipListDirection;
@@ -322,7 +324,7 @@ class PlacesAutocomplete extends StatelessWidget {
     this.maintainBottomViewPadding = false,
     this.right = true,
     this.top = true,
-    this.minCharsForSuggestions = 0,
+    this.minCharsForSuggestions = 3,
     this.transitionBuilder,
     this.autoFlipListDirection = true,
     this.autoFlipMinHeight = 64.0,
@@ -342,121 +344,152 @@ class PlacesAutocomplete extends StatelessWidget {
     this.offsetParameter,
   });
 
+  @override
+  State<PlacesAutocomplete> createState() => _PlacesAutocompleteState();
+}
+
+class _PlacesAutocompleteState extends State<PlacesAutocomplete> {
   /// Get [AutoCompleteState] for [AutoCompleteTextField]
   AutoCompleteState autoCompleteState() {
     return AutoCompleteState(
-      apiHeaders: placesApiHeaders,
-      baseUrl: placesBaseUrl,
-      httpClient: placesHttpClient,
+      apiHeaders: widget.placesApiHeaders,
+      baseUrl: widget.placesBaseUrl,
+      httpClient: widget.placesHttpClient,
     );
+  }
+
+  late TextEditingController _controller;
+
+  late Debouncer _debounce;
+  @override
+  void initState() {
+    /// Get text controller from [searchController] or create new instance of [TextEditingController] if [searchController] is null or empty
+    _controller = widget.searchController ?? TextEditingController();
+
+    _debounce = Debouncer(duration: widget.debounceDuration);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _debounce.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    /// Get text controller from [searchController] or create new instance of [TextEditingController] if [searchController] is null or empty
-    final textController = useState<TextEditingController>(
-        searchController ?? TextEditingController());
     return SafeArea(
-      bottom: bottom,
-      left: left,
-      maintainBottomViewPadding: maintainBottomViewPadding,
-      minimum: minimum,
-      right: right,
-      top: top,
+      bottom: widget.bottom,
+      left: widget.left,
+      maintainBottomViewPadding: widget.maintainBottomViewPadding,
+      minimum: widget.minimum,
+      right: widget.right,
+      top: widget.top,
       child: Card(
-        margin: topCardMargin,
-        shape: topCardShape,
-        color: topCardColor,
+        margin: widget.topCardMargin,
+        shape: widget.topCardShape,
+        color: widget.topCardColor,
         child: ListTile(
           minVerticalPadding: 0,
           contentPadding: const EdgeInsets.only(right: 4, left: 4),
-          leading: hideBackButton ? null : backButton ?? const BackButton(),
+          leading: widget.hideBackButton
+              ? null
+              : widget.backButton ?? const BackButton(),
           title: ClipRRect(
-            borderRadius: borderRadius,
+            borderRadius: widget.borderRadius,
             child: FormBuilderTypeAhead<Prediction>(
-              decoration: decoration ??
+              decoration: widget.decoration ??
                   InputDecoration(
-                    hintText: searchHintText,
+                    hintText: widget.searchHintText,
                     border: InputBorder.none,
                     filled: true,
-                    suffixIcon: (showClearButton && initialValue == null)
-                        ? IconButton(
-                            icon: const Icon(Icons.close),
-                            onPressed: () => textController.value.clear(),
-                          )
-                        : suffixIcon,
+                    suffixIcon:
+                        (widget.showClearButton && widget.initialValue == null)
+                            ? IconButton(
+                                icon: const Icon(Icons.close),
+                                onPressed: () => _controller.clear(),
+                              )
+                            : widget.suffixIcon,
                   ),
               name: 'Search',
-              controller: initialValue == null ? textController.value : null,
+              controller: widget.initialValue == null ? _controller : null,
               selectionToTextTransformer: (result) {
                 return result.description ?? "";
               },
-              itemBuilder: itemBuilder ??
+              itemBuilder: widget.itemBuilder ??
                   (context, content) {
                     return ListTile(
                       title: Text(content.description ?? ""),
                     );
                   },
               suggestionsCallback: (query) async {
-                List<Prediction> predictions = await autoCompleteState().search(
-                  query,
-                  apiKey,
-                  language: language,
-                  sessionToken: sessionToken,
-                  region: region,
-                  components: components,
-                  location: location,
-                  offset: offsetParameter,
-                  origin: origin,
-                  radius: radius,
-                  strictbounds: strictbounds,
-                  types: types,
-                );
-                return predictions;
+                if (query.length < widget.minCharsForSuggestions) {
+                  return [];
+                }
+                final completer = Completer<List<Prediction>>();
+                _debounce.run(() async {
+                  List<Prediction> predictions =
+                      await autoCompleteState().search(
+                    query,
+                    widget.apiKey,
+                    language: widget.language,
+                    sessionToken: widget.sessionToken,
+                    region: widget.region,
+                    components: widget.components,
+                    location: widget.location,
+                    offset: widget.offsetParameter,
+                    origin: widget.origin,
+                    radius: widget.radius,
+                    strictbounds: widget.strictbounds,
+                    types: widget.types,
+                  );
+                  completer.complete(predictions);
+                });
+                return completer.future;
               },
               onSelected: (value) async {
-                textController.value.selection = TextSelection.collapsed(
-                    offset: textController.value.text.length);
+                _controller.selection =
+                    TextSelection.collapsed(offset: _controller.text.length);
                 _getDetailsByPlaceId(value.placeId ?? "", context);
-                onSelected?.call(value);
+                widget.onSelected?.call(value);
               },
-              initialValue: initialValue,
-              validator: validator,
-              scrollController: scrollController,
-              animationDuration: animationDuration,
-              autoFlipDirection: autoFlipDirection,
-              debounceDuration: debounceDuration,
-              direction: direction,
-              errorBuilder: errorBuilder,
-              focusNode: focusNode,
-              hideOnEmpty: hideOnEmpty,
-              hideOnError: hideOnError,
-              hideOnLoading: hideOnLoading,
-              loadingBuilder: loadingBuilder,
-              transitionBuilder: transitionBuilder,
-              valueTransformer: valueTransformer,
-              enabled: enabled,
-              autovalidateMode: autovalidateMode,
-              onChanged: onChanged,
-              onReset: onReset,
-              onSaved: onSaved,
-              key: key,
-              autoFlipListDirection: autoFlipListDirection,
-              autoFlipMinHeight: autoFlipMinHeight,
-              constraints: constraints,
-              customTextField: customTextField,
-              decorationBuilder: decorationBuilder,
-              emptyBuilder: emptyBuilder,
-              hideKeyboardOnDrag: hideKeyboardOnDrag,
-              hideOnSelect: hideOnSelect,
-              hideOnUnfocus: hideOnUnfocus,
-              hideWithKeyboard: hideWithKeyboard,
-              itemSeparatorBuilder: itemSeparatorBuilder,
-              listBuilder: listBuilder,
-              offset: offset,
-              retainOnLoading: retainOnLoading,
-              showOnFocus: showOnFocus,
-              suggestionsController: suggestionsController,
+              initialValue: widget.initialValue,
+              validator: widget.validator,
+              scrollController: widget.scrollController,
+              animationDuration: widget.animationDuration,
+              autoFlipDirection: widget.autoFlipDirection,
+              debounceDuration: widget.debounceDuration,
+              direction: widget.direction,
+              errorBuilder: widget.errorBuilder,
+              focusNode: widget.focusNode,
+              hideOnEmpty: widget.hideOnEmpty,
+              hideOnError: widget.hideOnError,
+              hideOnLoading: widget.hideOnLoading,
+              loadingBuilder: widget.loadingBuilder,
+              transitionBuilder: widget.transitionBuilder,
+              valueTransformer: widget.valueTransformer,
+              enabled: widget.enabled,
+              autovalidateMode: widget.autovalidateMode,
+              onChanged: widget.onChanged,
+              onReset: widget.onReset,
+              onSaved: widget.onSaved,
+              autoFlipListDirection: widget.autoFlipListDirection,
+              autoFlipMinHeight: widget.autoFlipMinHeight,
+              constraints: widget.constraints,
+              customTextField: widget.customTextField,
+              decorationBuilder: widget.decorationBuilder,
+              emptyBuilder: widget.emptyBuilder,
+              hideKeyboardOnDrag: widget.hideKeyboardOnDrag,
+              hideOnSelect: widget.hideOnSelect,
+              hideOnUnfocus: widget.hideOnUnfocus,
+              hideWithKeyboard: widget.hideWithKeyboard,
+              itemSeparatorBuilder: widget.itemSeparatorBuilder,
+              listBuilder: widget.listBuilder,
+              offset: widget.offset,
+              retainOnLoading: widget.retainOnLoading,
+              showOnFocus: widget.showOnFocus,
+              suggestionsController: widget.suggestionsController,
             ),
           ),
         ),
@@ -468,17 +501,17 @@ class PlacesAutocomplete extends StatelessWidget {
   void _getDetailsByPlaceId(String placeId, BuildContext context) async {
     try {
       final GoogleMapsPlaces places = GoogleMapsPlaces(
-        apiKey: apiKey,
-        httpClient: placesHttpClient,
-        apiHeaders: placesApiHeaders,
-        baseUrl: placesBaseUrl,
+        apiKey: widget.apiKey,
+        httpClient: widget.placesHttpClient,
+        apiHeaders: widget.placesApiHeaders,
+        baseUrl: widget.placesBaseUrl,
       );
       final PlacesDetailsResponse response = await places.getDetailsByPlaceId(
         placeId,
-        region: region,
-        sessionToken: sessionToken,
-        language: language,
-        fields: fields,
+        region: widget.region,
+        sessionToken: widget.sessionToken,
+        language: widget.language,
+        fields: widget.fields,
       );
 
       /// When get any error from the API, show the error in the console.
@@ -489,7 +522,7 @@ class PlacesAutocomplete extends StatelessWidget {
           response.unknownError ||
           response.isOverQueryLimit) {
         logger.e(response.errorMessage);
-        if (mounted) {
+        if (widget.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(response.errorMessage ??
@@ -499,9 +532,26 @@ class PlacesAutocomplete extends StatelessWidget {
         }
         return;
       }
-      onGetDetailsByPlaceId?.call(response);
+      widget.onGetDetailsByPlaceId?.call(response);
     } catch (e) {
       logger.e(e);
     }
+  }
+}
+
+class Debouncer {
+  final Duration duration;
+  Timer? _timer;
+
+  Debouncer({required this.duration});
+
+  void run(VoidCallback action) {
+    _timer?.cancel();
+    _timer = Timer(duration, action);
+  }
+
+  void dispose() {
+    _timer?.cancel();
+    _timer = null;
   }
 }
