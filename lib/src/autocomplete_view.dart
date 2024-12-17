@@ -372,7 +372,7 @@ class _PlacesAutocompleteState extends State<PlacesAutocomplete> {
 
   @override
   void dispose() {
-    _controller.dispose();
+  //  _controller.dispose();
     _debounce.dispose();
     super.dispose();
   }
