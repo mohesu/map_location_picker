@@ -1,3 +1,7 @@
+## 1.3.3
+
+- dependencies updated.
+
 ## 1.3.2
 
 - debouncer added to search.
