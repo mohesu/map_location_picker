@@ -148,6 +148,25 @@ import GoogleMaps
   }
 }
 ```
+### Recommended: Restricting Api Keys to your Android or IOS bundle identifiers:
+<img width="503" alt="Screenshot 2025-01-06 at 21 04 43" src="https://github.com/user-attachments/assets/1a097012-1eb8-4c07-b2c8-010c460d654b" />
+
+You must then send the following in the headers:
+
+  ```
+    Map<String, String> headers = {};
+    if (Platform.isIOS || Platform.isMacOS) {
+      headers['X-Ios-Bundle-Identifier'] = 'Your Bundle Identifier';
+    }
+    if (Platform.isAndroid) {
+      headers['X-Android-Package'] = 'Your Bundle Identifier';
+      headers['X-Android-Cert'] = 'Your Sha-1';
+    }
+     MapLocationPicker(
+        geoCodingApiHeaders: headers,
+        ...
+     )
+ ```
 
 ### Web View
 
