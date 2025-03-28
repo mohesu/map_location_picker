@@ -601,6 +601,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: FloatingActionButton(
+                      heroTag: "map_type_fab",
                       onPressed: null,
                       tooltip: 'Map Type',
                       backgroundColor: Theme.of(context).primaryColor,
@@ -641,6 +642,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: FloatingActionButton(
+                      heroTag: "set_current_location_fab",
                       tooltip: widget.fabTooltip,
                       backgroundColor: Theme.of(context).primaryColor,
                       foregroundColor: Theme.of(context).colorScheme.onPrimary,
